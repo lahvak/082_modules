@@ -1,0 +1,20 @@
+Questions to consider
+How will the modules be organized?
+	Should we follow current syllabus?
+	Should we organize things differently?
+		Group all linear stuff first, then polynomial, potential other nonlinear?
+		Group around applications?
+	Should single variable be done first, then multiple variables?
+Technical problems
+	Entering polynomials
+		Forcing certain form
+			factored
+			expanded
+			...
+	Entering stuff/equation editor
+		Limit to certain symbols
+		 Done: removed trig functions, logs, etc.
+		The ee is still clunky
+		 OTH: forcing students to enter a linear form of an expression may actually be
+		 helpful, they will concentrate on "what it means" rather than "what it looks like".
+
