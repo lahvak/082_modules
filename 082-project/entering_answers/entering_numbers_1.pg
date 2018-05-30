@@ -84,12 +84,11 @@ For the answer to be accepted as correct, you must enter
 :   [$c]
 
 The simplified version of [`[$a] + [$b]`] is [__________]{$sum_restricted}
+END_PGML
 
 BEGIN_PGML_HINT
 You can use the "Preview My Answers" button to see whether your answer is properly entered.  It will not check the answer for correctness, but it will tell you whether your answers are in the correct format.
 END_PGML_HINT
-
-END_PGML
 
 Section::End();
 ###########################################
