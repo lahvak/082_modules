@@ -39,7 +39,7 @@ Parser::Number::NoDecimals();
 $sum_nonrestricted = Compute("$a + $b");
 
 Context("LimitedNumeric");
-Parser:Number::NoDecimals();
+Parser::Number::NoDecimals();
 
 $c = $a + $b;
 $sum_restricted = Compute("$c");
