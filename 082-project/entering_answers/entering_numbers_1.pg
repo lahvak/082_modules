@@ -77,12 +77,15 @@ simplified form.  In the following answer box,
 
 :   [$a] + [$b]
 
-will not be accepted as a correct answer.  Instead, you will get a warning
-that...  For the answer to be accepted as correct, you must enter
+will not be accepted as a correct answer.  Instead, you will get a message
+"Can't use '+' in this context".   This means that the answer cannot contain the _addition_ symbol. 
+For the answer to be accepted as correct, you must enter
 
 :   [$c]
 
 The simplified version of [`[$a] + [$b]`] is [__________]{$sum_restricted}
+
+
 
 END_PGML
 
