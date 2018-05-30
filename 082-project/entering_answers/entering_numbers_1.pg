@@ -94,12 +94,12 @@ $a1 = random(2,9,1);
 $b1 = random(1,9,1);
 
 Context("Numeric");
-Parser:Number::NoDecimals();
+Parser::Number::NoDecimals();
 
 $sum1_nonrestricted = Compute("$a1 + $b1");
 
 Context("LimitedNumeric");
-Parser:Number::NoDecimals();
+Parser::Number::NoDecimals();
 
 $c1 = $a1 + $b1;
 $sum_restricted = Compute("$c1");
