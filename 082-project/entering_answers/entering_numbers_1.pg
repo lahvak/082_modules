@@ -34,7 +34,7 @@ $a = random(2,9,1);
 $b = random(1,9,1);
 
 Context("Numeric");
-Parser:Number::NoDecimals();
+Parser::Number::NoDecimals();
 
 $sum_nonrestricted = Compute("$a + $b");
 
