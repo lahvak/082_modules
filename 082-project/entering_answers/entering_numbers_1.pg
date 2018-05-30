@@ -86,6 +86,7 @@ The simplified version of [`[$a] + [$b]`] is [__________]{$sum_restricted}
 
 END_PGML
 
+Section::End();
 ###########################################
 Section::Begin("Try it yourself:");
 
