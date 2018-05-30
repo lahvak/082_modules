@@ -1,0 +1,125 @@
+##DESCRIPTION
+##  How to enter simple numbers into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = random(2,9,1);
+$b = random(1,9,1);
+
+Context("Numeric");
+Parser:Number::NoDecimals();
+
+$sum_nonrestricted = Compute("$a + $b");
+
+Context("LimitedNumeric");
+Parser:Number::NoDecimals();
+
+$c = $a + $b;
+$sum_restricted = Compute("$c");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Entering positive integers");
+
+BEGIN_PGML
+
+We will start by entering a positive integers.
+
+Suppose a problem asks you to calculate [`[$a] + [$b]`].  Obviously, that is
+equal to [`[$c]`].   What that means is, the two _expressions_, [`[$a] + [$b]`] and [`[$c]`], refer to the 
+_exact same number_, they are just two different ways of writing the same number. 
+
+In some exercises, you will be allowed to enter _any expression_ that represents the
+answer.  For example, in this answer box, you can enter the expression 
+
+:   [$a] + [$b]
+
+or simply
+
+:   [$c]
+
+Enter a number equivalent to [`[$a] + [$b]`]:[__________]{$sum_nonrestricted}
+
+Clearly, out of the two expressions, [`[$c]`] is much simpler than [`[$a] + [$b]`].  We say that
+[`[$c]`] is a _simplified_ version of the expression [`[$a] + [$b]`].
+
+In some exercises, you will be required to enter the answer in its most
+simplified form.  In the following answer box, 
+
+:   [$a] + [$b]
+
+will not be accepted as a correct answer.  Instead, you will get a warning
+that...  For the answer to be accepted as correct, you must enter
+
+:   [$c]
+
+The simplified version of [`[$a] + [$b]`] is [__________]{$sum_restricted}
+
+END_PGML
+
+###########################################
+Section::Begin("Try it yourself:");
+
+$a1 = random(2,9,1);
+$b1 = random(1,9,1);
+
+Context("Numeric");
+Parser:Number::NoDecimals();
+
+$sum1_nonrestricted = Compute("$a1 + $b1");
+
+Context("LimitedNumeric");
+Parser:Number::NoDecimals();
+
+$c1 = $a1 + $b1;
+$sum_restricted = Compute("$c1");
+
+BEGIN_PGML
+Now let's calculate [`[$a1] + [$b1]`].
+
+Enter a number equivalent to [`[$a1] + [$b1]`]:[__________]{$sum1_nonrestricted}
+
+The simplified version of [`[$a1] + [$b1]`] is [__________]{$sum1_restricted}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the first answer box, you can enter either [`[$a1] + [$b1]`] or [`[$c1]`],
+both of them will be accepted.
+
+In the second answer box, the only accepted answer will be [`[$c1]`].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
