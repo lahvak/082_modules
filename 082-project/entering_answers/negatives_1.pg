@@ -107,6 +107,8 @@ not understand it, so it is generally a good idea to put parentheses around nega
 In fact, if you enter that form into the answer box and click on the "Preview
 My Answers" button, you will see that in the answer preview, WeBWorK automatically inserts the parentheses for you.)
 
+You can try them all in the first answer box:
+
 Enter a number equivalent to [`[$sum1_nonrestricted]`]:[__________]{$sum1_nonrestricted}
 
 The following answer box will only accept the _simplified_ version of the expression, which is [`[$c1]`]:
@@ -142,9 +144,6 @@ $absb2 = -$b2;
 
 BEGIN_PGML
 The expression is [`[$sum2_nonrestricted]`].
-
-Some calculators or computer applications will not accept the first one of those, and require the use 
-of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
 
 Enter a number equivalent to [`[$sum2_nonrestricted]`]:[__________]{$sum2_nonrestricted}
 
