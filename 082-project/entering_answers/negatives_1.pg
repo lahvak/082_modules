@@ -48,7 +48,7 @@ Section::Begin("Entering negative integers");
 
 BEGIN_PGML
 
-Suppose a problem asks you to calculate [`[$a] - [$b]`].  Youknow that it is
+Suppose a problem asks you to calculate [`[$a] - [$b]`].  You know that it is
 equal to [`[$c]`].  So [`[$c]`] is a _simplified_ version of the expression [`[$a] - [$b]`].
 
 To enter a _negative_ number, simply use the "minus" sign - to indicate the negative.  Some calculators have 
