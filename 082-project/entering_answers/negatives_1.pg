@@ -1,0 +1,151 @@
+##DESCRIPTION
+##  How to enter negative numbers into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK, negatives')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$b = random(5,9,1);
+$a = random(2,$b - 1,1);
+
+$c = $a - $b
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$sum_restricted = Compute("$c");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Entering negative integers");
+
+BEGIN_PGML
+
+Suppose a problem asks you to calculate [`[$a] - [$b]`].  Youknow that it is
+equal to [`[$c]`].  So [`[$c]`] is a _simplified_ version of the expression [`[$a] - [$b]`].
+
+To enter a _negative_ number, simply use the "minus" sign - to indicate the negative.  Some calculators have 
+special key to denote _negative_, but WeBWorK, like most other computer applications, simply uses the minus sign.
+
+Enter the most simplified version of [`[$a] - [$b]`]: [__________]{$sum_restricted}
+END_PGML
+
+BEGIN_PGML_HINT
+You can use the "Preview My Answers" button to see whether your answer is properly entered.  It will not check the answer for correctness, but it will tell you whether your answers are in the correct format.
+END_PGML_HINT
+
+Section::End();
+###########################################
+Section::Begin("Entering an expression with negative integers");
+
+$a1 = random(2,9,1);
+$b1 = -random(1,9,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+
+$sum1_nonrestricted = Compute("$a1 + $b1");
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$c1 = $a1 + $b1;
+$sum1_restricted = Compute("$c1");
+
+$absb1 = -$b1;
+
+BEGIN_PGML
+This time the expression to enter is [`[$a1] + [$b1]`].
+
+It can be entered as any of the following equivalent expressions:
+
+:   [$a1] + [$b1]
+:   
+:   [$a1] + ([$b1])
+:   
+:   [$a1] - [$absb1]
+:   
+:   [$c1]
+
+Some calculators or computer applications will not accept the first one of those, and require the use 
+of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
+
+Enter a number equivalent to [`[$a1] + [$b1]`]:[__________]{$sum1_nonrestricted}
+
+The following answer box will only accept the _simplified_ version of the expression, which is [`[$c1]`]:
+
+The simplified version of [`[$a1] + [$b1]`] is [__________]{$sum1_restricted}
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Try it yourself:");
+
+$a2 = random(2,9,1);
+$b2 = -random(1,9,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+
+$sum2_nonrestricted = Compute("$a2 + $b2");
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$c2 = $a2 + $b2;
+$sum2_restricted = Compute("$c2");
+
+$absb2 = -$b2;
+
+BEGIN_PGML
+The expression is [`[$a2] + [$b2]`].
+
+Some calculators or computer applications will not accept the first one of those, and require the use 
+of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
+
+Enter a number equivalent to [`[$a2] + [$b2]`]:[__________]{$sum2_nonrestricted}
+
+The following answer box will only accept the _simplified_ version of the expression, which is [`[$c2`]:
+
+The simplified version of [`[$a2] + [$b2]`] is [__________]{$sum2_restricted}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the first answer box, you can enter any of [`[$a2] + [$b2]`], [`[$a2] + ([$b2])`], [`[$a2] - [$absb2]`] or [`[$c2]`],
+all of them will be accepted.
+
+In the second answer box, the only accepted answer will be [`[$c2]`].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
