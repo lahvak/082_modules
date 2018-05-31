@@ -69,6 +69,7 @@ $a1 = random(2,9,1);
 $b1 = -random(1,9,1);
 
 Context("Numeric");
+Context()->noreduce("x+(-y)");
 Parser::Number::NoDecimals();
 
 $sum1_nonrestricted = Compute("$a1 + $b1");
