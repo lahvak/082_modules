@@ -92,16 +92,20 @@ This time the expression to enter is [`[$sum1_nonrestricted]`].
 
 It can be entered as any of the following equivalent expressions:
 
-:   [$a1] + [$b1]
-:   
 :   [$a1] + ([$b1])
 :   
 :   [$a1] - [$absb1]
 :   
 :   [$c1]
 
-Some calculators or computer applications will not accept the first one of those, and require the use 
-of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
+or even 
+
+:   [$a1] + [$b1]
+
+(WeBWorK will happily accept the last form of the expression, but some other applications or calculators will
+not understand it, so it is generally a good idea to put parentheses around negative numbers in expressions.
+In fact, if you enter that form into the answer box and click on the "Preview
+My Answers" button, you will see that in the answer preview, WeBWorK automatically inserts the parentheses for you.)
 
 Enter a number equivalent to [`[$sum1_nonrestricted]`]:[__________]{$sum1_nonrestricted}
 
@@ -150,7 +154,7 @@ The simplified version of [`[$sum2_nonrestricted]`] is [__________]{$sum2_restri
 END_PGML
 
 BEGIN_PGML_SOLUTION
-In the first answer box, you can enter any of [`[$sum2_nonrestricted]`], [`[$a2] + ([$b2])`], [`[$a2] - [$absb2]`] or [`[$c2]`],
+In the first answer box, you can enter any of [`[$sum2_nonrestricted]`], [`[$a2] - [$absb2]`] or [`[$c2]`],
 all of them will be accepted.
 
 In the second answer box, the only accepted answer will be [`[$c2]`].
