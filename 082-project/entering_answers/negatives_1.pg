@@ -69,10 +69,15 @@ $a1 = random(2,9,1);
 $b1 = -random(1,9,1);
 
 Context("Numeric");
-Context()->noreduce("x+(-y)");
 Parser::Number::NoDecimals();
 
-$sum1_nonrestricted = Compute("$a1 + $b1");
+Context()->noreduce("x+(-y)");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$sum1_nonrestricted = Formula("$a1 + $b1");
 
 Context("LimitedNumeric");
 Parser::Number::NoDecimals();
@@ -83,7 +88,7 @@ $sum1_restricted = Compute("$c1");
 $absb1 = -$b1;
 
 BEGIN_PGML
-This time the expression to enter is [`[$a1] + [$b1]`].
+This time the expression to enter is [`[$sum1_nonrestricted]`].
 
 It can be entered as any of the following equivalent expressions:
 
@@ -98,11 +103,11 @@ It can be entered as any of the following equivalent expressions:
 Some calculators or computer applications will not accept the first one of those, and require the use 
 of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
 
-Enter a number equivalent to [`[$a1] + [$b1]`]:[__________]{$sum1_nonrestricted}
+Enter a number equivalent to [`[$sum1_nonrestricted]`]:[__________]{$sum1_nonrestricted}
 
 The following answer box will only accept the _simplified_ version of the expression, which is [`[$c1]`]:
 
-The simplified version of [`[$a1] + [$b1]`] is [__________]{$sum1_restricted}
+The simplified version of [`[$sum1_nonrestricted]`] is [__________]{$sum1_restricted}
 END_PGML
 
 Section::End();
@@ -115,7 +120,13 @@ $b2 = -random(1,9,1);
 Context("Numeric");
 Parser::Number::NoDecimals();
 
-$sum2_nonrestricted = Compute("$a2 + $b2");
+Context()->noreduce("x+(-y)");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$sum2_nonrestricted = Formula("$a2 + $b2");
 
 Context("LimitedNumeric");
 Parser::Number::NoDecimals();
@@ -126,20 +137,20 @@ $sum2_restricted = Compute("$c2");
 $absb2 = -$b2;
 
 BEGIN_PGML
-The expression is [`[$a2] + [$b2]`].
+The expression is [`[$sum2_nonrestricted]`].
 
 Some calculators or computer applications will not accept the first one of those, and require the use 
 of parentheses, but WeBWorK will accept all of them. You can try them all in the first answer box:
 
-Enter a number equivalent to [`[$a2] + [$b2]`]:[__________]{$sum2_nonrestricted}
+Enter a number equivalent to [`[$sum2_nonrestricted]`]:[__________]{$sum2_nonrestricted}
 
-The following answer box will only accept the _simplified_ version of the expression, which is [`[$c2`]:
+The following answer box will only accept the _simplified_ version of the expression, which is [`[$c2]`]:
 
-The simplified version of [`[$a2] + [$b2]`] is [__________]{$sum2_restricted}
+The simplified version of [`[$sum2_nonrestricted]`] is [__________]{$sum2_restricted}
 END_PGML
 
 BEGIN_PGML_SOLUTION
-In the first answer box, you can enter any of [`[$a2] + [$b2]`], [`[$a2] + ([$b2])`], [`[$a2] - [$absb2]`] or [`[$c2]`],
+In the first answer box, you can enter any of [`[$sum2_nonrestricted]`], [`[$a2] + ([$b2])`], [`[$a2] - [$absb2]`] or [`[$c2]`],
 all of them will be accepted.
 
 In the second answer box, the only accepted answer will be [`[$c2]`].
