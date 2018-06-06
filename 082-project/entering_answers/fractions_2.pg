@@ -1,0 +1,74 @@
+##DESCRIPTION
+##  How to enter fractions into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$num = list_random(1,2,3,5,7);
+do {$den = random($num+1,9,1);} while (($num > 1) && ($den % $num == 0));
+$intpart = random(1,6,1);
+
+Context("LimitedFraction");
+
+$impnum = $num+$intpart*$den;
+
+$frac = Compute("$impnum/$den");
+$mixed = Compute("$intpart + $num/$den");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Improper Fractions and Mixed Numbers");
+
+BEGIN_PGML
+The fraction [`[$frac]`] is an _improper fraction_, meaning the numerator is larger than the denominator.
+It can be entered in two different ways:
+
+1.  As an improper fraction, that is simply 
+
+
+    :   [$impnum]/[$den]
+
+    Enter the fraction [`[$frac]`] as an improper fraction: [__________]{$frac}
+
+2.  As a _mixed number_ [`[$mixed]`], that is
+
+    :   [$intpart] + [$num]/[$den]
+
+    Enter the fraction [`[$frac]`] as a mixed number: [__________]{$frac}
+END_PGML
+
+Section::End();
+###########################################
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
