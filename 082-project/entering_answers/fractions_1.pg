@@ -22,6 +22,7 @@ loadMacros(
   "PGstandard.pl",
   "PGML.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "parserMultiAnswer.pl",
   "scaffold.pl",
   "PGcourse.pl"
