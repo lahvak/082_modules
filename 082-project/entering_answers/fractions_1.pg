@@ -41,12 +41,12 @@ Context()->flags->set(
      reduceConstantFunctions => 0,
    );
 
-$frac_nonrestricted = Formula("$num/$den");
+$frac = Compute("$num/$den");
 
 Context("LimitedNumeric");
 
 $c = $num/$den;
-$frac_restricted = Compute("$c");
+$decimal = Compute("$c");
 
 if ($den == 3 || $den == 6 || $den == 7 || $den == 9) {
     $form = "approximation"
@@ -61,22 +61,22 @@ Scaffold::Begin();
 Section::Begin("Entering Fractions");
 
 BEGIN_PGML
-In this problem, we will be entering the fraction [`[$frac_nonrestricted]`].  It is a _proper fraction_ in the simplest form,
+In this problem, we will be entering the fraction [`[$frac]`].  It is a _proper fraction_ in the simplest form,
 so entering it is going to be easy.  Simply enter
 
 :   [$num]/[$den]
 
-[`[$frac_restricted]`]:[__________]{$frac_nonrestricted}
+Enter the fraction [`[$frac]`]: [__________]{$frac}
 
 In some questions, you will be allowed to enter a _decimal form_ or a _decimal *approximation*_ of the fraction.  
-The decimal [$form] of [`[$frac_restricted]`] is [`[$c]`], so
+The decimal [$form] of [`[$frac]`] is [`[$c]`], so
 
 :   [$c]
 
 will be also accepted in such problems.  One thing to pay attention here is the proper number of decimal places.  Questions will usually
 state how many decimal places are required, but sometimes (like in this one) you may have to experiment a bit.
 
-The decimal [$form] of [`[$frac_nonrestricted]`] is [__________]{$frac_restricted}
+The decimal [$form] of [`[$frac]`] is [__________]{$decimal}
 END_PGML
 
 Section::End();
@@ -97,8 +97,8 @@ Context()->flags->set(
      reduceFractions => 0,
    );
 
-$frac1_nonreduced = Fraction("$num1/$den1");
-$frac1_reduced = Fraction("$numf/$denf");
+$frac1_nonreduced = Compute("$num1/$den1");
+$frac1_reduced = Compute("$numf/$denf");
 
 BEGIN_PGML
 
@@ -106,7 +106,7 @@ Some problems require a fraction to be entered in the simplest form.  The fracti
 [`[$frac1_nonreduced]`] is not in the simplest form, there is a common factor [`[$common]`]. 
 Its simplest form is [`[$frac1_reduced]`].
 
-Enter the fraction [`[$frac_nonreduced]`] in the simplest form: [__________]{$frac_nonreduced->cmp(
+Enter the fraction [`[$frac1_nonreduced]`] in the simplest form: [__________]{$frac_nonreduced->cmp(
                                                                                 studentsMustReduceFractions=>1,
                                                                                 reduceFractions=>1,
                                                                                 allowMixedNumbers=>0,
