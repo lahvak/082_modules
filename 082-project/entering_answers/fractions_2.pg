@@ -45,6 +45,7 @@ Context()->flags->set(
     );
 $frac = Compute("$impnum/$den");
 
+Context("LimitedFraction");
 Context()->flags->set(
     allowMixedNumbers => 1,
     showMixedNumbers => 1,
