@@ -1,0 +1,164 @@
+##DESCRIPTION
+##  How to enter multiplication into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = random(2,9,1);
+$b = random(3,9,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$prod_nonrestricted = Formula("$a * $b");
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$c = $a*$b;
+$prod_restricted = Compute("$c");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Entering multiplication");
+
+BEGIN_PGML
+In usual mathematical notation, there are several ways of denoting multiplication. The _product_ of numbers [`[$a]`] 
+and [`[$b]`] can be denoted as [`[$a]\cdot [$b]`], [`[$a]\ [$b]`], [`[$a]([$b])`] or even [`[$a]\times [$b]`].
+
+Most computer applications use the * (_asterisk_) symbol to denote multiplication.  In WeBWorK, any of the following is
+a correct way to enter the product of [`[$a]`] and [`[$b]`]:
+
+:   [$a]\*[$b]
+:   
+:   [$a] [$b]
+:   
+:   [$a]([$b])
+:   
+:   ([$a])([$b])
+:   
+:   [$c]
+
+You can try all of them in the first answer box.  Type any of them in and click the "Preview My Answers" button to see 
+if WeBWorK correctly interprets what you mean:
+
+Enter a number equivalent to [`[$a] \cdot [$b]`]:[__________]{$prod_nonrestricted}
+
+In the second answer box, only the _simplified_ version is allowed:
+
+:   [$c]
+
+The simplified version of [`[$a] \cdot [$b]`] is [__________]{$prod_restricted}
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Multiplying negative numbers:");
+
+$a1 = random(2,9,1);
+$b1 = random(3,9,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+Context()->noreduce("x*(-y)");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$prod1_nonrestricted = Formula("$a1 * (-$b1)");
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$c1 = $a1*(-$b1);
+$prod1_restricted = Compute("$c1");
+
+BEGIN_PGML
+Now let's learn how to enter [`[$prod1_nonrestricted]`].
+
+The most standard way to enter that is
+
+:   [$a1]\*(-[$b1])
+
+but WeBWorK also allows
+
+:   [$a1]\*-[$b1]
+
+without the parentheses or 
+
+:   [$a1] (-[$b1])
+
+without the asterisk.
+
+What is *not* allowed is to drop _both_ the asterisk and the parentheses:
+
+:   [$a1] -[$b1]
+
+Can you think of a reason why?
+
+Of course, any of the following equivalent expressions is also allowed:
+
+:   -([$a1]\*[$b1])
+:   
+:   -([$a1] [$b1])
+:   
+:   (-[$a1])\*[$b1]
+:   
+:   (-[$a1]) [$b1]
+:   
+:   -[$a1]\*[$b1]
+:   
+:   -[$a1] [$b1]
+
+and the simplified version 
+
+:   [$c1]
+
+(Can you see _why_ are all these expressions equivalent?)  
+
+Try them all using the "Preview My Answers" button to see how WeBWorK interprets them!
+
+Enter a number equivalent to [`[$prod1_nonrestricted]`]:[__________]{$prod1_nonrestricted}
+
+The simplified version of [`[$prod1_nonrestricted]`] is [__________]{$prod1_restricted}
+END_PGML
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
