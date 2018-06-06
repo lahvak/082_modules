@@ -106,7 +106,7 @@ Some problems require a fraction to be entered in the simplest form.  The fracti
 [`[$frac1_nonreduced]`] is not in the simplest form, there is a common factor [`[$common]`]. 
 Its simplest form is [`[$frac1_reduced]`].
 
-Enter the fraction [`[$frac1_nonreduced]`] in the simplest form: [__________]{$frac_nonreduced->cmp(
+Enter the fraction [`[$frac1_nonreduced]`] in the simplest form: [__________]{$frac1_nonreduced->cmp(
                                                                                 studentsMustReduceFractions=>1,
                                                                                 reduceFractions=>1,
                                                                                 allowMixedNumbers=>0,
