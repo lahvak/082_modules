@@ -50,6 +50,7 @@ Context()->flags->set(
     allowMixedNumbers => 1,
     showMixedNumbers => 1,
     reduceConstants => 0,
+    requireProperFractions => 1,
     requirePureFractions => 0,
     );
 $mixed = Compute("$intpart $num/$den");
@@ -64,7 +65,7 @@ BEGIN_PGML
 The fraction [`[$frac]`] is an _improper fraction_, meaning the numerator is larger than the denominator.
 It can be entered in two different ways:
 
-1.  As an improper fraction, that is simply 
+1.  As an improper fraction, that is simply
 
     Enter the fraction [`[$frac]`] as an improper fraction: [__________]{$frac}
 
