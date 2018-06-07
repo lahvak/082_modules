@@ -41,12 +41,12 @@ Context()->flags->set(
      reduceConstantFunctions => 0,
    );
 
-$pow_nonrestricted = Formula("$a^$b");
+$pow_nonrestricted = Formula("$b^$e");
 
 Context("LimitedNumeric");
 Parser::Number::NoDecimals();
 
-$c = $a**$b;
+$c = $b**$e;
 $pow_restricted = Compute("$c");
 
 ###########################################
@@ -97,7 +97,7 @@ Context()->flags->set(
      reduceConstantFunctions => 0,
    );
 
-$pow1_nonrestricted = Formula("$a1^(-$b1)");
+$pow1_nonrestricted = Formula("$b1^(-$e1)");
 
 $c1 = $b1**$e1;
 
