@@ -1,0 +1,134 @@
+##DESCRIPTION
+##  How to enter exponents into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$b = random(2,9,1);
+$e = random(2,3,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$pow_nonrestricted = Formula("$a^$b");
+
+Context("LimitedNumeric");
+Parser::Number::NoDecimals();
+
+$c = $a**$b;
+$pow_restricted = Compute("$c");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Entering multiplication");
+
+BEGIN_PGML
+Exponents in WeBWorK, as well as in many other computer applications, can be denoted by the _caret_ symbol, [|^|]. There is also 
+an alternative notation that some computer applications use, which consists of a _double asterisk_, [|**|].  WeBWorK will accept that
+notation as well.
+
+To enter [`[$pow_nonrestricted]`], you can enter either
+
+:   [$b]^[$e]
+
+or
+
+:   [$b]**[$e]
+
+Of course, in this case you can also enter
+
+:   [$c]
+
+Enter a number equivalent to [`[$pow_nonrestricted]`]:[__________]{$pow_nonrestricted}
+
+Some problems will require you to enter the simplified version of the expression, that is a number
+without any operations.  In that case the only accepted answer will be
+
+:   [$c]
+
+The simplified version of [`[$pow_nonrestricted]`] is [__________]{$pow_restricted}
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Negative exponents:");
+
+$b1 = random(2,5,1);
+$e1 = random(2,3,1);
+
+Context("Numeric");
+Parser::Number::NoDecimals();
+Context()->noreduce("x^(-1)");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$pow1_nonrestricted = Formula("$a1^(-$b1)");
+
+$c1 = $b1**$e1;
+
+BEGIN_PGML
+Now let's learn how to enter [`[$pow1_nonrestricted]`], with the negative exponent.
+
+The safest way to enter that is
+
+:   [$b1]^(-[$e1])
+
+but WeBWorK also allows
+
+:   [$b1]^-[$e1]
+
+without the parentheses.
+
+Of course we can also enter
+
+:   1/([$b1]^[$e1])
+
+or even
+
+:   1/[$c1]
+
+Try them all using the "Preview My Answers" button to see how WeBWorK interprets them!
+
+Enter a number equivalent to [`[$pow1_nonrestricted]`]:[__________]{$pow1_nonrestricted}
+END_PGML
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
