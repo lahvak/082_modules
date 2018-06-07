@@ -53,7 +53,7 @@ $pow_restricted = Compute("$c");
 #  The scaffold
 Scaffold::Begin();
 ###########################################
-Section::Begin("Entering multiplication");
+Section::Begin("Entering exponents:");
 
 BEGIN_PGML
 Exponents in WeBWorK, as well as in many other computer applications, can be denoted by the _caret_ symbol, [|^|]. There is also 
