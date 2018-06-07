@@ -53,6 +53,8 @@ Context()->flags->set(
     requireProperFractions => 1,
     requirePureFractions => 0,
     );
+Context()->{error}{msg}{"The numerator must be less than the denominator in a proper fraction"} 
+  = "You must enter a mixed number, not an improper fraction";
 $mixed = Compute("$intpart $num/$den");
 
 ###########################################
@@ -65,18 +67,73 @@ BEGIN_PGML
 The fraction [`[$frac]`] is an _improper fraction_, meaning the numerator is larger than the denominator.
 It can be entered in two different ways:
 
-1.  As an improper fraction, that is simply
+As an improper fraction, where you simply enter
 
-    Enter the fraction [`[$frac]`] as an improper fraction: [__________]{$frac}
+:   [$impnum]/[$den]
 
-2.  As a _mixed number_ [`[$mixed]`], that is
+Enter the fraction [`[$frac]`] as an improper fraction: [__________]{$frac}
 
-    Enter the fraction [`[$frac]`] as a mixed number: [__________]{$mixed}
+As a _mixed number_ [`[$mixed]`], that is
+
+:   [$intpart] [$num]/[$den]
+
+(Note the _space_ between [$intpart] and the fraction!)
+
+Enter the fraction [`[$frac]`] as a mixed number: [__________]{$mixed}
 
 END_PGML
 
 Section::End();
 ###########################################
+Section::Begin("Try it yourself");
+
+do {$num1 = list_random(1,2,3,5,7);} while ($num1 == $num);
+do {$den1 = random($num1+1,9,1);} while (($num1 > 1) && ($den1 % $num1 == 0));
+$intpart1 = random(1,6,1);
+$impnum1 = $num1+$intpart1*$den1;
+
+Context("LimitedFraction");
+Context()->flags->set(
+    allowMixedNumbers => 1,
+    showMixedNumbers => 0,
+    reduceConstants => 0,
+    requirePureFractions => 1,
+    );
+$frac1 = Compute("$impnum1/$den1");
+
+Context("LimitedFraction");
+Context()->flags->set(
+    allowMixedNumbers => 1,
+    showMixedNumbers => 1,
+    reduceConstants => 0,
+    requireProperFractions => 1,
+    requirePureFractions => 0,
+    );
+Context()->{error}{msg}{"The numerator must be less than the denominator in a proper fraction"} 
+  = "You must enter a mixed number, not an improper fraction";
+$mixed1 = Compute("$intpart1 $num1/$den1");
+
+BEGIN_PGML
+
+Enter [`[$mixed1]`] as an improper fraction: [__________]{$frac1}
+
+Enter [`[$frac1]`] as a mixed number: [__________]{$mixed1}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The mixed number [`[$mixed1]`] is equivalent to the improper fraction [`[$frac1]`], so in the first box you enter
+
+:   [$impnum1]/[$den1]
+
+The improper fraction [`[$frac1]`] is equivalent to the mixed number [`[$mixed1]`], so in the second box you enter
+
+:   [$intpart1] [$num1]/[$den1]
+
+(Make sure there is a space between the number [$intpart1] and the fraction!)
+END_PGML_SOLUTION
+
+Section::End();
 ###########################################
 Scaffold::End();
 
