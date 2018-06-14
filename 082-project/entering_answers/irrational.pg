@@ -104,9 +104,9 @@ $sqrt2num = Compute("sqrt($num/$den)");
 
 Context("LimitedNumeric");
 
-$sqrt1approx = Compute("sqrt($a)");
+$sqrt1approx = Real(sqrt($a));
 
-$sqrt2approx = Compute("sqrt($num/$den)");
+$sqrt2approx = Real(sqrt($num/$den));
 
 BEGIN_PGML
 Enter the exact value of [`[$sqrt1]`]: [__________]{$sqrt1}
