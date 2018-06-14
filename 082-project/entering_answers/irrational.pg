@@ -96,11 +96,30 @@ $sqrt2a = Formula("sqrt($num/$den)");
 $sqrt2b = Formula("sqrt($num)/sqrt($den)");
 $sqrt2 = OneOf($sqrt2a, $sqrt2b);
 
+Context("Numeric");
+
+$sqrt1num = Compute("sqrt($a)");
+
+$sqrt2num = Compute("sqrt($num/$den)");
+
+Context("LimitedNumeric");
+
+$sqrt1approx = Compute("sqrt($a)");
+
+$sqrt2approx = Compute("sqrt($num/$den)");
+
 BEGIN_PGML
 Enter the exact value of [`[$sqrt1]`]: [__________]{$sqrt1}
 
 Enter the exact value of [`[$sqrt2]`]: [__________]{$sqrt2}
 
+Approximate [`[$sqrt1]`] to 5 decimal places: [__________]{$sqrt1approx}
+
+Approximate [`[$sqrt2]`] to 5 decimal places: [__________]{$sqrt2approx}
+
+Enter the exact value or approximation of [`[$sqrt1]`]: [__________]{$sqrt1num}
+
+Enter the exact value or approximation of [`[$sqrt2]`]: [__________]{$sqrt2num}
 END_PGML
 
 BEGIN_PGML_SOLUTION
