@@ -109,9 +109,30 @@ $sqrt1approx = Real(sqrt($a));
 $sqrt2approx = Real(sqrt($num/$den));
 
 BEGIN_PGML
+
+Suppose that in a problem, we are required to enter [`[$sqrt1]`] and [`[$sqrt2a]`] as answers. There are several different things that can happen:
+
+###Entering exact values###
+
+The problem may require us to enter the *exact value* of the answer.  Since both of the numbers are irrational, there is no way to enter their exact value using fractions or decimals.  The only way to enter them is exactly as they are, using the square root symbol.  So how do you type the square root symbol using a computer or a mobile device keyboard? WeBWorK, as well as many other computer applications, accepts the [|sqrt( )|] notation.  That is, the word [|sqrt|], which is an abbreviation of _square root_, followed by the number or expression that is inside the square root, *in parentheses*. (This is a special case of what mathematicians call _functional notation_.)
+
+To enter the exact value of [`[$sqrt1]`], one would enter
+
+:   [$sqrt1]
+
+To enter the exact value of [`[$sqrt2a]`], one would enter
+
+:   [$sqrt2a]
+
+(Notice that the whole fraction [$num]/[$den] is inside the parentheses).
+
+Try it yourself:
+
 Enter the exact value of [`[$sqrt1]`]: [__________]{$sqrt1}
 
 Enter the exact value of [`[$sqrt2a]`]: [__________]{$sqrt2}
+
+
 
 Approximate [`[$sqrt1]`] to 5 decimal places: [__________]{$sqrt1approx}
 
