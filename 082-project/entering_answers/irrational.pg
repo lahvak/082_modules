@@ -54,7 +54,7 @@ $mc -> extra(
 #  The scaffold
 Scaffold::Begin();
 ###########################################
-Section::Begin("Entering irrational numbers");
+Section::Begin("Irrational numbers");
 
 BEGIN_PGML
 
