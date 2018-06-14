@@ -112,7 +112,7 @@ BEGIN_PGML
 
 Suppose that in a problem, we are required to enter [`[$sqrt1]`] and [`[$sqrt2a]`] as answers. There are several different things that can happen:
 
-###Entering exact values###
+###Problem requires exact values###
 
 The problem may require us to enter the *exact value* of the answer.  Since both of the numbers are irrational, there is no way to enter their exact value using fractions or decimals.  The only way to enter them is exactly as they are, using the square root symbol.  So how do you type the square root symbol using a computer or a mobile device keyboard? WeBWorK, as well as many other computer applications, accepts the [|sqrt( )|] notation.  That is, the word [|sqrt|], which is an abbreviation of _square root_, followed by the number or expression that is inside the square root, *in parentheses*. (This is a special case of what mathematicians call _functional notation_.)
 
@@ -132,15 +132,32 @@ Enter the exact value of [`[$sqrt1]`]: [__________]{$sqrt1}
 
 Enter the exact value of [`[$sqrt2a]`]: [__________]{$sqrt2}
 
+###Problem requires decimal approximations###
 
+Sometimes we may be required to use a calculator to find a _decimal approximation_ of the answer. Often in such problems WeBWorK will specify 
+the minimal number of decimal places to use for the approximation.  For example, the decimal approximation of [`[$sqrt1]`] with 5 decimal places is [`[$sqrt1approx]`] (check it with your calculator!).  In this answer box we would then enter
+
+:   [$sqrt1approx]
 
 Approximate [`[$sqrt1]`] to 5 decimal places: [__________]{$sqrt1approx}
 
+Similarly, a calculator will tell us that a decimal approximation to [`[$sqrt2a]`] is [`[sqrt($num/$den)]`], so to enter an approximation to 5 decimal places, enter
+
+:   [$sqrt2approx]
+
 Approximate [`[$sqrt2a]`] to 5 decimal places: [__________]{$sqrt2approx}
+
+###Problem does not care###
+
+In some problems, WeBWorK simply does not care, and let you enter either the exact value or a decimal approximation. In the following answer boxes, you can enter either of the two:
 
 Enter the exact value or approximation of [`[$sqrt1]`]: [__________]{$sqrt1num}
 
 Enter the exact value or approximation of [`[$sqrt2a]`]: [__________]{$sqrt2num}
+
+###How do I know which one to use?###
+
+Most of the time the problem will tell you which one to use.  If you are not sure, use the "Preview My Answers" button - it will usually tell you if you are entering an answer in a form that is not accepted.
 END_PGML
 
 BEGIN_PGML_SOLUTION
