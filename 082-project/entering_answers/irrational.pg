@@ -162,9 +162,22 @@ Enter the exact value or approximation of [`[$sqrt2a]`]: [__________]{$sqrt2num}
 Most of the time the problem will tell you which one to use.  If you are not sure, use the "Preview My Answers" button - it will usually tell you if you are entering an answer in a form that is not accepted.
 END_PGML
 
-BEGIN_PGML_SOLUTION
-hjjg
-END_PGML_SOLUTION
+Section::End();
+###########################################
+Section::Begin("Entering expressions with \(\pi\)");
+
+$r = random(2,9,1);
+
+Context("Numeric");
+Context()->constants->remove("pi");
+Context()->variables->are(pi=>"Real");
+Context()->variables->set(pi=>{limits=>[1,5], TeX=>"\pi", perl='pi'});
+
+$ex1 = Formula("2*$r*pi");
+
+BEGIN_PGML
+Enter [`[$ex1]`]: [_____________]{$ex1}
+END_PGML
 
 Section::End();
 ###########################################
