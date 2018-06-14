@@ -1,0 +1,114 @@
+##DESCRIPTION
+##  How to enter irrational numbers into WeBWorK
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(WeBWorK introduction)
+## DBsection(Entering things)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGchoicemacros.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "contextFraction.pl",
+  "contextLimitedRadical.pl",
+  "scaffold.pl",
+  "PGcourse.pl",
+  "parserOneOf.pl",
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$mc = new_checkbox_multiple_choice();
+$mc -> qa (
+"Select all irrational numbers:", 
+"\(\sqrt{5}\)$BR$BR",
+"\(2\pi\)$BR$BR",
+"\(\frac{\pi}{3}\)$BR$BR",
+"\(\sqrt{\frac{2}{3}}\)$BR$BR",
+);
+$mc -> extra(
+"\(-17\)$BR$BR",
+"\(\frac{3}{5}\)$BR$BR",
+"\(\sqrt{16}\)$BR$BR",
+"\(3.75\)$BR$BR",
+"\(4.2\overline{3}\)$BR$BR"
+);
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Entering irrational numbers");
+
+BEGIN_PGML
+
+Sometimes we may need to enter _irrational_ numbers as answers.  The most common of those will be *square roots*. 
+
+Square roots are not always irrational, for example [`\sqrt{16}`] is the same as 4.  Similarly, if we need to enter [``\sqrt{\frac{9}{25}}``], 
+we can simply enter [`\frac{3}{5}`], or [`0.6`]. 
+
+However, a square root of a number that is not a _perfect square_ or a fraction of two perfect squares is _irrational_, which means that it cannot be written as an integer or a fraction of two integers.  
+
+Irrational numbers also often arise in geometry when dealing with _circles_.  Calculations connected to circles often involve the irrational number [`\pi`].  When you multiply a rational number by an irrational one, the result is always irrational, so numbers like [`2\pi`], [`\frac{\pi}{3}`] and so on are also irrational.
+
+[@ $mc -> print_q() @]***
+[@ $mc -> print_a() @]***
+
+END_PGML
+
+$showPartialCorrectAnswers = 0;
+
+ANS( checkbox_cmp( $mc->correct_ans() ) );
+
+BEGIN_PGML_HINT
+Notice that [`16`] is a *perfect square*.
+END_PGML_HINT
+
+Section::End();
+###########################################
+Section::Begin("Entering square roots");
+
+$a = list_random(2,3,5,6,7,8,10,11,12,13,14,15);
+$num = list_random(1,2,3,5,7,11);
+do {$den = list_random(3,5,7,11,13,17);} while ($den <= $num);
+
+Context("LimitedRadical");
+
+$sqrt1 = Formula("sqrt($a)");
+
+$sqrt2a = Formula("sqrt($num/$den)");
+$sqrt2b = Formula("sqrt($num)/sqrt($den)");
+$sqrt2 = OneOf($sqrt2a, $sqrt2b);
+
+BEGIN_PGML
+Enter the exact value of [`[$sqrt1]`]: [__________]{$sqrt1}
+
+Enter the exact value of [`[$sqrt2]`]: [__________]{$sqrt2}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+hjjg
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
