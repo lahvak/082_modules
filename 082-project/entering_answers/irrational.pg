@@ -179,6 +179,8 @@ Context()->flags->set(
 
 $ex1 = Formula("2*$r*pi");
 
+$twor = Compute("2*$r");
+
 Context("LimitedNumeric");
 
 $pi = Compute("pi");
@@ -190,11 +192,15 @@ $eitherex1 = Compute("2*pi*$r");
 
 BEGIN_PGML
 The circumference of a circle with radius [`r`] is calculated using the formula [`C = 2\pi r`].  In this problem, we are asked to calculate the 
-circumference of a circle with radius [`[$r]`] inches (for example, we may want to know how far will a robot with [`[$r]`] in radius wheels travel with each complete revolution the wheels).  The circumference will be [`2\pi [$r]`] inches. 
+circumference of a circle with radius [`[$r]`] inches (for example, we may want to know how far will a robot with [`[$r]`] in radius wheels travel with each complete revolution the wheels).  The circumference will be [`2\cdot \pi\cdot [$r]`] inches. 
 
 If the problem asks for the *exact* value, we cannot use a decimal approximation for [`\pi`].  Since [`\pi`] is irrational, we cannot express the circumference as a decimal number or a fraction of two integers.  We will have to enter is as a multiple of [`\pi`].  To enter [`\pi`] into WeBWorK, we just type [|pi|].  So to enter [`[$ex1]`], we can type in
 
 :   [$ex1]
+
+or
+
+:   [$twor] pi
 
 Try it:
 
@@ -204,7 +210,7 @@ We can also be asked to find a decimal approximation.  Since [`\pi`] is approxim
 
 :   [$approx]
 
-Enter a decimal approximation of the circumference of a circle with radius [`[$r]`]: [_____________]{$approx}
+Enter a decimal approximation of the circumference of a circle with radius [`[$r]`]: [_____________]{$approxex1}
 
 Finally, in most such problems, we can enter either the exact value in terms of [`\pi`] or a decimal approximation.  In such case,
 
