@@ -182,7 +182,8 @@ $ex1 = Formula("2*$r*pi");
 Context("LimitedNumeric");
 
 $pi = Compute("pi");
-$approxex1 = Compute("2*pi*$r");
+$appr = 2*pi*$r;
+$approxex1 = Compute("$appr");
 
 Context("Numeric");
 $eitherex1 = Compute("2*pi*$r");
