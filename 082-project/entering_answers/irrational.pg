@@ -208,7 +208,7 @@ Enter the _exact_ circumference of a circle with radius [`[$r]`]: [_____________
 
 We can also be asked to find a decimal approximation.  Since [`\pi`] is approximately [`[$pi]`], the circumference is approximately [`[$approx]`], so we can enter 
 
-:   [$approx]
+:   [$approxex1]
 
 Enter a decimal approximation of the circumference of a circle with radius [`[$r]`]: [_____________]{$approxex1}
 
