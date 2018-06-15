@@ -89,6 +89,7 @@ $a = list_random(2,3,5,6,7,8,10,11,12,13,14,15);
 $num = list_random(1,2,3,5,7,11);
 do {$den = list_random(3,5,7,11,13,17);} while ($den <= $num);
 
+# Require exact values
 Context("LimitedRadical");
 
 $sqrt1 = Formula("sqrt($a)");
@@ -97,12 +98,14 @@ $sqrt2a = Formula("sqrt($num/$den)");
 $sqrt2b = Formula("sqrt($num)/sqrt($den)");
 $sqrt2 = OneOf($sqrt2a, $sqrt2b);
 
+# Don't care
 Context("Numeric");
 
 $sqrt1num = Compute("sqrt($a)");
 
 $sqrt2num = Compute("sqrt($num/$den)");
 
+# Require approximation
 Context("LimitedNumeric");
 
 $sqrt1approx = Real(sqrt($a));
@@ -169,6 +172,7 @@ Section::Begin("Entering expressions with \(\pi\)");
 
 $r = random(2,9,1);
 
+# Make pi into a variable to require exact values
 Context("Numeric");
 Context()->constants->remove("pi");
 Context()->variables->are(pi=>"Real");
@@ -182,12 +186,14 @@ $ex1 = Formula("2*$r*pi");
 
 $twor = Compute("2*$r");
 
+# Require approximation
 Context("LimitedNumeric");
 
 $pi = Compute("pi");
 $appr = 2*pi*$r;
 $approxex1 = Compute("$appr");
 
+# Don't care
 Context("Numeric");
 $eitherex1 = Compute("2*pi*$r");
 
