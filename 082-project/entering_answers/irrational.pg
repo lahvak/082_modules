@@ -29,6 +29,7 @@ loadMacros(
   "scaffold.pl",
   "PGcourse.pl",
   "parserOneOf.pl",
+  "answerHints.pl",
 );
 
 TEXT(beginproblem());
@@ -204,7 +205,9 @@ or
 
 Try it:
 
-Enter the _exact_ circumference of a circle with radius [`[$r]`]: [_____________]{$ex1}
+Enter the _exact_ circumference of a circle with radius [`[$r]`]: [_____________]{$ex1->cmp()->withPostFilter(AnswerHints( 
+  $approxex1 => "Enter the exact value of the circumference.",
+))}
 
 We can also be asked to find a decimal approximation.  Since [`\pi`] is approximately [`[$pi]`], the circumference is approximately [`[$approxex1]`], so we can enter 
 
