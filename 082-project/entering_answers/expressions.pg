@@ -100,7 +100,7 @@ Section::Begin("Expressions with fractions");
 $a1 = random(2,9,1);
 do {$b1 = random(1,9,1);} while ($a1 == $b1);
 
-Context("LimitedFraction");
+Context("Fraction");
 
 $fr1 = Compute("(x + $a1)/(x + $b1)");
 $fr2 = Compute("(1/$a1) x + $b1");
