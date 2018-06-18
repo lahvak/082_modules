@@ -25,6 +25,7 @@ loadMacros(
   "parserMultiAnswer.pl",
   "scaffold.pl",
   "contextLimitedPolynomial.pl",
+  "contextFraction.pl",
   "PGcourse.pl",
 );
 
