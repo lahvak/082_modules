@@ -42,13 +42,13 @@ $form = Compute("$a x + $b");
 $c = random(1,9,1);
 do {$d = list_random(-1,1)*random(1,9,1);} while ($d == $c);
 
-$form1 = Compute("(x + $c)(x + $d)");
+$form1 = Compute("(x + $c)(x + $d)")->reduce();
 
-$form1alt = Compute("x^2 + ($c+$d)x + $c*$d");
+$form1alt = Compute("x^2 + ($c+$d)x + $c*$d")->reduce();
 
 Context("LimitedPolynomial");
 
-$form1ltd = Compute("x^2 + ($c+$d)x + $c*$d");
+$form1ltd = Compute("x^2 + ($c+$d)x + $c*$d")->reduce();
 
 ###########################################
 #  The scaffold
