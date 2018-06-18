@@ -1,0 +1,164 @@
+##DESCRIPTION
+##  Entering expressions with variables
+###ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "contextLimitedPolynomial.pl",
+  "PGcourse.pl",
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = random(2,9,1);
+$b = random(3, 15,1);
+
+Context("Numeric");
+
+$form = Compute("$a x + $b");
+
+$c = random(1,9,1);
+do {$d = list_random(-1,1)*random(1,9,1);} while ($d == $c);
+
+$form1 = Compute("(x + $c)(x + $d)");
+
+$form1alt = Compute("x^2 + ($c+$d)x + $c*$d");
+
+Context("LimitedPolynomial");
+
+$form1ltd = Compute("x^2 + ($c+$d)x + $c*$d");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Simple expressions");
+
+BEGIN_PGML
+Sometimes an answer to a problem takes the form of an _algebraic expression_, that is an expression with a _variable_.
+
+For example, an answer could be [`[$form]`], that is [`[$a]`] multiplied by the unknown number [`x`], the whole thing plus [`[$b]`].  We already know how to enter multiplication, and addition is also very easy.  Either of the following will work as an answer here:
+
+:   [$a]\*x + [$b]
+:   
+:   [$a]x + [$b]
+:   
+:   [$a] x + [$b]
+
+Enter an expression equivalent to [`[$form]`]: [____________]{$form}
+
+Sometimes we may need to enter an expression with parentheses, for example [`[$form1]`].  Any of the following will work:
+
+:   [$form1]
+:   
+:   (x + [$c])(x + [$d])
+:   
+:   (x + [$c])\*(x + [$d])
+
+By distributing and "multiplying things out", we can also rewrite [`[$form1]`] as [`[$form1alt]`] (the *expanded form*), so we can also type in
+
+:   [$form1alt]
+
+Enter an expression equivalent to [`[$form1]`]: [__________________]{$form1}
+
+Note that in some problems, you may be required to enter a specific form of an expression. For example, if a problem requires you to enter a _expanded form_ of an expression, the _factored form_ [`[$form1]`] would not be allowed, and 
+
+:   [$form1ltd]
+
+would have to be entered:
+
+Enter the _expanded form_ of [`[$form1]`]: [__________________]{$form1ltd}
+
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Expressions with fractions");
+
+$a1 = random(2,9,1);
+do {$b1 = random(1,9,1);} while ($a1 == $b1);
+
+Context("LimitedFraction");
+
+$fr1 = Compute("(x + $a1)/(x + $b1)");
+$fr2 = Compute("(1/$a1) x + $b1");
+$fr3 = Compute("1/($a1 x) + $b1");
+$fr4 = Compute("1/($a1 x + $b1)");
+
+BEGIN_PGML
+When entering expressions with fractions, one has to be careful about the proper order of operations.  Often it is necessary to use parentheses to
+specify the order.  For example, to enter
+
+[``[$fr1]``]
+
+one has to manually enter the parentheses, like so:
+
+:   [$fr1]
+
+or even
+
+:   \[x + [$a1]\]/\[x + [$b1]\]
+
+Try it:
+
+Enter [``[$fr1]``]: [_________________]{$fr1}
+
+The fractions
+
+[``[$fr2]``], 
+[``[$fr3]``], and 
+[``[$fr4]``]
+
+are all different, and have to be entered in different way:
+
+[``[$fr2]``]
+
+can be entered as
+
+:   [$fr2]
+
+Enter [``[$fr2]``]: [_________________]{$fr2}
+
+[``[$fr3]``]
+
+can be entered as
+
+:   [$fr3]
+
+Enter [``[$fr3]``]: [_________________]{$fr3}
+
+[``[$fr4]``]
+
+can be entered as
+
+:   [$fr4]
+
+Enter [``[$fr4]``]: [_________________]{$fr4}
+
+END_PGML
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
