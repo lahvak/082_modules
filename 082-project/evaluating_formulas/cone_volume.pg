@@ -54,7 +54,7 @@ Find the volume of a cone with radius [$r] [$units] and height [$h] [$units].
 
 ----
 
-The volume of a cone with radius [$r] [$units] and height [$h] [$units] is [______________] square [$units].
+The volume of a cone with radius [$r] [$units] and height [$h] [$units] is [______________] cubic [$units].
 
 END_PGML
 
