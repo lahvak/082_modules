@@ -59,7 +59,7 @@ END_PGML
 BEGIN_PGML_SOLUTION
 Substituting [`r = [$r]`] and [`h = [$h]`] into the given volume formula gives us
 
-[``\frac{1}{3}\cdot ([$r])^2 \cdot [$h]``]
+[``\frac{1}{3}\cdot\pi\cdot ([$r])^2 \cdot [$h]``]
 
 Simplifying (possibly using a calculator) will give us [$answer].
 END_PGML_SOLUTION
