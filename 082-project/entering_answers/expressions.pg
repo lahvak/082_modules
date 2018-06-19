@@ -103,9 +103,6 @@ do {$b1 = random(1,9,1);} while ($a1 == $b1);
 Context("Fraction");
 
 $fr1 = Compute("(x + $a1)/(x + $b1)");
-$fr2 = Compute("(1/$a1) x + $b1");
-$fr3 = Compute("1/($a1 x) + $b1");
-$fr4 = Compute("1/($a1 x + $b1)");
 
 BEGIN_PGML
 When entering expressions with fractions, one has to be careful about the proper order of operations.  Often it is necessary to use parentheses to
@@ -125,37 +122,100 @@ Try it:
 
 Enter [``[$fr1]``]: [_________________]{$fr1}
 
+Notice that without the parentheses, entering
+
+:   x + [$a1]/x + [$b1]
+
+would give us a completely different expression
+
+[``x + [$a1]/x + [$b1]``]
+
+*You should always use the "Preview My Answers" button to make sure that you entered your answer with the correct order of operations!*
+
+END_PGML
+Section::End();
+###########################################
+Section::Begin("Parentheses and order of operations");
+
+$a2 = random(2,9,1);
+do {$b2 = random(1,9,1);} while ($a2 == $b2);
+
+Context("Fraction");
+
+$fr2 = Compute("(1/$a2) x + $b2");
+$fr3 = Compute("1/($a2 x) + $b2");
+$fr4 = Compute("1/($a2 x + $b2)");
+
+BEGIN_PGML
 The fractions
 
-[``[$fr2]``], 
-[``[$fr3]``], and 
+[``[$fr2]``], [|   |]
+[``[$fr3]``], [|  |] and [|  |]
 [``[$fr4]``]
 
-are all different, and have to be entered in different way:
+are *all different*, and have to be entered in different way:
 
 [``[$fr2]``]
 
 can be entered as
 
 :   [$fr2]
+:   
+:   1/[$a2]x + [$b2]
+
+or even
+
+:   (1/[$a2])x + [$b2]
 
 Enter [``[$fr2]``]: [_________________]{$fr2}
 
 [``[$fr3]``]
 
-can be entered as
+must be entered as
 
 :   [$fr3]
+
+or
+
+:   1/([$a2]x) + [$b2]
 
 Enter [``[$fr3]``]: [_________________]{$fr3}
 
 [``[$fr4]``]
 
-can be entered as
+must be entered as
 
 :   [$fr4]
 
+or
+
+:   1/([$a2]x + [$b2])
+
 Enter [``[$fr4]``]: [_________________]{$fr4}
+
+Notice especially the difference between [`1/[$a2]x`] and [`1/([$a2]x)`]!
+
+END_PGML
+Section::End();
+###########################################
+Section::Begin("Try it yourself");
+
+$a3 = random(2,9,1);
+do {$b3 = random(1,9,1);} while ($a3 == $b3);
+
+Context("Fraction");
+
+$fr5 = Compute("(1/$a3) x + $b3");
+$fr6 = Compute("1/($a3 x) + $b3");
+$fr7 = Compute("1/($a3 x + $b3)");
+
+BEGIN_PGML
+
+Enter [``[$fr5]``]: [_________________]{$fr5}
+
+Enter [``[$fr6]``]: [_________________]{$fr6}
+
+Enter [``[$fr7]``]: [_________________]{$fr7}
 
 END_PGML
 Section::End();
