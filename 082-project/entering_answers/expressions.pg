@@ -153,7 +153,9 @@ The fractions
 [``[$fr3]``], [|  |] and [|  |]
 [``[$fr4]``]
 
-are *all different*, and have to be entered in different way:
+are *all different*, and have to be entered in different ways:
+
+----
 
 [``[$fr2]``]
 
@@ -169,6 +171,8 @@ or even
 
 Enter [``[$fr2]``]: [_________________]{$fr2}
 
+----
+
 [``[$fr3]``]
 
 must be entered as
@@ -181,6 +185,8 @@ or
 
 Enter [``[$fr3]``]: [_________________]{$fr3}
 
+----
+
 [``[$fr4]``]
 
 must be entered as
@@ -192,6 +198,8 @@ or
 :   1/([$a2]x + [$b2])
 
 Enter [``[$fr4]``]: [_________________]{$fr4}
+
+----
 
 Notice especially the difference between [`1/[$a2]x`] and [`1/([$a2]x)`]!
 
