@@ -128,7 +128,7 @@ Notice that without the parentheses, entering
 
 would give us a completely different expression
 
-[``x + [$a1]/x + [$b1]``]
+[``x + \frac{[$a1]}{x} + [$b1]``]
 
 *You should always use the "Preview My Answers" button to make sure that you entered your answer with the correct order of operations!*
 
