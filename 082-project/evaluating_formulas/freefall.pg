@@ -83,7 +83,7 @@ END_PGML
 BEGIN_PGML_SOLUTION
 Substituting [`v_0 = [$v0]`], [`s_0 = [$s0]`] and [`t = [$t]] into the given equation gives us
 
-[``[$s0] + ([$v0])\cdot ([$t]) + \frac{[$g]}{2}\cdot([$t])^2``]
+[``[$s0] + ([$v0])\cdot ([$t]) - \frac{[$g]}{2}\cdot([$t])^2``]
 
 Simplifying (possibly using a calculator) will give us [$answer].
 END_PGML_SOLUTION
