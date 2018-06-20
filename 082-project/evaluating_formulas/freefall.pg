@@ -66,17 +66,17 @@ $h = Compute("s0 + v0 t - $g/2 t^2");
 $answer = $h->eval(s0 => $s0, v0 => $v0, t => $t);
 
 BEGIN_PGML
-When an object is thrown from a top of a building, it's height above the ground [`t`] seconds later is given by the equation
+When an object is thrown from a top of a building, it's height, in [$units], above the ground [`t`] seconds later is given by the equation
 
 >>[``h = [$h]``]<<
 
-where [`s_0`] is the height of the building and [`v_0`] is the object's initial upwards velocity.
+where [`s_0`] is the height of the building in [$units] and [`v_0`] is the object's initial upwards velocity, in [$units]/second.
 
 -----
 
-An object is thrown from the top of a [$s0] [$units] tall building with an upwards initial velocity [$v0] [$units]/second.  
+An object is thrown from the top of a [`[$s0]`] [$units] tall building with an upwards initial velocity [`[$v0]`] [$units]/second.  
 
-Find its height above the ground [$t] seconds later: [_______________]{$answer} [$units]
+Find its height above the ground [`[$t]`] seconds later: [_______________]{$answer} [$units]
 
 END_PGML
 
