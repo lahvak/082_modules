@@ -61,7 +61,7 @@ Context()->flags->set(
      reduceConstantFunctions => 0,
    );
 
-$h = Compute("s0 + v0 t + $g/2 t^2");
+$h = Compute("s0 + v0 t - $g/2 t^2");
 
 $answer = $h->eval(s0 => $s0, v0 => $v0, t => $t);
 
