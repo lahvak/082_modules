@@ -1,0 +1,80 @@
+##DESCRIPTION
+##  Evaluating formulas
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(Expressions)
+## DBsection(Evaluating Formulas)
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK, Formulas, Physics, Pendulum')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserMultiAnswer.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$L = random(1.3,10,0.1);
+
+$SI = list_random(0,1);
+
+if ($SI) {
+    $units = "meters";
+    $g = 9.8;
+} else {
+    $units = "feet";
+    $g = 32.2;
+}
+
+Context("Numeric");
+Context()->variables->are(
+    L => "Real", 
+    g => "Real", 
+);
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$T = Compute("2*pi*sqrt(L/g)");
+
+$answer = $T->eval(L => $L, g => $g);
+
+BEGIN_PGML
+The period of a simple pendulum, in seconds, is given by the equation
+
+>>[``T = [$T]``]<<
+
+where [`L`] is the length of the pendulum in [$units] and [`g`] is the strength of the gravitational field, in [$units]/second[`{}^2`].
+
+-----
+
+Find the period of a simple pendulum with length [`[$L]`] [$units], if the strength of the gravitational field is [`[$g]`] [$units]/second[`{}^2`]:
+[_______________]{$answer} seconds.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Substituting [`L = [$L]`] and [`g = [$g]`] into the equation, we get
+
+[``T = 2\cdot\pi\cdot\sqrt{\frac{[$L]}{[$g]}}``]
+
+Simplifying (possibly using a calculator) will give us [$answer].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
