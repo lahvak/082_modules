@@ -42,7 +42,7 @@ Context()->operators->add(
     );
 
 $a1 = Compute("$mant1*10^$exp1");
-$a2 = Compute("$mant2*10^(-$exp2)");
+$a2 = Compute("$mant2*10^-$exp2");
 
 BEGIN_PGML
 
