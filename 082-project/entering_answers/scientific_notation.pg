@@ -66,8 +66,8 @@ $a2 = Compute("$coeff2*10^-$exp2");
 
 Context("Numeric");
 
-$b1 = Compute("$num1");
-$b2 = Compute($num2);
+$b1 = Real($num1);
+$b2 = Real($num2);
 
 ###########################################
 #  The scaffold
