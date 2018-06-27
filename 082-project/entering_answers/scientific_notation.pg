@@ -24,16 +24,36 @@ loadMacros(
   "MathObjects.pl",
   "parserMultiAnswer.pl",
   "contextScientificNotation.pl",
+  "scaffold.pl",
   "PGcourse.pl",
 );
 
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-$mant1 = random(101,999)/100;
-$mant2 = random(101,999)/100;
-$exp1 = random(8,19,1);
+$mant1 = random(101,999);
+$coeff1 = $mant1/100;
+$exp1 = random(8,15,1);
+$str1 = $mant1 . ("0" x ($exp1 - 2));
+$num1 = $coeff1 * 10**$exp1;
+
+if ($mant1 % 100 == 0) {
+   $coeffdec1 = $coeff1 . ".0";
+} else {
+   $coeffdec1 = $coeff1;
+}
+
+$mant2 = random(101,999);
+$coeff2 = $mant2/100;
 $exp2 = random(8,19,1);
+$str2 = "0." . ("0" x ($exp2 - 1)) . $mant2;
+$num2 = $coeff2 * 10**(-$exp2);
+
+if ($mant2 % 100 == 0) {
+   $coeffdec2 = $coeff2 . ".0";
+} else {
+   $coeffdec2 = $coeff2;
+}
 
 Context("ScientificNotation");
 Context()->operators->add(
@@ -41,15 +61,138 @@ Context()->operators->add(
                     TeX => '\times ', class => 'ScientificNotation::BOP::x'},
     );
 
-$a1 = Compute("$mant1*10^$exp1");
-$a2 = Compute("$mant2*10^-$exp2");
+$a1 = Compute("$coeff1*10^$exp1");
+$a2 = Compute("$coeff2*10^-$exp2");
+
+Context("Numeric");
+
+$b1 = Compute("$num1");
+$b2 = Compute("$num2");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+###########################################
+Section::Begin("Very large numbers:");
 
 BEGIN_PGML
+Sometimes we need to enter very large numbers, like for example
 
-Eneter [`[$a1]`]: [_______________]{$a1}
+>>[`[$str1]`]<<
 
-Eneter [`[$a2]`]: [_______________]{$a2}
+There is a better way to write large numbers like this, using so called *scientific notation*. The same number can be written as
+
+>>[``[$a1]``]<<
+
+This is [`[$coeff1]`], multiplied by [`10`] to the power of [`[$exp1]`], which is the same thing as multiplying by [`10`] repeatedly [`[$exp1]`] times in a row.  Since every time we multiply by [`10`], we move the decimal point *one step to the right*, we get
+
+>>[`[$str1].0`]<<
+
+which is the same as
+
+>>[`[$str1]`]<<
+
+##Entering Scientific Notation##
+
+In some problems we may be required to enter the answer in scientific notation.
+
+In properly written scientific notation, the _coefficient_, which in this case is [`[$coeff1]`], is always a decimal number greater than or equal to 1, and strictly less than 10.  It should always be written with at least one decimal place, which means that if the exponent is an integer like [`3`], then [`3.0`] must be written.
+
+In WeBWorK, we use [|*|] for multiplication.  In the case of scientific notation, we can also use the lowercase [|x|]. Exponent is denoted by [|^|] or by [|**|] in WeBWorK. So the number
+
+>>[``[$a1]``]<<
+
+can be entered in one of the following ways:
+
+:   [$coeffdec1] * 10^[$exp1]
+:
+:   [$coeffdec1] * 10**[$exp1]
+:
+:   [$coeffdec1] x 10^[$exp1]
+:
+:   [$coeffdec1] x 10**[$exp1]
+
+Note that the first two are preferable, since they will work even in many problems where proper scientific notation is _not_ required.
+
+Try it (don't forget to use the "Preview My Answers" button to see if you are entering things correctly):
+
+Eneter [`[$a1]`], using proper scientific notation: [_______________]{$a1}
+
+##Using the E-notation##
+
+Many calculators and computer systems use a simpler way of entering and displaying scientific notation, so called "E-notation". In this notation, the number
+
+>>[``[$a1]``]<<
+
+will be written as
+
+:   [$coeff1]E[$exp1]
+
+You can use this notation in most answer boxes where a _decimal number_ is allowed.  Try it here:
+
+Enter [``[$a1]``] using E-notation: [____________]{$b1}
+
+(Some computer systems use the lowercase [|e|] instead of [|E|], or allow both, but in WeBWorK the lowercase [|e|] has special meaning and cannot be used in the E-notation!)
 
 END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Very small numbers");
+
+BEGIN_PGML
+In other cases we may need to enter a number that is very small, like
+
+>>[`[$str2]`]<<
+
+Again, there is a better way if writing this, using *scientific notation*:
+
+>>[``[$a2]``]<<
+
+This is [`[$coeff2]`], *divided* by [`10`] to the power of [`[$exp2]`], which is the same thing as *dividing* by [`10`] repeatedly [`[$exp2]`] times in a row.  Since every time we divide by [`10`], we move the decimal point *one step to the _left_* (making the number smaller), we get
+
+>>[`[$str2]`]<<
+
+##Entering Scientific Notation##
+
+If the problem requires that we use proper scientific notation, the number
+
+>>[``[$a2]``]<<
+
+can be entered in one of the following ways:
+
+:   [$coeffdec2] * 10^-[$exp2]
+:
+:   [$coeffdec2] * 10**-[$exp2]
+:
+:   [$coeffdec2] x 10^-[$exp2]
+:
+:   [$coeffdec2] x 10**-[$exp2]
+
+again with the first two ways being preferable.
+
+Try it (don't forget to use the "Preview My Answers" button to see if you are entering things correctly):
+
+Eneter [`[$a2]`], using proper scientific notation: [_______________]{$a2}
+
+##Using the E-notation##
+
+If the problem does not require proper scientific notation, we can try to use the E-notation.  The number
+
+>>[``[$a2]``]<<
+
+will be written as
+
+:   [$coeff2]E-[$exp2]
+
+You can use this notation in most answer boxes where a _decimal number_ is allowed.  Try it here:
+
+Enter [``[$a2]``] using E-notation: [____________]{$b2}
+
+END_PGML
+
+Section::End();
+###########################################
+Scaffold::End();
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
