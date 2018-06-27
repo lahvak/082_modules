@@ -105,11 +105,11 @@ In WeBWorK, we use [|*|] for multiplication.  In the case of scientific notation
 can be entered in one of the following ways:
 
 :   [$coeffdec1] * 10^[$exp1]
-:
+:   
 :   [$coeffdec1] * 10**[$exp1]
-:
+:   
 :   [$coeffdec1] x 10^[$exp1]
-:
+:   
 :   [$coeffdec1] x 10**[$exp1]
 
 Note that the first two are preferable, since they will work even in many problems where proper scientific notation is _not_ required.
@@ -162,11 +162,11 @@ If the problem requires that we use proper scientific notation, the number
 can be entered in one of the following ways:
 
 :   [$coeffdec2] * 10^-[$exp2]
-:
+:   
 :   [$coeffdec2] * 10**-[$exp2]
-:
+:   
 :   [$coeffdec2] x 10^-[$exp2]
-:
+:   
 :   [$coeffdec2] x 10**-[$exp2]
 
 again with the first two ways being preferable.
