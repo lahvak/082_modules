@@ -67,7 +67,7 @@ $a2 = Compute("$coeff2*10^-$exp2");
 Context("Numeric");
 
 $b1 = Compute("$num1");
-$b2 = Compute("$num2");
+$b2 = Compute($num2);
 
 ###########################################
 #  The scaffold
