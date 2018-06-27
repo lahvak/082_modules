@@ -67,6 +67,13 @@ $a2 = Compute("$coeff2*10^-$exp2");
 Context("Numeric");
 
 $b1 = Real($num1);
+
+Context()->flags->set(tolerance => 0.03);
+Context()->flags->set(
+        zeroLevel => 1E-20,
+        zeroLevelTol => 1E-20
+);
+
 $b2 = Real($num2);
 
 ###########################################
