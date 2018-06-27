@@ -1,0 +1,83 @@
+##DESCRIPTION
+##  Convert numbers to scientific notation
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter('Simple calculations')
+## DBsection('Scientific notation')
+## Date('05/29/2018')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, WeBWorK, scientific notation, engineering notation')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "contextScientificNotation.pl",
+  "PGcourse.pl",
+);
+
+TEXT(beginproblem());
+
+$mant1 = random(1001,9999);
+$coeff1 = $mant1/1000;
+$exp1 = random(8,15,1);
+$str1 = $mant1 . ("0" x ($exp1 - 2));
+
+if ($mant1 % 1000 == 0) {
+   $coeffdec1 = $coeff1 . ".0";
+} else {
+   $coeffdec1 = $coeff1;
+}
+
+Context("ScientificNotation");
+Context()->operators->add(
+         '*' => {precedence => 3, associativity => 'left', type => 'bin',
+                    TeX => '\times ', class => 'ScientificNotation::BOP::x'},
+    );
+
+$a1 = Compute("$coeff1*10^$exp1");
+
+BEGIN_PGML
+Write the number
+
+>>[`[$str1]`]<<
+
+using proper scientific notation: [_______________]{$a1}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The number 
+
+>>[`[$str1]`]<<
+
+is the same as
+
+>>[`[$str1].0`]<<
+
+The coefficient part of the scientific notation will be [`[$coeff1]`].  In order to get from [`[$coeff1]`] to 
+
+>>[`[$str1].0`]<<
+
+we need to move the decimal point [`[$exp1]`] places to the right, which means multiplying by [`10^{[$exp1]}`].
+
+The scientific notation form of the number will then be
+
+>>[``[$a1]``]<<
+
+which can be entered as
+
+:   [$coeffdec1] * 10^[$exp1]
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
