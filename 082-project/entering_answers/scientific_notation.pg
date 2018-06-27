@@ -96,7 +96,7 @@ which is the same as
 
 In some problems we may be required to enter the answer in scientific notation.
 
-In properly written scientific notation, the _coefficient_, which in this case is [`[$coeff1]`], is always a decimal number greater than or equal to 1, and strictly less than 10.  It should always be written with at least one decimal place, which means that if the exponent is an integer like [`3`], then [`3.0`] must be written.
+In properly written scientific notation, the _coefficient_, which in this case is [`[$coeff1]`], is always a decimal number greater than or equal to 1, and strictly less than 10.  It should always be written with at least one decimal place, which means that if the coefficient is an integer like [`3`], then [`3.0`] must be written.
 
 In WeBWorK, we use [|*|] for multiplication.  In the case of scientific notation, we can also use the lowercase [|x|]. Exponent is denoted by [|^|] or by [|**|] in WeBWorK. So the number
 
