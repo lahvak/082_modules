@@ -3,7 +3,8 @@ openDate = 01/07/2000 at 06:00am EST
 dueDate = 01/07/2028 at 06:00am EST
 answerDate = 01/07/2028 at 06:00am EST
 description = Order of operations set
-restrict_prob_progression = 1
+restrictProbProgression = 1
+emailInstructor = 0
 
 problemListV2
 problem_start
