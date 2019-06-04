@@ -1,0 +1,75 @@
+## DESCRIPTION
+## MicroSlideShow for a linear equation
+## ENDDESCRIPTION
+
+## KEYWORDS('slideshow', 'equation', 'linear')
+
+## DBsubject('Intro Algebra')
+## DBchapter('Linear Equations')
+## DBsection('Simplifying and distributing')
+## Date(06/04/2019)
+## Institution('SVSU')
+## Author('Jan Hlavacek')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "contextFraction.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("LimitedProperFraction");
+
+$answer = Compute("3/16");
+
+$slideshow = MODES(
+HTML=> 
+"<iframe
+src='https://lahvak.github.io/svgmicroslides/algebra/linear_equations/distributing.html'
+frameborder='0' width='600' height='400'></iframe>", 
+TeX =>
+"An embedded slide show."
+);
+
+################
+#  Main text
+
+BEGIN_PGML
+Find the solution of the equation [: 3(5x+2) = 13 - (4+x) :].
+
+Write the answer as a fraction in the simplest form.
+
+>> [$slideshow]* <<
+
+----
+
+Answer: [_________________]{$answer}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+COMMENT('Embeds Micro Slide Show. Uses PGML.');
+
+ENDDOCUMENT();
