@@ -1,0 +1,71 @@
+## DESCRIPTION
+## Iframe video embedding template
+## ENDDESCRIPTION
+
+## KEYWORDS('iframe','embedding', 'template')
+
+## DBsubject()
+## DBchapter()
+## DBsection()
+## Date()
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("Numeric");
+
+$answer = 4;
+
+
+$video = MODES(
+HTML=>
+'<iframe width=640 height=360 src='https://svsu0.sharepoint.com/portals/hub/_layouts/15/VideoEmbedHost.aspx?chId=e6658067%2D6a24%2D45f5%2Da67a%2Ded36ff4875af&amp;vId=ada0e80d%2D8a20%2D41f6%2Db58f%2D380de5823bb8&amp;width=640&amp;height=360&amp;autoPlay=false&amp;showInfo=false' allowfullscreen></iframe>'
+TeX =>
+"An embedded MicroMath video."
+);
+################
+#  Main text
+
+BEGIN_PGML
+Solve the equation [: 8x - 24 = 0 :].
+
+>> [$video]* <<
+
+----
+
+The solution: [________________]{$answer}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+
+COMMENT('Embeded MicroMath video. Uses PGML.');
+
+ENDDOCUMENT();
