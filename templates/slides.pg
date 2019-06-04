@@ -1,0 +1,74 @@
+## DESCRIPTION
+## MicroSlideShow Iframe embedding template
+## ENDDESCRIPTION
+
+## KEYWORDS('iframe','embedding','template')
+
+## DBsubject()
+## DBchapter()
+## DBsection()
+## Date()
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("Numeric");
+
+$answer = 1;
+
+$slideshow = MODES(
+HTML=> 
+"<iframe
+src='https://lahvak.github.io/svgmicroslides/algebra/linear_equations/distributing.html'
+frameborder='0' width='600' height='400'></iframe>", 
+TeX =>
+"An embedded slide show."
+);
+
+################
+#  Main text
+
+BEGIN_PGML
+# Embedded slides
+
+>> [$slideshow]* <<
+
+----
+
+Answer the question ...
+
+Answer: [_________________]{$answer}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+COMMENT('Embeds Micro Slide Show. Uses PGML.');
+
+ENDDOCUMENT();

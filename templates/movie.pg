@@ -1,0 +1,73 @@
+## DESCRIPTION
+## Iframe video embedding template
+## ENDDESCRIPTION
+
+## KEYWORDS('iframe','embedding', 'template')
+
+## DBsubject()
+## DBchapter()
+## DBsection()
+## Date()
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("Numeric");
+
+$answer = 1;
+
+
+$video = MODES(
+HTML=>
+'<iframe width="640" height="360" src="https://web.microsoftstream.com/embed/video/38fe3221-fc87-4063-a895-94c3d36e192c?autoplay=false&amp;showinfo=false" style="border:none;" allowfullscreen ></iframe>',
+TeX =>
+"An embedded MicroMath video."
+);
+################
+#  Main text
+
+BEGIN_PGML
+# Embedded SVSU Micro Math video
+
+>> [$video]* <<
+
+----
+
+Answer the question...
+
+Answer: [________________]{$answer}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+
+COMMENT('Embeded MicroMath video. Uses PGML.');
+
+ENDDOCUMENT();
