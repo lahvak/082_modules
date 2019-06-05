@@ -1,0 +1,76 @@
+## DESCRIPTION
+## Iframe video embedding template
+## ENDDESCRIPTION
+
+## KEYWORDS('iframe','embedding', 'template')
+
+## DBsubject()
+## DBchapter()
+## DBsection()
+## Date()
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("Fraction-NoDecimals")->texStrings;
+Context()->strings->add("no solutions"=>{}, "infinitely many"=>{}, "no solution"=>{alias=>"no solutions"}, "none"=>{alias=>"no solutions"}, "all reals"=>{alias=>"infinitely many"});
+
+$ans = "no solutions";
+
+
+$video = MODES(
+HTML=>
+'<iframe width=640 height=360 src="https://svsu0.sharepoint.com/portals/hub/_layouts/15/VideoEmbedHost.aspx?chId=e6658067%2D6a24%2D45f5%2Da67a%2Ded36ff4875af&amp;vId=dbb14925%2D5276%2D46aa%2Dbe8b%2Da4bb32225603&amp;width=640&amp;height=360&amp;autoPlay=false&amp;showInfo=true" allowfullscreen></iframe>',
+TeX =>
+"An embedded MicroMath video."
+);
+################
+#  Main text
+
+BEGIN_PGML
+Solve the equation [: 6x + 5 = 2(3x+1) - 3 :].
+
+Write _no solutions_ if no solutions exist or _infinitely many_ if there are infinitely many solutions.
+
+(Watch the video, then enter the answer.)
+
+>> [$video]* <<
+
+----
+
+The solution: [________________]{$ans}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+
+COMMENT('Embeded MicroMath video. Uses PGML.');
+
+ENDDOCUMENT();
