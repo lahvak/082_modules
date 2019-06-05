@@ -1,0 +1,78 @@
+## DESCRIPTION
+## MicroSlideShow for a linear equation
+## ENDDESCRIPTION
+
+## KEYWORDS('slideshow', 'equation', 'linear', 'identity')
+
+## DBsubject('Intro Algebra')
+## DBchapter('Linear Equations')
+## DBsection('Infinitely many solutions')
+## Date(06/04/2019)
+## Institution('SVSU')
+## Author('Jan Hlavacek')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+
+###############
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "AnswerFormatHelp.pl",
+  "contextFraction.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+TEXT(beginproblem());
+
+
+###############
+#  Setup
+
+Context("Fraction-NoDecimals")->texStrings;
+Context()->strings->add("no solutions"=>{}, "infinitely many"=>{}, "no solution"=>{alias=>"no solutions"}, "none"=>{alias=>"no solutions"}, "all reals"=>{alias=>"infinitely many"});
+
+$ans = "infinitely many";
+
+$slideshow = MODES(
+HTML=> 
+"<iframe
+src='https://lahvak.github.io/svgmicroslides/algebra/linear_equations/infinitely_many.html'
+frameborder='0' width='600' height='400'></iframe>", 
+TeX =>
+"An embedded slide show."
+);
+
+################
+#  Main text
+
+BEGIN_PGML
+Find the solution of the equation [: 4(2x+3) - x = 7x + 12 :].
+
+Write the answer as a fraction in the simplest form.
+
+Write _no solutions_ if no solutions exist or _infinitely many_ if there are infinitely many solutions.
+
+>> [$slideshow]* <<
+
+----
+
+Answer: [_________________]{$ans}
+
+END_PGML
+
+################
+#  Answer evaluation
+
+$showPartialCorrectAnswers = 1;
+
+COMMENT('Embeds Micro Slide Show. Uses PGML.');
+
+ENDDOCUMENT();
