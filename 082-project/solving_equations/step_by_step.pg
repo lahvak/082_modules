@@ -45,7 +45,7 @@ Context("LimitedPolynomial-Strict");
 
 $ab = $a*$b;
 $ac = $a*$c;
-$mac = Formula("-$a*$c")->reduce;
+$mac = Formula("-$ac")->reduce;
 $lhs1 = Formula("$ab*x + $ac")->reduce;
 $f = $d - $e;
 $rhs1 = Formula("$f - x")->reduce;
