@@ -70,7 +70,11 @@ Scaffold::Begin(
       is_open  => "correct_or_first_incorrect"
 );
 BEGIN_PGML
-We will now solve the equation [:[$eqn]:] step by step.
+We will now solve the equation 
+
+>>[:[$eqn]:]<<
+
+step by step.
 END_PGML
 ###########################################
 Section::Begin("Simplify both sides");
@@ -90,10 +94,12 @@ END_PGML
 
 Section::End();
 ###########################################
-Section::Begin("Get rid of terms with [`x`] on the right side");
+Section::Begin("Get rid of terms with \(x\) the right side");
 BEGIN_PGML
 Now that the equation is in the form
+
 >>[:[$lhs1] = [$rhs1]:]<<
+
 we want to get rid of the term with [:x:] on the right side.  The term we want to get rid of is simply [:-x:].
 Simply add [:x:] to both sides, and simplify the results.
 
@@ -103,10 +109,12 @@ END_PGML
 
 Section::End();
 ###########################################
-Section::Begin("Get rid of terms without [`x`] on the left side");
+Section::Begin("Get rid of terms without \(x\) on the left side");
 BEGIN_PGML
 Now our equation looks like
+
 >>[:[$lhs2] = [$rhs2]:]<<
+
 We want to get rid of the term without [:x:] on the left side.  The term we want to get rid of is [:[$ac]:].
 To do that, add [:[$mac]:] to both sides and simplify.
 
@@ -116,18 +124,20 @@ END_PGML
 
 Section::End();
 ###########################################
-Section::Begin("Divide to get [:x:] alone");
+Section::Begin("Divide to get \(x\) alone");
 BEGIN_PGML
 Now our equation became
+
 >>[:[$lhs3] = [$rhs3]:]<<
+
 You are only one step away from the solution!  On the left side, we have [:[$lhs3]:], that is, the [:x:] is _multiplied_ by
 [:[$den]:].  To get the [:x:] alone, we need to _divide_ both sides by [:[$den]:], or, in other words, to _multiply_ both sides
-by ['\frac{1}{[$den]}'].
+by [`\frac{1}{[$den]}`].
 
 Divide both sides of the equation by [:[$den]:] and simplify the resulting fractions.  Enter the right side below.
 
 The equation will become
->>[:x =:] [____________]{$ans}<<
+>>[:x =:] [____________]{$answer}<<
 END_PGML
 
 Section::End();
@@ -135,11 +145,11 @@ Section::End();
 Section::Begin("Read the solution");
 BEGIN_PGML
 Now our equation is finally of the form
->>[:x = [$ans]:]<<
-It is obvious, simply by looking at the equation, that it has *exactly one* solution, [:[$ans]:].  Because this equation 
+>>[:x = [$answer]:]<<
+It is obvious, simply by looking at the equation, that it has *exactly one* solution, [:[$answer]:].  Because this equation 
 is _equivalent_ to the original equation (can you explain why?), the original equation also has only one solution:
 
-The solution of the original equation is [____________]{$ans}.
+The solution of the original equation is [____________]{$answer}.
 END_PGML
 
 Section::End();
