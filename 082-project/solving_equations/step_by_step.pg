@@ -1,0 +1,149 @@
+##DESCRIPTION
+##  Step by step solution of linear equation
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter(Linear equations)
+## DBsection(Distributing)
+## Date(06/13/2019)
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra', 'equations', 'linear')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "contextLimitedPolynomial.pl",
+  "parserMultiAnswer.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = random(2,10,1);
+$b = random(2,10,1);
+do {$c = random(2,10,1)} until ($a != $c);
+$d = random(2,10,1);
+$e = random(2,10,1);
+
+$var = "x";
+$eqn = "$a ($b x  + $c)= $d - ( x + $e)";
+
+Context("LimitedPolynomial-Strict");
+
+$ab = $a*$b;
+$ac = $a*$c;
+$mac = Formula("-$a*$c")->reduce;
+$lhs1 = Formula("$ab*x + $ac")->reduce;
+$f = $d - $e;
+$rhs1 = Formula("$f - x")->reduce;
+
+$num = $d - $e - $a*$c;
+$den = $a*$b + 1;
+
+$lhs2 = Formula("$den x + $ac")->reduce;
+$rhs2 = Formula("$f")->reduce;
+
+$lhs3 = Formula("$den x")->reduce;
+$rhs3 = Formula("$num")->reduce;
+
+Context("Fraction-NoDecimals");
+
+$answer = Fraction($num,$den);
+
+###########################################
+#  The scaffold
+Scaffold::Begin(
+      can_open => "when_previous_correct",
+      is_open  => "correct_or_first_incorrect"
+);
+BEGIN_PGML
+We will now solve the equation [:[$eqn]:] step by step.
+END_PGML
+###########################################
+Section::Begin("Simplify both sides");
+
+BEGIN_PGML
+We will start by simplifying both sides of the equation as much as possible.
+
+*  On the left side, we need to distribute the [:[$a]:].
+*  On the right side, we need to distribute the ['-'] sign (think about it as a
+   multiplication by -1), and then combine like terms.
+
+After this simplification, the equation will become:
+
+>>[____________]{$lhs1} = [____________]{$rhs1}<<
+(enter the simplified left side on the left of the = sign, and the simplified right side on the right.)
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Get rid of terms with [`x`] on the right side");
+BEGIN_PGML
+Now that the equation is in the form
+>>[:[$lhs1] = [$rhs1]:]<<
+we want to get rid of the term with [:x:] on the right side.  The term we want to get rid of is simply [:-x:].
+Simply add [:x:] to both sides, and simplify the results.
+
+The new equation will be
+>>[____________]{$lhs2} = [____________]{$rhs2}<<
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Get rid of terms without [`x`] on the left side");
+BEGIN_PGML
+Now our equation looks like
+>>[:[$lhs2] = [$rhs2]:]<<
+We want to get rid of the term without [:x:] on the left side.  The term we want to get rid of is [:[$ac]:].
+To do that, add [:[$mac]:] to both sides and simplify.
+
+The equation will become
+>>[____________]{$lhs3} = [____________]{$rhs3}<<
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Divide to get [:x:] alone");
+BEGIN_PGML
+Now our equation became
+>>[:[$lhs3] = [$rhs3]:]<<
+You are only one step away from the solution!  On the left side, we have [:[$lhs3]:], that is, the [:x:] is _multiplied_ by
+[:[$den]:].  To get the [:x:] alone, we need to _divide_ both sides by [:[$den]:], or, in other words, to _multiply_ both sides
+by ['\frac{1}{[$den]}'].
+
+Divide both sides of the equation by [:[$den]:] and simplify the resulting fractions.  Enter the right side below.
+
+The equation will become
+>>[:x =:] [____________]{$ans}<<
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Read the solution");
+BEGIN_PGML
+Now our equation is finally of the form
+>>[:x = [$ans]:]<<
+It is obvious, simply by looking at the equation, that it has *exactly one* solution, [:[$ans]:].  Because this equation 
+is _equivalent_ to the original equation (can you explain why?), the original equation also has only one solution:
+
+The solution of the original equation is [____________]{$ans}.
+END_PGML
+
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
