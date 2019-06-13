@@ -83,8 +83,8 @@ BEGIN_PGML
 We will start by simplifying both sides of the equation as much as possible.
 
 *  On the left side, we need to distribute the [:[$a]:].
-*  On the right side, we need to distribute the ['-'] sign (think about it as a
-   multiplication by -1), and then combine like terms.
+*  On the right side, we need to distribute the [`{}-{}`] sign (think about it as a
+   multiplication by [:-1:]), and then combine like terms.
 
 After this simplification, the equation will become:
 
