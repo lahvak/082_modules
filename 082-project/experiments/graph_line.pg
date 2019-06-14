@@ -64,8 +64,8 @@ Context()->texStrings;
 Context()->operators->undefine("+","-","*","/");
 
 HEADER_TEXT(<<EOF);
-<link rel='stylesheet' type='text/css' href='http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css' media='screen' />
-<script type='text/javascript' src='http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js'></script>
+<link rel='stylesheet' type='text/css' href='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css' media='screen' />
+<script type='text/javascript' src='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js'></script>
 EOF
 
 TEXT(NAMED_HIDDEN_ANS_RULE('point1_coords_ans', 30));
