@@ -60,7 +60,7 @@ sub correct_line
     my $cy2 = $Mcor->element(2,2);
     my $m = ($cy2 - $cy1) / ($cx2 - $cx1);
     my $b = $cy1 - $m * $cx1;
-    if (norm($m*Vector($M->column(1)) + Vector($b,$b) - Vector($M->column(2))) < 0.1) { return 1; }
+#    if (norm($m*Vector($M->column(1)) + Vector($b,$b) - Vector($M->column(2))) < 0.1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
 }
