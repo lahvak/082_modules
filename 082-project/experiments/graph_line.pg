@@ -51,7 +51,7 @@ sub correct_line
     my $Mcor = $correct->value;
     my $M = $student->value;
     if (norm(Vector($M->row(1)) - Vector($M->row(2))) < 0.1) {
-        Value-Error("The two given points are to close to each other");
+        Value->Error("The two given points are to close to each other");
         return 0;
     }
     my $cx1 = Mcor->element(1,1);
