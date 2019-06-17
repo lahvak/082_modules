@@ -44,6 +44,13 @@ $y2 = random(-10, 10);
 
 $answer = Compute("[[$x1, $y1],[$x2, $y2]]");
 
+$m=$answer;
+
+$m = ($y2 - $y1) / ($x2 - $x1);
+$b = $y1 - $m * $x1;
+
+$n = norm($m*Vector(M->column(1)) + Vector($b,$b) - Vector(M->column(2)));
+
 # Custom answer checker that checks to see if a point is on the line
 sub correct_line
 {
