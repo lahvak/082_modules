@@ -139,7 +139,7 @@ function createPointTwo(e)
 {
     var coords = getMouseCoords(e);
 
-    if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < 10){
+    if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < .05){
         return;
     }
 
