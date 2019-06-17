@@ -35,7 +35,7 @@ loadMacros(
 ################################################################################################
 TEXT(beginproblem());
 
-Context("Point");
+Context("Matrix");
 
 $x1 = random(-10, 9);
 $x2 = random($x1 + 1, 10); # TODO:  Allow vertical lines
@@ -51,9 +51,13 @@ sub point_on_line
 {
     my ($correct, $student, $ansHash) = @_;
     my ($m, $b) = $correct->value;
-    my ($x, $y) = $student->value;
-    if (abs($y - $x * $m - $b) < 0.2) { return 1; }
-    Value->Error("The point graphed is not on the line");
+    my $M = $student->value;
+    if ($M->row(1) == $M->row(2)) {
+        Value-Error("The two given points are equal");
+        return 0;
+    }
+    if (norm($m*Vector(M->column(1)) + Vector($b,$b) - Vector(M-column(2))) < 0.1) { return 1; }
+    Value->Error("This is not the correct line!");
     return 0;
 }
 
@@ -68,8 +72,7 @@ HEADER_TEXT(<<EOF);
 <script type='text/javascript' src='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js'></script>
 EOF
 
-TEXT(NAMED_HIDDEN_ANS_RULE('point1_coords_ans', 30));
-TEXT(NAMED_HIDDEN_ANS_RULE('point2_coords_ans', 30));
+TEXT(NAMED_HIDDEN_ANS_RULE('point_matrix_ans', 60));
 
 BEGIN_PGML
 Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2])`].
@@ -87,18 +90,21 @@ function updateText()
 {
     if (typeof(point1) != "undefined")
     {
-        document.getElementById('point1_coords_ans').value =
-            "(" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + ")";
         document.getElementById('point1').innerHTML =
             point1.name + ": (" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + ")";
     }
 
     if (typeof(point2) != "undefined")
     {
-        document.getElementById('point2_coords_ans').value =
-            "(" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + ")";
         document.getElementById('point2').innerHTML =
             point2.name + ": (" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + ")";
+    }
+
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
+    {
+        document.getElementById('point_matrix_ans').value =
+            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
+            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
     }
 }
 
@@ -174,19 +180,15 @@ brd.on('move', function(e) {
 var point1, point2, line1;
 
 // Restore data from previous attempts if available
-var point1_data = document.getElementById('point1_coords_ans').value.slice(1).split(",");
-if (point1_data.length > 1)
+var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
+if (points_data.length > 3)
 {
     point1 = brd.create('point', [parseFloat(point1_data[0]), parseFloat(point1_data[1])], {style:6});
     point1.on('down', updateText);
     point1.on('over', updateText);
     point1.on('drag', updateText);
-}
-
-var point2_data = document.getElementById('point2_coords_ans').value.slice(1).split(",");
-if (point2_data.length > 1)
 {
-    point2 = brd.create('point', [parseFloat(point2_data[0]), parseFloat(point2_data[1])], {style:6});
+    point2 = brd.create('point', [parseFloat(point2_data[2]), parseFloat(point2_data[3])], {style:6});
     point2.on('down', updateText);
     point2.on('over', updateText);
     point2.on('drag', updateText);
