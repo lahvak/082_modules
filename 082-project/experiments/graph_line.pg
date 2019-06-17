@@ -44,13 +44,6 @@ $y2 = random(-10, 10);
 
 $answer = Compute("[[$x1, $y1],[$x2, $y2]]");
 
-$M=$answer;
-
-$m = ($y2 - $y1) / ($x2 - $x1);
-$b = $y1 - $m * $x1;
-
-$n = norm($m*Vector($M->column(1)) + Vector($b,$b) - Vector($M->column(2)));
-
 # Custom answer checker that checks to see if a point is on the line
 sub correct_line
 {
@@ -61,12 +54,12 @@ sub correct_line
     #    Value->Error("The two given points are to close to each other");
     #    return 0;
     #}
-    #my $cx1 = Mcor->element(1,1);
-    #my $cy1 = Mcor->element(1,2);
-    #my $cx2 = Mcor->element(2,1);
-    #my $cy2 = Mcor->element(2,2);
-    my $m = ($y2 - $y1) / ($x2 - $x1);
-    my $b = $y1 - $m * $x1;
+    my $cx1 = Mcor->element(1,1);
+    my $cy1 = Mcor->element(1,2);
+    my $cx2 = Mcor->element(2,1);
+    my $cy2 = Mcor->element(2,2);
+    my $m = ($cy2 - $cy1) / ($cx2 - $cx1);
+    my $b = $cy1 - $m * $cx1;
     if (norm($m*Vector($M->column(1)) + Vector($b,$b) - Vector($M->column(2))) < 0.1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
