@@ -50,17 +50,17 @@ sub correct_line
     my ($correct, $student, $ansHash) = @_;
     my $Mcor = $correct->value;
     my $M = $student->value;
-    if ($M->row(1) == $M->row(2)) {
-        Value-Error("The two given points are equal");
+    if (norm(Vector($M->row(1)) - Vector($M->row(2)) < 0.1) {
+        Value-Error("The two given points are to close to each other");
         return 0;
     }
     my $cx1 = Mcor->element(1,1);
     my $cy1 = Mcor->element(1,2);
     my $cx2 = Mcor->element(2,1);
     my $cy2 = Mcor->element(2,2);
-    my $m = Compute("($cy2 - $cy1) / ($cx2 - $cx1)");
-    my $b = Compute("$cy1 - $slope * $cx1");
-    if (norm($m*Vector(M->column(1)) + Vector($b,$b) - Vector(M-column(2))) < 0.1) { return 1; }
+    my $m = ($cy2 - $cy1) / ($cx2 - $cx1);
+    my $b = $cy1 - $slope * $cx1;
+    if (norm($m*Vector(M->column(1)) + Vector($b,$b) - Vector(M->column(2))) < 0.1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
 }
@@ -187,12 +187,12 @@ var point1, point2, line1;
 var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
 if (points_data.length > 3)
 {
-    point1 = brd.create('point', [parseFloat(point1_data[0]), parseFloat(point1_data[1])], {style:6});
+    point1 = brd.create('point', [parseFloat(points_data[0]), parseFloat(points_data[1])], {style:6});
     point1.on('down', updateText);
     point1.on('over', updateText);
     point1.on('drag', updateText);
 
-    point2 = brd.create('point', [parseFloat(point2_data[2]), parseFloat(point2_data[3])], {style:6});
+    point2 = brd.create('point', [parseFloat(points_data[2]), parseFloat(points_data[3])], {style:6});
     point2.on('down', updateText);
     point2.on('over', updateText);
     point2.on('drag', updateText);
