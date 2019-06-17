@@ -42,20 +42,24 @@ $x2 = random($x1 + 1, 10); # TODO:  Allow vertical lines
 $y1 = random(-10, 10);
 $y2 = random(-10, 10);
 
-$slope = Compute("($y2 - $y1) / ($x2 - $x1)");
-$yint = Compute("$y1 - $slope * $x1");
-$answer = Compute("($slope,$yint)");
+$answer = Compute("[[$x1, $y1],[$x2, $y2]]");
 
 # Custom answer checker that checks to see if a point is on the line
-sub point_on_line
+sub correct_line
 {
     my ($correct, $student, $ansHash) = @_;
-    my ($m, $b) = $correct->value;
+    my $Mcor = $correct->value;
     my $M = $student->value;
     if ($M->row(1) == $M->row(2)) {
         Value-Error("The two given points are equal");
         return 0;
     }
+    my $cx1 = Mcor->element(1,1);
+    my $cy1 = Mcor->element(1,2);
+    my $cx2 = Mcor->element(2,1);
+    my $cy2 = Mcor->element(2,2);
+    my $m = Compute("($cy2 - $cy1) / ($cx2 - $cx1)");
+    my $b = Compute("$cy1 - $slope * $cx1");
     if (norm($m*Vector(M->column(1)) + Vector($b,$b) - Vector(M-column(2))) < 0.1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
@@ -211,7 +215,6 @@ brd.unsuspendUpdate();
 </pre>
 END_TEXT
 
-NAMED_ANS('point1_coords_ans'=>$answer->cmp(checker=>~~&point_on_line));
-NAMED_ANS('point2_coords_ans'=>$answer->cmp(checker=>~~&point_on_line));
+NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
 
 ENDDOCUMENT();
