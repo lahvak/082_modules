@@ -50,7 +50,7 @@ sub correct_line
     my ($correct, $student, $ansHash) = @_;
     my $Mcor = $correct->value;
     my $M = $student->value;
-    if (norm(Vector($M->row(1)) - Vector($M->row(2)) < 0.1) {
+    if (norm(Vector($M->row(1)) - Vector($M->row(2))) < 0.1) {
         Value-Error("The two given points are to close to each other");
         return 0;
     }
