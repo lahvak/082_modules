@@ -191,7 +191,7 @@ if (points_data.length > 3)
     point1.on('down', updateText);
     point1.on('over', updateText);
     point1.on('drag', updateText);
-{
+
     point2 = brd.create('point', [parseFloat(point2_data[2]), parseFloat(point2_data[3])], {style:6});
     point2.on('down', updateText);
     point2.on('over', updateText);
