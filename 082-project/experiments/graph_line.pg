@@ -95,6 +95,7 @@ function updatePoint1()
     if (isNaN(y) || y < -10 || y > 10) { return;}
 
     point1.moveTo([x,y]);
+    updateAnswer();
 }
 
 function updatePoint2()
@@ -106,6 +107,17 @@ function updatePoint2()
     if (isNaN(y) || y < -10 || y > 10) { return;}
 
     point2.moveTo([x,y]);
+    updateAnswer();
+}
+
+function updateAnswer()
+{
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
+    {
+        document.getElementById('point_matrix_ans').value =
+            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
+            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
+    }
 }
 
 function updateText()
@@ -122,12 +134,7 @@ function updateText()
         document.getElementById('point2y').value = point2.Y().toFixed(2);
     }
 
-    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
-    {
-        document.getElementById('point_matrix_ans').value =
-            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
-            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
-    }
+    updateAnswer();
 }
 
 function getMouseCoords(e)
