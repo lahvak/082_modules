@@ -77,12 +77,22 @@ Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2]
 END_PGML
 
 TEXT(MODES(TeX=>"", HTML=><<'END_TEXT'));
-<p id="point1">A: (<input type="text" name="point1x" id="point1x" value="">, <input type="text" name="point1y" id="point1y" value="">)</p>
-<p id="point2">A: (<input type="text" name="point2x" id="point2x" value="">, <input type="text" name="point2y" id="point2y" value="">)</p>
+<p id="point1">A: (<input type="text" name="point1x" id="point1x" value="", oninput="updatePoint1()">, 
+                   <input type="text" name="point1y" id="point1y" value="", oninput="updatePoint1()">)</p>
+<p id="point2">B: (<input type="text" name="point2x" id="point2x" value="">, 
+                   <input type="text" name="point2y" id="point2y" value="">)</p>
 
 <pre>
 <div id='box' class='jxgbox' style='width:440px; height:440px;'></div>
 <script type='text/javascript'>
+
+function updatePoint1()
+{
+    var x = parseFloat(document.getElementById("point1x").value);
+    var y = parseFloat(document.getElementById("point1y").value);
+
+    point1.moveTo([x,y]);
+}
 
 function updateText()
 {
