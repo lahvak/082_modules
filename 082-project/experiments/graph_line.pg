@@ -54,7 +54,7 @@ sub correct_line
         Value->Error("Your two points are too close to each other");
         return 0;
     }
-    if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 0.5) { return 1; }
+    if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
 }
