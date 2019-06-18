@@ -208,8 +208,8 @@ var brd = JXG.JSXGraph.initBoard('box', {axis: true, originX: 220, originY: 220,
 brd.suspendUpdate();
 
 brd.attr.showNavigation = false;
-brd.attr.pan.enable = false;
-brd.attr.zoom.enable = false;
+brd.attr.pan.enabled = false;
+brd.attr.zoom.enabled = false;
 brd.create('grid', []);
 
 var current_pos_text = brd.create('text', [10.5, -10, ""], {anchorX:'right', anchorY:'bottom', cssClass:'mytext'});
