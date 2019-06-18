@@ -54,13 +54,7 @@ sub correct_line
         Value->Error("Your two points are too close to each other");
         return 0;
     }
-    my $cx1 = $Mcor->element(1,1);
-    my $cy1 = $Mcor->element(1,2);
-    my $cx2 = $Mcor->element(2,1);
-    my $cy2 = $Mcor->element(2,2);
-    my $m = ($cy2 - $cy1) / ($cx2 - $cx1);
-    my $b = $cy1 - $m * $cx1;
-    if (norm($m*Vector($M->column(1)) + Vector($b,$b) - Vector($M->column(2))) < 0.2) { return 1; }
+    if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 0.2) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
 }
