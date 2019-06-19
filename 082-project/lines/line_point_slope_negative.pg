@@ -1,0 +1,258 @@
+##DESCRIPTION
+##  Plot a line given a point and slope, positive slope
+##ENDDESCRIPTION
+
+##KEYWORDS('Algebra', 'Linear Equations', 'Lines', 'JSXGraph')
+
+## DBsubject('Algebra')
+## DBchapter('Linear Equations')
+## DBsection('Lines')
+## Date('06/19/2019')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## ProblemTester('')
+## TitleText1('')
+## Publisher('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+################################################################################################
+# Setup and Macros
+################################################################################################
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",
+    "MathObjects.pl",
+    "PGML.pl",
+    "contextFraction.pl"
+);
+
+################################################################################################
+# Variables, Formulas, and Graphs
+################################################################################################
+TEXT(beginproblem());
+
+$x1 = random(-10, 1);
+$y1 = random(2, 10);
+do {
+    $x2 = random($x1 + 1, 10);
+    $y2 = random(-10, $y1 - 2);
+} until (max(abs($x1 - $x2),abs($y1-$y2)) >= 5); # make sure points are not too close
+
+Context("Fraction");
+
+$slope = Compute("($y2 - $y1)/($x2 - $x1)");
+
+Context("Matrix");
+$answer = Compute("[[$x1, $y1],[$x2, $y2]]");
+
+# Custom answer checker that checks to see if the two answer points define the
+# same line as the two given points
+sub correct_line
+{
+    my ($correct, $student, $ansHash) = @_;
+    my $Mcor = Matrix($correct->value);
+    my $M = Matrix($student->value);
+    if (norm(Vector($M->row(1)) - Vector($M->row(2))) < 0.1) {
+        Value->Error("Your two points are too close to each other");
+        return 0;
+    }
+    if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 1) { return 1; }
+    Value->Error("This is not the correct line!");
+    return 0;
+}
+
+################################################################################################
+# Main Text
+################################################################################################
+Context()->texStrings;
+Context()->operators->undefine("+","-","*","/");
+
+## How does this work for TeX?
+HEADER_TEXT(<<EOF);
+<link rel='stylesheet' type='text/css' href='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css' media='screen' />
+<script type='text/javascript' src='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js'></script>
+EOF
+
+TEXT(NAMED_HIDDEN_ANS_RULE('point_matrix_ans', 60));
+
+BEGIN_PGML
+Graph the line passing through the point [`([$x1], [$y1])`] with slope [`[$slope]`].
+END_PGML
+
+# TODO: provide TeX version of the grid!
+TEXT(MODES(TeX=>"", HTML=><<'END_TEXT'));
+<p id="point1">A: (<input type="text" name="point1x" id="point1x" value="" oninput="updatePoint1()" disabled>, 
+                   <input type="text" name="point1y" id="point1y" value="" oninput="updatePoint1()" disabled>)</p>
+<p id="point2">B: (<input type="text" name="point2x" id="point2x" value="" oninput="updatePoint2()" disabled>, 
+                   <input type="text" name="point2y" id="point2y" value="" oninput="updatePoint2()" disabled>)</p>
+<pre>
+<div id='box' class='jxgbox' style='width:440px; height:440px;'></div>
+<script type='text/javascript'>
+
+function updatePoint1()
+{
+    var x = parseFloat(document.getElementById("point1x").value);
+    var y = parseFloat(document.getElementById("point1y").value);
+
+    if (isNaN(x) || x < -10 || x > 10) { return;}
+    if (isNaN(y) || y < -10 || y > 10) { return;}
+
+    point1.moveTo([x,y]);
+    updateAnswer();
+}
+
+function updatePoint2()
+{
+    var x = parseFloat(document.getElementById("point2x").value);
+    var y = parseFloat(document.getElementById("point2y").value);
+
+    if (isNaN(x) || x < -10 || x > 10) { return;}
+    if (isNaN(y) || y < -10 || y > 10) { return;}
+
+    point2.moveTo([x,y]);
+    updateAnswer();
+}
+
+function updateAnswer()
+{
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
+    {
+        document.getElementById('point_matrix_ans').value =
+            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
+            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
+    }
+}
+
+function updateText()
+{
+    if (typeof(point1) != "undefined")
+    {
+        document.getElementById('point1x').disabled = false;
+        document.getElementById('point1x').value = point1.X().toFixed(2);
+        document.getElementById('point1y').disabled = false;
+        document.getElementById('point1y').value = point1.Y().toFixed(2);
+    }
+
+    if (typeof(point2) != "undefined")
+    {
+        document.getElementById('point2x').disabled = false;
+        document.getElementById('point2x').value = point2.X().toFixed(2);
+        document.getElementById('point2y').disabled = false;
+        document.getElementById('point2y').value = point2.Y().toFixed(2);
+    }
+
+    updateAnswer();
+}
+
+function getMouseCoords(e)
+{
+    var i;
+    if (e[JXG.touchProperty])
+    {
+        // index of the finger that is used to extract the coordinates
+        i = 0;
+    }
+
+    var cPos = brd.getCoordsTopLeftCorner(e, i),
+        absPos = JXG.getPosition(e, i),
+        dx = absPos[0] - cPos[0],
+        dy = absPos[1] - cPos[1];
+
+    return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
+};
+
+function createPointOne(e)
+{
+    var coords = getMouseCoords(e);
+
+    point1 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    point1.on('down', updateText);
+    point1.on('over', updateText);
+    point1.on('drag', updateText);
+
+    brd.off('down');
+    brd.on('down', createPointTwo);
+
+    updateText();
+    brd.update();
+};
+
+function createPointTwo(e)
+{
+    var coords = getMouseCoords(e);
+
+    if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < .2){
+        return;
+    }
+
+    point2 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    point2.on('down', updateText);
+    point2.on('over', updateText);
+    point2.on('drag', updateText);
+
+    line1 = brd.create('line', [point1, point2]);
+    line1.on('move', updateText);
+    line1.on('drag', updateText);
+
+    brd.off('down');
+
+    updateText();
+    brd.update();
+};
+
+var brd = JXG.JSXGraph.initBoard('box', {axis: true, originX: 220, originY: 220, unitX: 20, unitY: 20,
+                                 showNavigation: false, pan: {enabled: false},
+                                 zoom: {enabled: false}});
+brd.suspendUpdate();
+
+brd.create('grid', []);
+
+var current_pos_text = brd.create('text', [10.5, -10, ""], {anchorX:'right', anchorY:'bottom', cssClass:'mytext'});
+
+brd.on('move', function(e) {
+    var coords = getMouseCoords(e);
+    current_pos_text.setText("(" + coords.usrCoords[1].toFixed(2) + ", " + coords.usrCoords[2].toFixed(2) + ")");
+}
+);
+
+var point1, point2, line1;
+
+// Restore data from previous attempts if available
+var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
+if (points_data.length > 3)
+{
+    point1 = brd.create('point', [parseFloat(points_data[0]), parseFloat(points_data[1])], {style:6});
+    point1.on('down', updateText);
+    point1.on('over', updateText);
+    point1.on('drag', updateText);
+
+    point2 = brd.create('point', [parseFloat(points_data[2]), parseFloat(points_data[3])], {style:6});
+    point2.on('down', updateText);
+    point2.on('over', updateText);
+    point2.on('drag', updateText);
+
+    line1 = brd.create('line', [point1, point2]);
+    line1.on('move', updateText);
+    line1.on('drag', updateText);
+}
+
+updateText();
+
+if (typeof(point1) == "undefined")
+brd.on('down', createPointOne);
+else if (typeof(point2) == "undefined")
+brd.on('down', createPointTwo);
+
+brd.unsuspendUpdate();
+
+</script>
+</pre>
+END_TEXT
+
+NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
+
+ENDDOCUMENT();
