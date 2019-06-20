@@ -35,7 +35,7 @@ loadMacros(
 ################################################################################################
 TEXT(beginproblem());
 
-$intercept = random(-1,1)*random(1,6);
+$intercept = list_random(-1,1)*random(1,6);
 $x2 = random(3,10);
 do {
     $y2 = random(-10, 10);
