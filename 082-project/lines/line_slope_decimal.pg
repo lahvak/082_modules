@@ -43,6 +43,7 @@ $intercept = $intsign*($intint + $intfrc);
 $ydiffint = random(3,10);
 do {$ydifffrc = random(1,9)/10;} while ($ydifffrc == $intfrc);
 $ydiff = -$intsign*(ydiffint + $ydifffrc);
+$y2 = $intercept + $ydiff;
 $x2 = random(3,10);
 
 $x1 = -$x2;
