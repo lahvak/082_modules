@@ -41,8 +41,8 @@ $a = random(ceil($rhs/10), floor($rhs/3));
 do {$b = random(ceil($rhs/10), floor($rhs/3));} while ($b == $a);
 $sign = list_random(-1,1);
 
-$xintercept = $rhs/$b*$sign;
-$yintercept = $rhs/$a;
+$xintercept = $rhs/$a;
+$yintercept = $rhs/$b*$sign;
 
 $x1 = 0;
 $y1 = $yintercept;
