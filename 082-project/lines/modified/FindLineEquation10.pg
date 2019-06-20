@@ -89,8 +89,6 @@ END_PGML
 
 ##############################################
 
-ANS($ansSI->cmp());
-
 Context()->flags->set(reduceConstants=>0);
 Context()->flags->set(reduceConstantFormulas=>0);
 
@@ -119,6 +117,10 @@ ANS($ansPS->cmp(correct_ans_latex_string => $ansPSstringTeX
       return $ansHash;
     }));
 
+Context()->flags->set(reduceConstants=>1);
+Context()->flags->set(reduceConstantFormulas=>1);
+
+ANS($ansSI->cmp());
 
 $s1 = $m*$x1;
 
