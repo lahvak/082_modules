@@ -57,7 +57,7 @@ $x2 = random(3,10);
 $x1 = -$x2;
 $y1 = 2*$intercept - $y2;
 
-$slope = myround(($y2 - $y1)/($x2 - $x1), 2);
+$slope = myround(($y2 - $y1)/($x2 - $x1), -2);
 $y2 = $intercept + $slope*$x2;  # fix y2 after rounding
 $y1 = 2*$intercept - $y2;
 
