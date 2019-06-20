@@ -221,10 +221,10 @@ brd.create('grid', []);
 
 brd.on('move', function() {
     if (typeof(point1) != "undefined") {
-        point1.moveTo(point1.X(), 0);
+        point1.moveTo([point1.X(), 0]);
     }
     if (typeof(point2) != "undefined") {
-        point2.moveTo(0, point2.Y());
+        point2.moveTo([0, point2.Y()]);
     }
 }
 );
