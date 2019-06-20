@@ -175,11 +175,9 @@ function createPoint(e)
 {
     var coords = getMouseCoords(e);
 
-    console.log(coords.usrCoords);
-
-    if ((typeof(point1) == "undefined") && (abs(coords.usrCoords[2]) < 5)) {
+    if ((typeof(point1) == "undefined") && (Math.abs(coords.usrCoords[2]) < 5)) {
         createPointOne(e);
-    } else if ((typeof(point2) == "undefined") && (abs(coords.usrCoords[1]) < 5)) {
+    } else if ((typeof(point2) == "undefined") && (Math.abs(coords.usrCoords[1]) < 5)) {
         createPointTwo(e);
     }
 }
