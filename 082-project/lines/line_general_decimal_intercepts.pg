@@ -219,11 +219,13 @@ brd.suspendUpdate();
 
 brd.create('grid', []);
 
-var current_pos_text = brd.create('text', [10.5, -10, ""], {anchorX:'right', anchorY:'bottom', cssClass:'mytext'});
-
-brd.on('move', function(e) {
-    var coords = getMouseCoords(e);
-    current_pos_text.setText("(" + coords.usrCoords[1].toFixed(2) + ", " + coords.usrCoords[2].toFixed(2) + ")");
+brd.on('move', function() {
+    if (typeof(point1) != "undefined") {
+        point1.moveTo(point1.X(), 0);
+    }
+    if (typeof(point2) != "undefined") {
+        point2.moveTo(0, point2.Y());
+    }
 }
 );
 
