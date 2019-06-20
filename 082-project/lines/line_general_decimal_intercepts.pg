@@ -171,17 +171,39 @@ function getMouseCoords(e)
     return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
 };
 
+function createPoint(e)
+{
+    var coords = getMouseCoords(e);
+
+    if ((typeof(point1) == "undefined") && (abs(coords.usrCoords[2]) < 0.5)) {
+        createPointOne(e);
+    } else if ((typeof(point2) == "undefined") && (abs(coords.usrCoords[1]) < 0.5)) {
+        createPointTwo(e);
+    }
+}
+
 function createPointOne(e)
 {
     var coords = getMouseCoords(e);
 
-    point1 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    if (typeof(point2) != "undefined") {
+        if (JXG.Math.Geometry.distance(point2.coords.usrCoords, coords.usrCoords) < .2){
+            return;
+        }
+    }
+
+    point1 = brd.create('point', [coords.usrCoords[1], 0], {style:6});
     point1.on('down', updateText);
     point1.on('over', updateText);
     point1.on('drag', updateText);
 
-    brd.off('down');
-    brd.on('down', createPointTwo);
+    if (typeof(point2) != "undefined") {
+        line1 = brd.create('line', [point1, point2]);
+        line1.on('move', updateText);
+        line1.on('drag', updateText);
+
+        brd.off('down');
+    }
 
     updateText();
     brd.update();
@@ -191,20 +213,24 @@ function createPointTwo(e)
 {
     var coords = getMouseCoords(e);
 
-    if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < .2){
-        return;
+    if (typeof(point1) != "undefined") {
+        if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < .2){
+            return;
+        }
     }
 
-    point2 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    point2 = brd.create('point', [0, coords.usrCoords[2]], {style:6});
     point2.on('down', updateText);
     point2.on('over', updateText);
     point2.on('drag', updateText);
 
-    line1 = brd.create('line', [point1, point2]);
-    line1.on('move', updateText);
-    line1.on('drag', updateText);
+    if (typeof(point1) != "undefined") {
+        line1 = brd.create('line', [point1, point2]);
+        line1.on('move', updateText);
+        line1.on('drag', updateText);
 
-    brd.off('down');
+        brd.off('down');
+    }
 
     updateText();
     brd.update();
