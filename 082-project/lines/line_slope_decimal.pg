@@ -51,7 +51,7 @@ $intercept = $intsign*($intint + $intfrc);
 
 $ydiffint = random(3,10);
 do {$ydifffrc = random(1,9)/10;} while ($ydifffrc == $intfrc);
-$ydiff = -$intsign*(ydiffint + $ydifffrc);
+$ydiff = -$intsign*($ydiffint + $ydifffrc);
 $x2 = random(3,10);
 $slope = myround($ydiff/$x2, -2);
 $y2 = $intercept + $slope*$x2;
