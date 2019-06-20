@@ -35,6 +35,14 @@ loadMacros(
 ################################################################################################
 TEXT(beginproblem());
 
+sub round ()
+{
+    my ($x, $pow10) = @_;
+    my $a = 10 ** $pow10;
+
+    return (int($x / $a + (($x < 0) ? -0.5 : 0.5)) * $a);
+}
+
 $intsign = list_random(-1,1);
 $intint = random(1,9);
 $intfrc = random(1,9)/10;
@@ -46,12 +54,11 @@ $ydiff = -$intsign*(ydiffint + $ydifffrc);
 $y2 = $intercept + $ydiff;
 $x2 = random(3,10);
 
+$slope = round(($y2 - $y1)/($x2 - $x1), 2);
+$y2 = $intercept + $slope*$x2;  # fix y2 after rounding
+
 $x1 = -$x2;
 $y1 = 2*$intercept - $y2;
-
-Context("Numeric");
-
-$slope = Compute("($y2 - $y1)/($x2 - $x1)");
 
 $rhs = Formula("$slope*x + $intercept")->reduce;
 
