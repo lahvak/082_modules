@@ -54,7 +54,7 @@ $ydiff = -$intsign*(ydiffint + $ydifffrc);
 $y2 = $intercept + $ydiff;
 $x2 = random(3,10);
 
-$slope = round(($y2 - $y1)/($x2 - $x1), 2);
+$slope = round(($y2 - $y1)/($x2 - $x1));
 $y2 = $intercept + $slope*$x2;  # fix y2 after rounding
 
 $x1 = -$x2;
