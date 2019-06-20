@@ -130,8 +130,8 @@ function updateAnswer()
     if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
     {
         document.getElementById('point_matrix_ans').value =
-            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
-            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
+            "[[" + point1.X().toFixed(2) + ",0]," + 
+            "[0," + point2.Y().toFixed(2) + "]]";
     }
 }
 
@@ -141,14 +141,12 @@ function updateText()
     {
         document.getElementById('point1x').disabled = false;
         document.getElementById('point1x').value = point1.X().toFixed(2);
-        document.getElementById('point1y').disabled = false;
-        document.getElementById('point1y').value = point1.Y().toFixed(2);
+        document.getElementById('point1y').value = 0;
     }
 
     if (typeof(point2) != "undefined")
     {
-        document.getElementById('point2x').disabled = false;
-        document.getElementById('point2x').value = point2.X().toFixed(2);
+        document.getElementById('point2x').value = 0;
         document.getElementById('point2y').disabled = false;
         document.getElementById('point2y').value = point2.Y().toFixed(2);
     }
