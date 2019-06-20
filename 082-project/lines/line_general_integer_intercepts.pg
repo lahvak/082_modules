@@ -43,6 +43,9 @@ $y1 = $yintercept;
 $x2 = $xintercept;
 $y2 = 0;
 
+Context("Numeric");
+Context()->variables->add(y => 'Real');
+
 $lhs = Formula("$yintercept*x + $xintercept*y")->reduce;
 $rhs = $xintercept*$yintercept;
 
