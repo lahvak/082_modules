@@ -27,15 +27,13 @@ loadMacros(
     "PGstandard.pl",
     "MathObjects.pl",
     "PGML.pl",
-    "contextFraction.pl",
-    "problemRandomize.pl"
+    "contextFraction.pl"
 );
 
 ################################################################################################
 # Variables, Formulas, and Graphs
 ################################################################################################
 TEXT(beginproblem());
-ProblemRandomize(when=>"always",onlyAfterDue=>0,style=>"Input");
 
 # Round
 sub myround
