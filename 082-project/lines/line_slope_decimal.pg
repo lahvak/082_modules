@@ -35,7 +35,7 @@ loadMacros(
 # Variables, Formulas, and Graphs
 ################################################################################################
 TEXT(beginproblem());
-ProblemRandomize();
+ProblemRandomize(when=>"always",onlyAfterDue=>0,style=>"Input");
 
 # Round
 sub myround
