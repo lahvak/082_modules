@@ -76,8 +76,9 @@ BEGIN_PGML
 Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2])`].
 END_PGML
 
+## Important: this needs a modified preamble that includes tikz!!!
 TEXT(MODES(TeX=><<"END_TEX", HTML=>''));
-\begin{tikzpicture}[scale=.5]
+\begin{tikzpicture}[scale=.4, every node/.style = {inner sep=0}]
 \draw[thick,->] (-10.8,0) -- (10.8,0);
 \draw[thick,->] (0,-10.8) -- (0,10.8);
 \draw[very thin] (-10,-10) grid (10,10);
