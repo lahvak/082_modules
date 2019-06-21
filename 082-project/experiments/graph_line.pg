@@ -76,7 +76,7 @@ BEGIN_PGML
 Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2])`].
 END_PGML
 
-$tex_grid=<<'END_TEX';
+TEXT(MODES(TeX=><<'END_TEX', HTML=>''));
 \begin{tikzpicture}[scale=.5]
 \draw[thick,->] (-10.8,0) -- (10.8,0);
 \draw[thick,->] (0,-10.8) -- (0,10.8);
@@ -90,7 +90,7 @@ $tex_grid=<<'END_TEX';
 \end{tikzpicture}
 END_TEX
 
-TEXT(MODES(TeX=>$tex_grid, HTML=><<'END_TEXT'));
+TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
 <p id="point1">A: (<input type="text" name="point1x" id="point1x" value="" oninput="updatePoint1()" disabled>, 
                    <input type="text" name="point1y" id="point1y" value="" oninput="updatePoint1()" disabled>)</p>
 <p id="point2">B: (<input type="text" name="point2x" id="point2x" value="" oninput="updatePoint2()" disabled>, 
