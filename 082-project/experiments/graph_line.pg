@@ -248,10 +248,11 @@ if (points_data.length > 3)
 
 updateText();
 
-if (typeof(point1) == "undefined")
-brd.on('down', createPointOne);
-else if (typeof(point2) == "undefined")
-brd.on('down', createPointTwo);
+if (typeof(point1) == "undefined"){
+    brd.on('down', createPointOne);
+} else if (typeof(point2) == "undefined"){
+    brd.on('down', createPointTwo);
+}
 
 brd.unsuspendUpdate();
 
