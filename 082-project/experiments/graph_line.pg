@@ -82,10 +82,10 @@ TEXT(MODES(TeX=><<"END_TEX", HTML=>''));
 \draw[thick,->] (0,-10.8) -- (0,10.8);
 \draw[very thin] (-10,-10) grid (10,10);
 \foreach \n in {1,...,10}{
-    \draw[thick] (-\n,.1) -- (-\n,-.1)node[below, fill=white]{\tiny\\$-\n\\$};
-    \draw[thick] (\n,.1) -- (\n,-.1)node[below, fill=white]{\tiny\\$\n\\$};
-    \draw[thick] (.1,-\n) -- (.1,-\n)node[left, fill=white]{\tiny\\$-\n\\$};
-    \draw[thick] (.1,\n) -- (.1,\n)node[left, fill=white]{\tiny\\$\n\\$};
+    \draw[thick] (-\n,.1) -- (-\n,-.1)node[below, fill=white]{\tiny\(-\n\)};
+    \draw[thick] (\n,.1) -- (\n,-.1)node[below, fill=white]{\tiny\(\n\)};
+    \draw[thick] (.1,-\n) -- (.1,-\n)node[left, fill=white]{\tiny\(-\n\)};
+    \draw[thick] (.1,\n) -- (.1,\n)node[left, fill=white]{\tiny\(\n\)};
     }
 \end{tikzpicture}
 END_TEX
