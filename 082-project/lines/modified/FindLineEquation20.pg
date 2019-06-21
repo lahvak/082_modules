@@ -1,22 +1,21 @@
 # WeBWorK problem written by Carl Yao
 # Portland Community College
 #
+# Modified by Jan Hlavacek, SVSU
+#
 # Given a line's slope and a point on the line, find the line's equation in 
 # both slope-intercept and point-slope form. Slope is negative. Y-intercept is # positive or negative.
 #
-# Last edited: Jordan 8/30/13; Yao 7/8/13
+# Last edited: Jordan 8/30/13; Yao 7/8/13; Hlavacek, 06/20/2019
+# (Changed the order of equations)
 #
 # ENDDESCRIPTION
 
-## DBCCSS('8.F.3','A-CED')
 ## DBsubject(Algebra)
-## DBchapter(Linear equations and functions)
+## DBchapter(Linear equations)
 ## DBsection(Equations of lines: general)
-## Institution(PCC)
-## Author(Alex Jordan, Carl Yao, Chris Hughes)
-## MLT(SlopeAndAPoint)
-## Level(3)
-## MO(1)
+## Institution(SVSU)
+## Author(Alex Jordan, Carl Yao, Chris Hughes, Jan Hlavacek)
 ## KEYWORDS('slope','linear','equation','point-slope','slope-intercept')
 
 ##############################################
@@ -80,11 +79,11 @@ TEXT(beginproblem());
 
 BEGIN_PGML
 
-A line's slope is [`[$m]`]. The line passes through the point [`([$x1],[$y1])`]. Find an equation for this line in both slope-intercept form and point-slope form using the given point.
-
-    An equation for this line in slope-intercept form is: [_______________]{$ansSI->cmp(correct_ans_latex_string => $ansSIstringTeX)}.
+A line's slope is [`[$m]`]. The line passes through the point [`([$x1],[$y1])`]. Find an equation for this line in both point-slope form using the given point, and slope-intercept form.
 
     An equation for this line in point-slope form is: [_______________].
+
+    An equation for this line in slope-intercept form is: [_______________]{$ansSI->cmp(correct_ans_latex_string => $ansSIstringTeX)}.
 
 END_PGML
 
