@@ -27,6 +27,7 @@ loadMacros(
     "PGstandard.pl",
     "MathObjects.pl",
     "PGML.pl",
+    "contextString.pl",
     "problemRandomize.pl"
 );
 
