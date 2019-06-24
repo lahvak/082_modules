@@ -107,7 +107,7 @@ TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
 Line: 
 <label style="display: inline-block;">
 <input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()" checked="checked"> Solid
-</label>@nbsp;@nbsp;
+</label>&nbsp;&nbsp;
 <label style="display: inline-block;">
 <input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()"> Dashed
 </label>
@@ -297,6 +297,6 @@ brd.unsuspendUpdate();
 END_TEXT
 
 NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
-NAMED_ANS('line_type_ans'=>$answer->cmp($linetype));
+NAMED_ANS('line_type_ans'=>$answer->$linetype->cmp());
 
 ENDDOCUMENT();
