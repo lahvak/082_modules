@@ -202,7 +202,7 @@ function createPointTwo(e)
     point2.on('over', updateText);
     point2.on('drag', updateText);
 
-    line1 = brd.create('line', [point1, point2]);
+    line1 = brd.create('line', [point1, point2], {dash: 2});
     line1.on('move', updateText);
     line1.on('drag', updateText);
     ineq = brd.create('inequality', [line1]);
