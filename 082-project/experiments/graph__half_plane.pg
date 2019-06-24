@@ -173,6 +173,12 @@ function updateAnswer()
             "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
             "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
     }
+
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(is_inverse) != "undefined"))
+    {
+        updatePlaneAnswer()
+    }
+
 }
 
 function updateText()
@@ -282,15 +288,20 @@ function crossprod(coords)
     return v1x*v2y - v2x*v1y;
 }
 
-function getPlaneAnswer(cp)
+function updatePlaneAnswer()
 {
+    var side;
+
     if (point1.X() < point2.X()){
-        return cp < 0?"Down":"Up";
+         side = is_inverse?"Down":"Up";
+    } else if {
+        (point1.Y() < point2.Y()){
+        side = is_inverse?"Right":"Left";
+    } else {
+        side = "None";
     }
-    if (point1.Y() < point2.Y()){
-        return cp < 0?"Right":"Left";
-    }
-    return "None"
+
+    document.getElementById('side_ans').value = side
 }
 
 function pickPlane(e)
@@ -304,10 +315,11 @@ function pickPlane(e)
         if (typeof(ineq) != "undefined") {
             brd.removeObject(ineq);
         }
-        ineq = brd.create('inequality', [line1], {inverse: (cp < 0)});
+        is_inverse = cp < 0;
+        ineq = brd.create('inequality', [line1], {inverse: is_inverse});
         brd.update();
 
-        document.getElementById('side_ans').value = getPlaneAnswer(cp);
+        updatePlaneAnswer();
     }
 }
 
@@ -324,7 +336,7 @@ brd.on('move', function(e) {
 }
 );
 
-var point1, point2, line1, line_included, ineq;
+var point1, point2, line1, line_included, ineq, is_inverse;
 
 // Restore data from previous attempts if available
 var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
