@@ -28,6 +28,7 @@ loadMacros(
     "MathObjects.pl",
     "PGML.pl",
     "contextString.pl",
+    "parserOneOf.pl",
     "problemRandomize.pl"
 );
 
@@ -64,9 +65,9 @@ Context("String")->strings->add(Solid=>{}, Dashed=>{});
 
 $linetype = Compute("Solid");
 
-Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{alias=>"Left"}, Down=>{alias=>Right});
+Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{}, Down=>{});
 
-$side = Compute("Left");
+$side = OneOf("Left", "Up");
 
 ################################################################################################
 # Main Text
