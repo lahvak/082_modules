@@ -64,9 +64,9 @@ Context("String")->strings->add(Solid=>{}, Dashed=>{});
 
 $linetype = Compute("Solid");
 
-Context("String")->strings->add(One=>{}, Two=>{});
+Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{alias=>"Left"}, Down=>{alias=>Right});
 
-$side = Compute("One");
+$side = Compute("Left");
 
 ################################################################################################
 # Main Text
@@ -281,6 +281,17 @@ function crossprod(coords)
     return v1x*v2y - v2x*v1y;
 }
 
+function getPlaneAnswer(cp)
+{
+    if (point1.X() < point2.X()){
+        return cp < 0?"Down":"Up";
+    }
+    if (point1.Y() < point2.Y()){
+        return cp < 0?"Right":"Left";
+    }
+    return ""
+}
+
 function pickPlane(e)
 {
     var coords = getMouseCoords(e);
@@ -295,7 +306,7 @@ function pickPlane(e)
         ineq = brd.create('inequality', [line1], {inverse: (cp < 0)});
         brd.update();
 
-        document.getElementById('side_ans').value = cp > 0?"One":"Two";
+        document.getElementById('side_ans').value = getPlaneAnswer(cp);
     }
 }
 
