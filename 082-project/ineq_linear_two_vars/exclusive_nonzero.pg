@@ -1,0 +1,439 @@
+##DESCRIPTION
+##  SVSU Remedial math problems: graphs of linear inequalities, two variables
+##ENDDESCRIPTION
+
+##KEYWORDS('Algebra', 'Linear Inequalities', 'Two variables', 'JSXGraph')
+
+## DBsubject('Algebra')
+## DBchapter('Linear Inequalities')
+## DBsection('Two variables')
+## Date('06/24/2019')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## ProblemTester('')
+## TitleText1('')
+## Publisher('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+################################################################################################
+# Setup and Macros
+################################################################################################
+DOCUMENT();      
+
+loadMacros(
+    "PGstandard.pl",
+    "MathObjects.pl",
+    "PGML.pl",
+    "contextString.pl",
+    "parserOneOf.pl",
+);
+
+################################################################################################
+# Variables, Formulas, and Graphs
+################################################################################################
+TEXT(beginproblem());
+
+Context("Matrix");
+
+$x2 = 0; #random($x1 + 1, 10); # TODO:  Allow vertical lines
+$y1 = 0; #random(-10, 10);
+do {
+    $x1 = random(1, 9);
+    $y2 = random(1, 9);
+} until (max($x1 $y2) >= 5); # make sure points are not too close
+
+$answer = Compute("[[$x1, $y1],[$x2, $y2]]");
+
+$rhs = $x1*$y2;
+
+# Custom answer checker that checks to see if a point is on the line
+sub correct_line
+{
+    my ($correct, $student, $ansHash) = @_;
+    my $Mcor = Matrix($correct->value);
+    my $M = Matrix($student->value);
+    if (norm(Vector($M->row(1)) - Vector($M->row(2))) < 0.1) {
+        Value->Error("Your two points are too close to each other");
+        return 0;
+    }
+    if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 1) { return 1; }
+    Value->Error("This is not the correct line!");
+    return 0;
+}
+
+Context("String")->strings->add(Solid=>{}, Dashed=>{});
+
+$linetype = Compute("Dashed");
+
+Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{}, Down=>{}, None=>{});
+
+$side = OneOf("Right", "Up");
+
+################################################################################################
+# Main Text
+################################################################################################
+Context()->texStrings;
+Context()->operators->undefine("+","-","*","/");
+
+HEADER_TEXT(<<EOF);
+<link rel='stylesheet' type='text/css' href='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css' media='screen' />
+<script type='text/javascript' src='https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js'></script>
+EOF
+
+TEXT(NAMED_HIDDEN_ANS_RULE('point_matrix_ans', 60));
+TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
+TEXT(NAMED_HIDDEN_ANS_RULE('side_ans', 60));
+
+BEGIN_PGML
+Plot the solution of the inequality [`[$y2]x + [$x1]y > [$rhs]`].
+END_PGML
+
+## Important: this needs a modified preamble that includes tikz!!!
+TEXT(MODES(TeX=><<"END_TEX", HTML=>''));
+\begin{tikzpicture}[scale=.4, every node/.style = {inner sep=1pt, outer sep=5pt}]
+\draw[thick,->] (-10.8,0) -- (10.8,0);
+\draw[thick,->] (0,-10.8) -- (0,10.8);
+\draw[very thin] (-10,-10) grid (10,10);
+\foreach \n in {1,...,10}{
+    \draw[thick] (-\n,.1) -- (-\n,-.1)node[below, fill=white]{\tiny\(-\n\)};
+    \draw[thick] (\n,.1) -- (\n,-.1)node[below, fill=white]{\tiny\(\n\)};
+    \draw[thick] (.1,-\n) -- (.1,-\n)node[left, fill=white]{\tiny\(-\n\)};
+    \draw[thick] (.1,\n) -- (.1,\n)node[left, fill=white]{\tiny\(\n\)};
+    }
+\end{tikzpicture}
+END_TEX
+
+TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
+<p id="point1">A: (<input type="text" name="point1x" id="point1x" value="" oninput="updatePoint1()" disabled>, 
+                   <input type="text" name="point1y" id="point1y" value="" oninput="updatePoint1()" disabled>)</p>
+<p id="point2">B: (<input type="text" name="point2x" id="point2x" value="" oninput="updatePoint2()" disabled>, 
+                   <input type="text" name="point2y" id="point2y" value="" oninput="updatePoint2()" disabled>)</p>
+
+<p id="line">
+Line: 
+<label style="display: inline-block;">
+<input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()" checked="checked"> Solid
+</label>&nbsp;&nbsp;
+<label style="display: inline-block;">
+<input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()"> Dashed
+</label>
+</p>
+
+<pre>
+<div id='box' class='jxgbox' style='width:440px; height:440px;'></div>
+<script type='text/javascript'>
+
+function updatePoint1()
+{
+    var x = parseFloat(document.getElementById("point1x").value);
+    var y = parseFloat(document.getElementById("point1y").value);
+
+    if (isNaN(x) || x < -10 || x > 10) { return;}
+    if (isNaN(y) || y < -10 || y > 10) { return;}
+
+    point1.moveTo([x,y]);
+    updateAnswer();
+}
+
+function updatePoint2()
+{
+    var x = parseFloat(document.getElementById("point2x").value);
+    var y = parseFloat(document.getElementById("point2y").value);
+
+    if (isNaN(x) || x < -10 || x > 10) { return;}
+    if (isNaN(y) || y < -10 || y > 10) { return;}
+
+    point2.moveTo([x,y]);
+    updateAnswer();
+}
+
+function updateLine()
+{
+    var included = document.getElementById("line-included").checked;
+    var excluded = document.getElementById("line-excluded").checked; 
+
+    line_included = included;
+
+    if (typeof(line1) != "undefined") {
+        if (line_included) {
+            line1.setAttribute({dash: 0});
+        } else {
+            line1.setAttribute({dash: 2});
+        }
+
+        document.getElementById('line_type_ans').value = line_included?"Solid":"Dashed";
+    }
+}
+
+function updateAnswer()
+{
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined"))
+    {
+        document.getElementById('point_matrix_ans').value =
+            "[[" + point1.X().toFixed(2) + ", " + point1.Y().toFixed(2) + "]," + 
+            "[" + point2.X().toFixed(2) + ", " + point2.Y().toFixed(2) + "]]";
+    }
+
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(is_inverse) != "undefined"))
+    {
+        updatePlaneAnswer()
+    }
+
+}
+
+function updateText()
+{
+    if (typeof(point1) != "undefined")
+    {
+        document.getElementById('point1x').disabled = false;
+        document.getElementById('point1x').value = point1.X().toFixed(2);
+        document.getElementById('point1y').disabled = false;
+        document.getElementById('point1y').value = point1.Y().toFixed(2);
+    }
+
+    if (typeof(point2) != "undefined")
+    {
+        document.getElementById('point2x').disabled = false;
+        document.getElementById('point2x').value = point2.X().toFixed(2);
+        document.getElementById('point2y').disabled = false;
+        document.getElementById('point2y').value = point2.Y().toFixed(2);
+    }
+
+    updateAnswer();
+}
+
+function updateLineRadio()
+{
+    if (line_included){
+        document.getElementById("line-included").checked = true;
+        document.getElementById("line-excluded").checked = false;
+    } else {
+        document.getElementById("line-included").checked = false;
+        document.getElementById("line-excluded").checked = true;
+    }
+}
+
+function getMouseCoords(e)
+{
+    var i;
+    if (e[JXG.touchProperty])
+    {
+        // index of the finger that is used to extract the coordinates
+        i = 0;
+    }
+
+    var cPos = brd.getCoordsTopLeftCorner(e, i),
+        absPos = JXG.getPosition(e, i),
+        dx = absPos[0] - cPos[0],
+        dy = absPos[1] - cPos[1];
+
+    return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
+};
+
+function createPointOne(e)
+{
+    var coords = getMouseCoords(e);
+
+    point1 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    point1.on('down', updateText);
+    point1.on('over', updateText);
+    point1.on('drag', updateText);
+
+    brd.off('down');
+    brd.on('down', createPointTwo);
+
+    updateText();
+    brd.update();
+};
+
+function createPointTwo(e)
+{
+    var coords = getMouseCoords(e);
+
+    if (JXG.Math.Geometry.distance(point1.coords.usrCoords, coords.usrCoords) < .2){
+        return;
+    }
+
+    point2 = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {style:6});
+    point2.on('down', updateText);
+    point2.on('over', updateText);
+    point2.on('drag', updateText);
+
+    line1 = brd.create('line', [point1, point2]);
+    updateLine();
+    line1.on('move', updateText);
+    line1.on('drag', updateText);
+
+    brd.off('down');
+    brd.on('down', pickPlane);
+
+    updateText();
+    brd.update();
+};
+
+function crossprod(coords)
+{
+    var p1x = point1.X();
+    var p1y = point1.Y();
+    var p2x = point2.X();
+    var p2y = point2.Y();
+    var p3x = coords.usrCoords[1];
+    var p3y = coords.usrCoords[2];
+
+    var v1x = p2x - p1x;
+    var v1y = p2y - p1y;
+    var v2x = p3x - p1x;
+    var v2y = p3y - p1y;
+
+    return v1x*v2y - v2x*v1y;
+}
+
+function updatePlaneAnswer()
+{
+    var side;
+
+    if (point1.X() < point2.X()){
+         side = is_inverse?"Down":"Up";
+    } else if (point1.X() > point2.X()){
+        side = is_inverse?"Up":"Down";
+    } else if (point1.Y() < point2.Y()){
+        side = is_inverse?"Right":"Left";
+    } else if (point1.Y() > point2.Y()){
+        side = is_inverse?"Left":"Right";
+    } else {
+        side = "None";
+    }
+
+    document.getElementById('side_ans').value = side
+}
+
+//Returns the sign of cross product to use
+function recoverPlaneAnswer()
+{
+    var side = document.getElementById('side_ans').value;
+
+    if (side == "None"){
+        return 0;
+    }
+
+    if (point1.X() < point2.X()){
+         return side == "Down"?-1:1;
+    }
+
+    if (point1.X() > point2.X()){
+        return side == "Up"?-1:1;
+    }
+
+    if (point1.Y() < point2.Y()){
+        return side == "Right"?-1:1;
+    }
+    
+    if (point1.Y() > point2.Y()){
+        return side == "Left"?-1:1;
+    }
+
+    return 0;
+}
+
+function pickPlane(e)
+{
+    var coords = getMouseCoords(e);
+
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
+        cp = crossprod(coords);
+        dist = JXG.Math.Geometry.distance(point1.coords.usrCoords, point2.coords.usrCoords);
+        if (Math.abs(cp) < .3*dist) {return;}
+        if (typeof(ineq) != "undefined") {
+            brd.removeObject(ineq);
+        }
+        is_inverse = cp < 0;
+        ineq = brd.create('inequality', [line1], {inverse: is_inverse});
+        brd.update();
+
+        updatePlaneAnswer();
+    }
+}
+
+var brd = JXG.JSXGraph.initBoard('box', {axis: true, originX: 220, originY: 220, unitX: 20, unitY: 20,
+                                 showNavigation: false, pan: {enabled: false},
+                                 zoom: {enabled: false}});
+brd.suspendUpdate();
+
+brd.create('grid', []);
+
+var current_pos_text = brd.create('text', [10.5, -10, ""], {anchorX:'right', anchorY:'bottom', cssClass:'mytext'});
+
+brd.on('move', function(e) {
+    var coords = getMouseCoords(e);
+    current_pos_text.setText("(" + coords.usrCoords[1].toFixed(2) + ", " + coords.usrCoords[2].toFixed(2) + ")");
+}
+);
+
+var point1, point2, line1, line_included, ineq, is_inverse;
+
+// Restore data from previous attempts if available
+var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
+if (points_data.length > 3)
+{
+    point1 = brd.create('point', [parseFloat(points_data[0]), parseFloat(points_data[1])], {style:6});
+    point1.on('down', updateText);
+    point1.on('over', updateText);
+    point1.on('drag', updateText);
+
+    point2 = brd.create('point', [parseFloat(points_data[2]), parseFloat(points_data[3])], {style:6});
+    point2.on('down', updateText);
+    point2.on('over', updateText);
+    point2.on('drag', updateText);
+
+    line1 = brd.create('line', [point1, point2]);
+    line1.on('move', updateText);
+    line1.on('drag', updateText);
+}
+
+updateText();
+
+var line_data = document.getElementById('line_type_ans').value;
+
+line_included = !(line_data == "Dashed");
+updateLineRadio();
+updateLine();
+
+
+if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
+    var side_sign = recoverPlaneAnswer();
+
+    if (typeof(ineq) != "undefined") {
+        brd.removeObject(ineq);
+    }
+
+    if (side_sign == 0){
+        is_inverse = undefined;
+    } else {
+        is_inverse = side_sign < 0;
+        ineq = brd.create('inequality', [line1], {inverse: is_inverse});
+    }
+    brd.update();
+}
+
+if (typeof(point1) == "undefined"){
+    brd.on('down', createPointOne);
+} else if (typeof(point2) == "undefined"){
+    brd.on('down', createPointTwo);
+} else {
+    brd.on('down', pickPlane);
+}
+
+brd.unsuspendUpdate();
+
+</script>
+</pre>
+END_TEXT
+
+NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
+NAMED_ANS('line_type_ans'=>$linetype->cmp());
+NAMED_ANS('side_ans'=>$side->cmp());
+
+ENDDOCUMENT();
