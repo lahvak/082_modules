@@ -59,6 +59,10 @@ sub correct_line
     return 0;
 }
 
+Context("String")->strings->add(Solid=>{}, Dashed=>{});
+
+$linetype = Compute("Solid");
+
 ################################################################################################
 # Main Text
 ################################################################################################
@@ -71,6 +75,7 @@ HEADER_TEXT(<<EOF);
 EOF
 
 TEXT(NAMED_HIDDEN_ANS_RULE('point_matrix_ans', 60));
+TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
 
 BEGIN_PGML
 Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2])`].
@@ -101,7 +106,7 @@ TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
 Line: 
 <label style="display: inline-block;">
 <input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()" checked="checked"> Solid
-</label>
+</label>@nbsp;@nbsp;
 <label style="display: inline-block;">
 <input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()"> Dashed
 </label>
@@ -148,6 +153,8 @@ function updateLine()
         } else {
             line1.setProperty({dash: 2});
         }
+
+        document.getElementById('line_type_ans').value = line_included?"Solid":"Dashed";
     }
 }
 
@@ -289,5 +296,6 @@ brd.unsuspendUpdate();
 END_TEXT
 
 NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
+NAMED_ANS('line_type_ans'=>$answer->cmp($linetype));
 
 ENDDOCUMENT();
