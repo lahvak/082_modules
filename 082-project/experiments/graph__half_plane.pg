@@ -297,6 +297,6 @@ brd.unsuspendUpdate();
 END_TEXT
 
 NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
-NAMED_ANS('line_type_ans'=>$answer->$linetype->cmp());
+NAMED_ANS('line_type_ans'=>$linetype->cmp());
 
 ENDDOCUMENT();
