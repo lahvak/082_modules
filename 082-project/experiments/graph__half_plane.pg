@@ -143,9 +143,9 @@ function updateLine()
 
     if (typeof(line1) != "undefined") {
         if (line_included) {
-            line1.attr.dash = 0;
+            line1.setProperty({dash: 0});
         } else {
-            line.attr.dash = 2;
+            line1.setProperty({dash: 2});
         }
     }
 }
