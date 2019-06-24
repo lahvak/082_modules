@@ -98,11 +98,12 @@ TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
                    <input type="text" name="point2y" id="point2y" value="" oninput="updatePoint2()" disabled>)</p>
 
 <p id="line">
+Line: 
 <label style="display: inline-block;">
-<input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()">
+<input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()" checked="checked"> Solid
 </label>
 <label style="display: inline-block;">
-<input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()">
+<input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()"> Dashed
 </label>
 </p>
 
