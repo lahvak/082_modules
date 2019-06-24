@@ -335,6 +335,8 @@ if (typeof(point1) == "undefined"){
     brd.on('down', createPointOne);
 } else if (typeof(point2) == "undefined"){
     brd.on('down', createPointTwo);
+} else {
+    brd.on('down', pickPlane);
 }
 
 brd.unsuspendUpdate();
