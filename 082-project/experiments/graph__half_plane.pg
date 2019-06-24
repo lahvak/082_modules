@@ -251,13 +251,42 @@ function createPointTwo(e)
     updateLine();
     line1.on('move', updateText);
     line1.on('drag', updateText);
-    ineq = brd.create('inequality', [line1]);
 
     brd.off('down');
+    brd.on('down', pickPlane);
 
     updateText();
     brd.update();
 };
+
+function crossprod(coords)
+{
+    var p1x = point1.X();
+    var p1y = point1.Y();
+    var p2x = point2.X();
+    var p2y = point2.Y();
+    var p3x = coords.usrCoords[1];
+    var p3y = coords.usrCoords[2];
+
+    var v1x = p2x - p1x;
+    var v1y = p2y - p1y;
+    var v2x = p3x - p1x;
+    var v2y = p3y - p1y;
+
+    return v1x*v2y - v2x*v1y;
+}
+
+function pickPlane(e)
+{
+    var coords = getMouseCoords(e);
+
+    if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined"){
+        cp = crossprod(e);
+        if (cp == 0) {return;}
+        ineq = brd.create('inequality', [line1]);
+        brd.update();
+    }
+}
 
 var brd = JXG.JSXGraph.initBoard('box', {axis: true, originX: 220, originY: 220, unitX: 20, unitY: 20});
 brd.suspendUpdate();
@@ -272,7 +301,7 @@ brd.on('move', function(e) {
 }
 );
 
-var point1, point2, line1, line_included;
+var point1, point2, line1, line_included, ineq;
 
 // Restore data from previous attempts if available
 var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
