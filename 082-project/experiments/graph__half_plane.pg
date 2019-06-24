@@ -307,6 +307,34 @@ function updatePlaneAnswer()
     document.getElementById('side_ans').value = side
 }
 
+//Returns the sign of cross product to use
+function recoverPlaneAnswer()
+{
+    var side = document.getElementById('side_ans').value;
+
+    if (side == "None"){
+        return 0;
+    }
+
+    if (point1.X() < point2.X()){
+         return side == "Down"?-1:1;
+    }
+
+    if (point1.X() > point2.X()){
+        return side == "Up"?-1:1;
+    }
+
+    if (point1.Y() < point2.Y()){
+        side = side == "Right"?-1:1;
+    }
+    
+    if (point1.Y() > point2.Y()){
+        side = side == "Left"?-1:1;
+    }
+
+    return 0;
+}
+
 function pickPlane(e)
 {
     var coords = getMouseCoords(e);
@@ -368,14 +396,19 @@ line_included = !(line_data == "Dashed");
 updateLineRadio();
 updateLine();
 
-var side_data = document.getElementById('side_ans').value;
 
 if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
+    var side_sign = recoverPlaneAnswer();
+
     if (typeof(ineq) != "undefined") {
         brd.removeObject(ineq);
     }
-    if (side_data == "One" || side_data == "Two"){
-        ineq = brd.create('inequality', [line1], {inverse: (side_data == "Two")});
+
+    if (side_sign == 0){
+        is_inverse = undefined;
+    } else {
+        is_inverse = side_sign < 0;
+        ineq = brd.create('inequality', [line1], {inverse: is_inverse});
     }
     brd.update();
 }
