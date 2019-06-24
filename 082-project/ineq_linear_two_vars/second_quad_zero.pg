@@ -53,7 +53,7 @@ $answer = Compute("[[-$x1, $y1],[$x2, $y2]]");
 $rhs = $x1*$y2;
 
 if ($type == "incl") {
-    $sign = $direction == "g"?"\\ge":"\\le";
+    $sign = $direction == "g"?"\ge":"\le";
 } else {
     $sign = $direction == "g"?">":"<";
 }
