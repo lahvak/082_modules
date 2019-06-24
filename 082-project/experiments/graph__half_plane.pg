@@ -282,6 +282,7 @@ function pickPlane(e)
 
     if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
         cp = crossprod(e);
+        console.log(cp);
         if (cp == 0) {return;}
         ineq = brd.create('inequality', [line1]);
         brd.update();
