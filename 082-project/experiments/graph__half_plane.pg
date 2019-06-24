@@ -150,9 +150,9 @@ function updateLine()
 
     if (typeof(line1) != "undefined") {
         if (line_included) {
-            line1.setProperty({dash: 0});
+            line1.setAttribute({dash: 0});
         } else {
-            line1.setProperty({dash: 2});
+            line1.setAttribute({dash: 2});
         }
 
         document.getElementById('line_type_ans').value = line_included?"Solid":"Dashed";
