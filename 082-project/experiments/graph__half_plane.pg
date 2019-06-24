@@ -281,7 +281,7 @@ function pickPlane(e)
     var coords = getMouseCoords(e);
 
     if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
-        cp = crossprod(e);
+        cp = crossprod(coords);
         console.log(cp);
         if (cp == 0) {return;}
         ineq = brd.create('inequality', [line1]);
