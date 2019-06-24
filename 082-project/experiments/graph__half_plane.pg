@@ -190,6 +190,17 @@ function updateText()
     updateAnswer();
 }
 
+function updateLineRadio()
+{
+    if (line_included){
+        document.getElementById("line-included").checked = true;
+        document.getElementById("line-excluded").checked = false;
+    } else {
+        document.getElementById("line-included").checked = false;
+        document.getElementById("line-excluded").checked = true;
+    }
+}
+
 function getMouseCoords(e)
 {
     var i;
@@ -283,6 +294,11 @@ if (points_data.length > 3)
 }
 
 updateText();
+
+var line_data = document.getElementById('line_type_ans').value;
+
+line_included = !(line_data == "Dashed");
+updateLineRadio();
 
 if (typeof(point1) == "undefined"){
     brd.on('down', createPointOne);
