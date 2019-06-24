@@ -66,7 +66,7 @@ $linetype = Compute("Solid");
 
 Context("String")->strings->add(One=>{}, Two=>{});
 
-$linetype = Compute("One");
+$side = Compute("One");
 
 ################################################################################################
 # Main Text
