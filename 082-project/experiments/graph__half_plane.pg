@@ -284,7 +284,7 @@ function pickPlane(e)
         cp = crossprod(coords);
         console.log(cp);
         if (cp == 0) {return;}
-        if (typeof(ineq) == "undefined" {
+        if (typeof(ineq) == "undefined") {
             ineq = brd.create('inequality', [line1]);
         }
         ineq.setAttribute({inverse: (cp > 0)})
