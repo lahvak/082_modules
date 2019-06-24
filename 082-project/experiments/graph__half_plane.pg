@@ -97,6 +97,15 @@ TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
 <p id="point2">B: (<input type="text" name="point2x" id="point2x" value="" oninput="updatePoint2()" disabled>, 
                    <input type="text" name="point2y" id="point2y" value="" oninput="updatePoint2()" disabled>)</p>
 
+<p id="line">
+<label style="display: inline-block;">
+<input type="radio" name="linetype" id="line-included" value="included" onchange="updateLine()">
+</label>
+<label style="display: inline-block;">
+<input type="radio" name="linetype" id="line-excluded" value="excluded" onchange="updateLine()">
+</label>
+</p>
+
 <pre>
 <div id='box' class='jxgbox' style='width:440px; height:440px;'></div>
 <script type='text/javascript'>
@@ -123,6 +132,22 @@ function updatePoint2()
 
     point2.moveTo([x,y]);
     updateAnswer();
+}
+
+function updateLine()
+{
+    var included = document.getElementById("line-included").checked;
+    var excluded = document.getElementById("line-excluded").checked; 
+
+    line_included = included;
+
+    if (typeof(line1) != "undefined") {
+        if (line_included) {
+            line1.attr.dash = 0;
+        } else {
+            line.attr.dash = 2;
+        }
+    }
 }
 
 function updateAnswer()
@@ -202,7 +227,8 @@ function createPointTwo(e)
     point2.on('over', updateText);
     point2.on('drag', updateText);
 
-    line1 = brd.create('line', [point1, point2], {dash: 2});
+    line1 = brd.create('line', [point1, point2]);
+    updateLine();
     line1.on('move', updateText);
     line1.on('drag', updateText);
     ineq = brd.create('inequality', [line1]);
@@ -226,7 +252,7 @@ brd.on('move', function(e) {
 }
 );
 
-var point1, point2, line1;
+var point1, point2, line1, line_included;
 
 // Restore data from previous attempts if available
 var points_data = document.getElementById('point_matrix_ans').value.replace(/[[]]*/g, '').split(",");
