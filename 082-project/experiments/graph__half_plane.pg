@@ -287,7 +287,7 @@ function pickPlane(e)
         if (typeof(ineq) != "undefined") {
             brd.removeObject(ineq);
         }
-        ineq = brd.create('inequality', [line1], {inverse: (cp > 0)});
+        ineq = brd.create('inequality', [line1], {inverse: (cp < 0)});
         brd.update();
     }
 }
