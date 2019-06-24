@@ -287,7 +287,7 @@ function pickPlane(e)
 
     if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
         cp = crossprod(coords);
-        if (cp == 0) {return;}
+        if (Math.abs(cp) < 0.5) {return;}
         if (typeof(ineq) != "undefined") {
             brd.removeObject(ineq);
         }
