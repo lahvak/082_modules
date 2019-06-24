@@ -64,6 +64,10 @@ Context("String")->strings->add(Solid=>{}, Dashed=>{});
 
 $linetype = Compute("Solid");
 
+Context("String")->strings->add(One=>{}, Two=>{});
+
+$linetype = Compute("One");
+
 ################################################################################################
 # Main Text
 ################################################################################################
@@ -77,6 +81,7 @@ EOF
 
 TEXT(NAMED_HIDDEN_ANS_RULE('point_matrix_ans', 60));
 TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
+TEXT(NAMED_HIDDEN_ANS_RULE('side_ans', 60));
 
 BEGIN_PGML
 Graph the line passing through the points [`([$x1], [$y1])`] and [`([$x2], [$y2])`].
@@ -288,6 +293,8 @@ function pickPlane(e)
         }
         ineq = brd.create('inequality', [line1], {inverse: (cp < 0)});
         brd.update();
+
+        document.getElementById('side_ans').value = cp > 0?"One":"Two";
     }
 }
 
@@ -333,6 +340,18 @@ line_included = !(line_data == "Dashed");
 updateLineRadio();
 updateLine();
 
+var side_data = document.getElementById('side_ans').value;
+
+if ((typeof(point1) != "undefined") && (typeof(point2) != "undefined") && (typeof(line1) != "undefined")){
+    if (typeof(ineq) != "undefined") {
+        brd.removeObject(ineq);
+    }
+    if (side_data == "One" || side_data == "Two"){
+        ineq = brd.create('inequality', [line1], {inverse: (side_data == "Two")});
+    }
+    brd.update();
+}
+
 if (typeof(point1) == "undefined"){
     brd.on('down', createPointOne);
 } else if (typeof(point2) == "undefined"){
@@ -349,5 +368,6 @@ END_TEXT
 
 NAMED_ANS('point_matrix_ans'=>$answer->cmp(checker=>~~&correct_line));
 NAMED_ANS('line_type_ans'=>$linetype->cmp());
+NAMED_ANS('side_ans'=>$side->cmp());
 
 ENDDOCUMENT();
