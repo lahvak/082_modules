@@ -294,8 +294,7 @@ function updatePlaneAnswer()
 
     if (point1.X() < point2.X()){
          side = is_inverse?"Down":"Up";
-    } else if {
-        (point1.Y() < point2.Y()){
+    } else if (point1.Y() < point2.Y()){
         side = is_inverse?"Right":"Left";
     } else {
         side = "None";
