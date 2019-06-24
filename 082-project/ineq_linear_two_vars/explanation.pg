@@ -106,6 +106,22 @@ TEXT(MODES(TeX=><<"END_TEX", HTML=>''));
 END_TEX
 
 TEXT(MODES(TeX=>'', HTML=><<'END_TEXT'));
+<p></ul>
+<li>First you need to plot the line given by the equation that you obtain from the inequality by replacing the \(<\) sign 
+by the \(=\) sign.</li>
+<li>You plot the equation by giving two points that define the line.  Here you
+  can use the intercepts \((5,0)\) and \((0,7)\), or any other pair of points
+  that is on the same line.  It may not work if your points are too close to each other.</li>
+<li>Click on the coordinate plane to place the first point.  Click the second time to place the second point and create the
+  line.  After the points are placed, you can drag them around.</li>
+<li>You can also edit the coordinates of each point using the input boxes above the coordinate system.</li>
+<li>Then you need to choose whether the line is supposed to be <b>solid</b> or <b>dashed</b>. Since the inequality is 
+<i>strict</i>, the points on the line are not solutions, so you want to choose <b>dashed</b>.</li>
+<li>Finally, you need to choose whether the solutions are to the left and down or to the right and up of the line. To do that,
+you choose a test point that is not on the line, for example \((0,0)\), and plug it into the inequality.  When \(x = 0\) and \(y = 0\),
+the inequality is <b>true</b>, so the solutions will be on the side of the line that contains the point \((0,0)\).  Click somewhere on that side to choose it.</li>
+<li>Now you can submit your answers.</li>
+</ul></p>
 <p id="point1">A: (<input type="text" name="point1x" id="point1x" value="" oninput="updatePoint1()" disabled>, 
                    <input type="text" name="point1y" id="point1y" value="" oninput="updatePoint1()" disabled>)</p>
 <p id="point2">B: (<input type="text" name="point2x" id="point2x" value="" oninput="updatePoint2()" disabled>, 
