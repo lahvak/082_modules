@@ -299,6 +299,7 @@ var line_data = document.getElementById('line_type_ans').value;
 
 line_included = !(line_data == "Dashed");
 updateLineRadio();
+updateLine();
 
 if (typeof(point1) == "undefined"){
     brd.on('down', createPointOne);
