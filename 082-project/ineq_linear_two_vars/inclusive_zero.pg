@@ -63,7 +63,7 @@ sub correct_line
 }
 
 Context("Numeric")->variables->add(y=>"Real");
-$lhs = Formula("$y2*x + $x2*y")->reduce;
+$lhs = Formula("$y2*x + $x1*y")->reduce;
 $rhs = $x1*$y2;
 
 Context("String")->strings->add(Solid=>{}, Dashed=>{});
