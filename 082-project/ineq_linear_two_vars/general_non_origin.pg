@@ -87,9 +87,9 @@ if ($x1*$y2 > 0){ # negative slope: LD/RU
     # is (0,0) solution?
     $origin_solves = ($mult < 0 && $direction eq "g") || ($mult > 0 && $direction eq "l");
     if ($origin_solves xor $x1 > 0){
-        $side = OneOff("Right", "Up");
+        $side = OneOf("Right", "Up");
     } else {
-        $side = OneOff("Left", "Down");
+        $side = OneOf("Left", "Down");
     }
 } else { # positive slope: RD/LU
     # is (0,0) solution?
