@@ -53,9 +53,9 @@ $answer = Compute("[[-$x1, $y1],[$x2, $y2]]");
 $rhs = $x1*$y2;
 
 if ($type == "incl") {
-    $sign = $direction == "g"?"\ge":"\le";
+    $sign = ($direction == "g")?"\ge":"\le";
 } else {
-    $sign = $direction == "g"?">":"<";
+    $sign = ($direction == "g")?">":"<";
 }
 
 # Custom answer checker that checks to see if a point is on the line
