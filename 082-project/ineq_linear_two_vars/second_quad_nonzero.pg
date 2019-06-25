@@ -50,14 +50,6 @@ do {
 
 $answer = Compute("[[-$x1, $y1],[$x2, $y2]]");
 
-$rhs = $x1*$y2;
-
-if ($type eq "incl") {
-    $sign = ($direction eq "g")?"\ge":"\le";
-} else {
-    $sign = ($direction eq "g")?">":"<";
-}
-
 # Custom answer checker that checks to see if a point is on the line
 sub correct_line
 {
@@ -71,6 +63,16 @@ sub correct_line
     if (abs(($Mcor - Matrix([1,0],[1,0])*$M)->det) + abs(($Mcor - Matrix([0,1],[0,1])*$M)->det) < 1) { return 1; }
     Value->Error("This is not the correct line!");
     return 0;
+}
+
+Context("Numeric")->variables->add(y=>"Real");
+$lhs = Formula("$y2*x - $x2*y")->reduce;
+$rhs = -$x1*$y2;
+
+if ($type eq "incl") {
+    $sign = ($direction eq "g")?"\ge":"\le";
+} else {
+    $sign = ($direction eq "g")?">":"<";
 }
 
 Context("String")->strings->add(Solid=>{}, Dashed=>{});
@@ -97,7 +99,7 @@ TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
 TEXT(NAMED_HIDDEN_ANS_RULE('side_ans', 60));
 
 BEGIN_PGML
-Plot the solution of the inequality [`[$y2]x - [$x1]y [$sign] -[$rhs]`].
+Plot the solution of the inequality [`[$lhs] [$sign] [$rhs]`].
 END_PGML
 
 ## Important: this needs a modified preamble that includes tikz!!!

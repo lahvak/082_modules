@@ -64,6 +64,16 @@ sub correct_line
     return 0;
 }
 
+Context("Numeric")->variables->add(y=>"Real");
+$lhs = Formula("$y2*x + $x2*y")->reduce;
+$rhs = $x1*$y2;
+
+if ($type eq "incl") {
+    $sign = $direction eq "g"?"\ge":"\le";
+} else {
+    $sign = $direction eq "g"?">":"<";
+}
+
 Context("String")->strings->add(Solid=>{}, Dashed=>{});
 
 $linetype = Compute("Dashed");
@@ -88,7 +98,7 @@ TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
 TEXT(NAMED_HIDDEN_ANS_RULE('side_ans', 60));
 
 BEGIN_PGML
-Plot the solution of the inequality [`[$y2]x + [$x1]y > [$rhs]`].
+Plot the solution of the inequality [`[$lhs] > [$rhs]`].
 END_PGML
 
 ## Important: this needs a modified preamble that includes tikz!!!
