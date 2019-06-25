@@ -52,10 +52,10 @@ $answer = Compute("[[-$x1, $y1],[$x2, $y2]]");
 
 $rhs = $x1*$y2;
 
-if ($type == "incl") {
-    $sign = ($direction == "g")?"\ge":"\le";
+if ($type eq "incl") {
+    $sign = ($direction eq "g")?"\ge":"\le";
 } else {
-    $sign = ($direction == "g")?">":"<";
+    $sign = ($direction eq "g")?">":"<";
 }
 
 # Custom answer checker that checks to see if a point is on the line
