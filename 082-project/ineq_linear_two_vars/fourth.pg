@@ -80,9 +80,9 @@ $linetype = Compute($type eq "incl"?"Solid":"Dashed");
 Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{}, Down=>{}, None=>{});
 
 if ($direction eq "g"){
-    $side = OneOf("Left", "Up");
-} else {
     $side = OneOf("Right", "Down");
+} else {
+    $side = OneOf("Left", "Up");
 }
 
 ################################################################################################
@@ -101,7 +101,7 @@ TEXT(NAMED_HIDDEN_ANS_RULE('line_type_ans', 60));
 TEXT(NAMED_HIDDEN_ANS_RULE('side_ans', 60));
 
 BEGIN_PGML
-Plot the solution of the inequality [`[$y2]x - [$x1]y [$sign] -[$rhs]`].
+Plot the solution of the inequality [`[$y2]x - [$x1]y [$sign] [$rhs]`].
 END_PGML
 
 ## Important: this needs a modified preamble that includes tikz!!!
