@@ -67,6 +67,7 @@ sub correct_line
 }
 
 Context("Numeric")->variables->add(y=>"Real");
+Context()->noreduce('(-x)-y');
 $mult = list_random(-1,1)*random(3,5);
 $lhs = Formula("$mult*$y2*x + $mult*$x1*y - $mult*$x1*$y2")->reduce;
 $rhs = 0;
