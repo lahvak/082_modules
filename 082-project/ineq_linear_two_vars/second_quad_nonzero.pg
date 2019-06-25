@@ -79,7 +79,7 @@ $linetype = Compute($type eq "incl"?"Solid":"Dashed");
 
 Context("String")->strings->add(Left=>{}, Right=>{}, Up=>{}, Down=>{}, None=>{});
 
-$side = OneOf("Right", "Down");
+$side = OneOf("Left", "Up");
 
 ################################################################################################
 # Main Text
