@@ -28,7 +28,6 @@ loadMacros(
     "MathObjects.pl",
     "PGML.pl",
     "contextString.pl",
-    "parserOneOf.pl",
     "PGcourse.pl"
 );
 
