@@ -55,15 +55,25 @@ Modules for 082
 	[_] addition and subtraction
 [_] 17% Equations
 	[_] What is a solution
+	 Is given number a solution?
 	[_] Solution sets
+	 Is the given set of numbers a solution set of the equation?
 	[_] 88% Linear equations
 		[_] 66% algebraic solutions
 			[_] properties of equality
+			 Are given two equations equivalent, and why?
 			[X] solving simple
 			[X] solving harder
 		[X] no solution
 		[X] infinitely many solutions
 	[_] Rational equations
+	 Start by a hard one that leads to linear with one solution
+	 If wrong, go through simple one with no x in denominator, then one with x in denominator,
+	 then one with two fractions and an integer, and finally back to the hard one
+	 Then one more with two fractions and an integer.
+	 Then couple with no solution
+	 Some where everything except a given number is a solution (how to implement?)
+	 If quadratic ones are covered, do few with quadratics.
 	[_] 0% Quadratic equations
 		[_] factoring 
 		 When to teach factoring? Should we do some simple factoring here and then do more complicates stuff later?
@@ -72,13 +82,16 @@ Modules for 082
 		 It seems that we do not teach that in 082 no more
 		[_] formula
 		 It seems that we do not teach that in 082 no more
-[_] 28% Relationship between variables?
+[_] 33% linear inequalities
+	[X] Add problems
+	[_] Add slides
+	[_] Add links to videos
+[_] 40% Relationship between variables?
 	[_] Cartesian coordinate system
 	[X] linear equations, lines slopes, ...
 	[X] linear inequalities
-	[_] functions ??
-	[_] quadratic equations/functions
 	[_] parabolas
+	 I don't think we cover those
 	[_] 0% Systems of equations
 		[_] Solve graphically
 		[_] Use substitution
