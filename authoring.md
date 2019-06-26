@@ -1,6 +1,6 @@
 # Notes for problem authors
 
-# Scientific notation
+## Scientific notation
 
 When using `contectScientificNotation.pl`, __always__ add regular multiplication.
 We prefer to enter scientific notation with `*` rather than `x`, so that it
