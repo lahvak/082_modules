@@ -1,61 +1,85 @@
 Modules for 082
-How to type things into computer
-	numbers
-	variables
-	operations
-		multiplication
-		fractions
-		exponents
-	more complicated expressions
-Operations on numbers
-	fractions
-	decimals
-	percents
-	order of operations
-	scientific notation
+[_] 75% How to type things into computer
+	[X] numbers
+	[X] variables
+	[X] 100% operations
+		[X] multiplication
+		[X] fractions
+		[X] exponents
+	[_] more complicated expressions
+[_] % Operations on numbers
+	[_] fractions
+	[_] decimals
+	[_] percents
+	[_] order of operations
+	[_] scientific notation
 	 and "engineering notation"
-Evaluating expressions with variables
-	Single variable
-	multiple variables
-	negatives
-	exponents
-	general order of ops
-Polynomials
-	Rules of exponents
-		First with numbers
-		Single variable
-		Multiple variables
-	Multiplication of monomials
-	Distributing (monomial times polynomial)
-		First number
+[_] % Evaluating expressions with variables
+	[_] Single variable
+	[_] multiple variables
+	[_] negatives
+	[_] exponents
+	[_] general order of ops
+[_] % Radicals
+	[_] Simplifying with numbers
+	[_] Simplifying with variables
+	[_] Multiplying
+	[_] Adding and subtracting
+[_] % Polynomials
+	[_] % Rules of exponents
+		[_] First with numbers
+		[_] Single variable
+		[_] Multiple variables
+	[_] Multiplication of monomials
+	[_] % Distributing (monomial times polynomial)
+		[_] First number
 		 like 3(2x - 5)
-		Then with variables
+		[_] Then with variables
 		 see the "organizing" question.  Should we first concentrate on single variable only, then introduce multiple variables later?
-	Two polynomials
-		Entering stuff?
-			distributing step by step
-Equations
-	What is a solution
-	Solution sets
-	Linear equations
-		algebraic solutions
-			properties of equality
-		no solution
-		infinitely many solutions
-	Quadratic equations
-		factoring 
-		 When to teach factoring? Should we do some simple factoring her and then do more complicates stuff later?
+	[_] % Two polynomials
+		[_] % Entering stuff?
+			[_] distributing step by step
+	[_] Factoring
+		[_] Common factor
+		[_] Trinomials
+		[_] Special products
+			[_] Difference of squares
+			[_] Sum and difference of cubes
+			[_] Perfect squares
+		[_] Grouping
+[_] Rational expressions
+	[_] domains
+	[_] simplifying
+	[_] multiplication
+	[_] division
+	[_] addition and subtraction
+[_] 17% Equations
+	[_] What is a solution
+	[_] Solution sets
+	[_] 88% Linear equations
+		[_] 66% algebraic solutions
+			[_] properties of equality
+			[X] solving simple
+			[X] solving harder
+		[X] no solution
+		[X] infinitely many solutions
+	[_] Rational equations
+	[_] 0% Quadratic equations
+		[_] factoring 
+		 When to teach factoring? Should we do some simple factoring here and then do more complicates stuff later?
 		 Maybe we can completely skip factoring here and go straight to completing the square?  That may actually be good!
-		completing the square
-		 ???
-		formula
-		 ???
-Relationship between variables?
-	Cartesian coordinate system
-	linear equations, lines slopes, ...
-	functions ??
-	quadratic equations/functions
-	parabolas
-	Systems of equations
-Operations on Polynomials
-	I don't even
+		[_] completing the square
+		 It seems that we do not teach that in 082 no more
+		[_] formula
+		 It seems that we do not teach that in 082 no more
+[_] 28% Relationship between variables?
+	[_] Cartesian coordinate system
+	[X] linear equations, lines slopes, ...
+	[X] linear inequalities
+	[_] functions ??
+	[_] quadratic equations/functions
+	[_] parabolas
+	[_] 0% Systems of equations
+		[_] Solve graphically
+		[_] Use substitution
+		[_] Use elimination
