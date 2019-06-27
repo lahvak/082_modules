@@ -1,18 +1,15 @@
 ##DESCRIPTION
-##   Algebra: linear equations
+##   Algebra: rational equations
+##   (Original Rochester problem modified by Jan Hlavacek)
 ##ENDDESCRIPTION
 
 ##Tagged by up2p
 
-## DBsubject(Algebra)
-## DBchapter(Rational equations and functions)
+## DBsubject(Introductory Algebra)
+## DBchapter(Rational expressions equations)
 ## DBsection(Rational equations)
-## Institution(Rochester)
-## MLT(nosoln_ask)
-## MLTleader(1)
-## Level(3)
-## MO(1)
-## KEYWORDS('algebra', 'linear equations')
+## Institution(SVSU)
+## KEYWORDS('algebra', 'linear equations', 'rational equations')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -20,6 +17,7 @@ loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
   "MathObjects.pl",
+  "PGML.pl",
   "PGcourse.pl"
 );
 
@@ -30,19 +28,16 @@ $a = random(2,6,1);
 $a2 = $a**2;
 $b = random(1,9,1);
 
-TEXT(EV2(<<EOT));
-Solve the equation \( \displaystyle \frac{x}{$a x-$a2}- $b = \frac{1}{x-$a}\).
-$BR $BR 
+$ans = List('None');
+
+BEGIN_PGML
+Solve the equation [```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```].
+
 Enter all of the solutions as a comma separated list.  
-If there are no solutions, 
-enter $BITALIC None${EITALIC}.
-$BR $BR 
-Solutions: \{ ans_rule(30) \}
-EOT
+If there are no solutions, enter _None_.
 
-ANS(List('None')->cmp);
+Solutions: [___________________]{$ans}
+END_PGML
 
-
-;
 ENDDOCUMENT();
 
