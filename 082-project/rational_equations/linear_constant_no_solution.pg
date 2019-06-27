@@ -22,14 +22,21 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 0;
 
+Context("Numeric");
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+
 $a = random(2,6,1);
-$a2 = $a**2;
 $b = random(1,9,1);
+
+$a2 = Compute("$a^2");
+$lhs = Compute("x/($a*x-$a2) - $b");
+$rhs = Compute("1/(x-$a)");
 
 $ans = List('None');
 
 BEGIN_PGML
-Solve the equation [```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```]
+Solve the equation [``` [$lhs] = [$rhs] ```]
+[```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
