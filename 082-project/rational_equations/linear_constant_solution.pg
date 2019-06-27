@@ -34,7 +34,7 @@ $a = random(3,9,1);
 $b = random(1,5,2);
 $c = random(2,8,2);
 
-$partiallhs = Formula("$a/(x+1) - ($b)/(2)");
+$lhs = Formula("$a/(x+1) - $b/2");
 $rhs = Compute("$c/(3x+3)");
 
 $ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
