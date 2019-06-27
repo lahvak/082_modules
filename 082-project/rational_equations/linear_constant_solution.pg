@@ -15,6 +15,7 @@ DOCUMENT();        # This should be the first executable line in the problem.
 loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
+  "MathObjects.pl",
   "PGML.pl",
   "PGcourse.pl"
 );
@@ -22,14 +23,21 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
+Context("Numeric");
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+
 $a = random(3,9,1);
 $b = random(1,5,2);
 $c = random(2,8,2);
 
-$ans = (6*$a-2*$c)/(3*$b) - 1;
+$lhs = Compute("$a/(x+1) - $b/2");
+$rhs = Compute("$c/(3x+3)");
+
+$ans = Compute"(6*$a-2*$c)/(3*$b) - 1");
 
 BEGIN_PGML
-Solve the equation [```\frac{[$a]}{x+1}-\frac{[$b]}{2} = \frac{[$c]}{3x+3}```]
+Solve the equation [``` [$lhs] = [$rhs] ```]
+[```\frac{[$a]}{x+1}-\frac{[$b]}{2} = \frac{[$c]}{3x+3}```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
