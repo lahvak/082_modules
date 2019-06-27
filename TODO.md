@@ -17,3 +17,14 @@ title: Things to fix
 - Add some finding common denominator exercises (and reuse those for adding and
   subtracting expressions)
 - Create step by step version of each exercise.
+
+## Polynomials
+
+- Add more special products
+    - more perfect squares
+    - sum and difference of cubes
+- Add some slides on distributing
+
+## Rational expressions
+
+Whole lot of mess!
