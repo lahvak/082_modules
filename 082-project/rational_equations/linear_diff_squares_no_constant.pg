@@ -30,7 +30,7 @@ $d1 = random(1,11,1);
 $ans = ($a1*$b1+$c1*$a1+$d1)/($c1-$b1);
 
 BEGIN_PGML
-Solve the equation for \( t\): [```\frac{[$b1]}{[$a1] - t}+\frac{[$c1]}{[$a1] + t} +\frac{[$d1]}{[$a2] -t^2} = 0```]
+Solve the equation for [`t`]: [```\frac{[$b1]}{[$a1] - t}+\frac{[$c1]}{[$a1] + t} +\frac{[$d1]}{[$a2] -t^2} = 0```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
