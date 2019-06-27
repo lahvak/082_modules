@@ -16,6 +16,7 @@ loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "PGML.pl",
   "PGcourse.pl"
 );
@@ -23,8 +24,7 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-Context("Numeric");
-Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+Context("Fraction-NoDecimals");
 
 $a = random(3,9,1);
 $b = random(1,5,2);
@@ -32,6 +32,9 @@ $c = random(2,8,2);
 
 $lhs = Compute("$a/(x+1) - $b/2");
 $rhs = Compute("$c/(3x+3)");
+
+Context("Numeric");
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
 
 $ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
 
