@@ -8,7 +8,6 @@ screenHeaderFile  = defaultHeader
 description       = Operations on polynomials
 restrictProbProgression = 1
 emailInstructor   = 0
-
 problem_start
 problem_id = 1
 source_file = Library/UMN/algebraKaufmannSchwitters/ks_3_1_70.pg
