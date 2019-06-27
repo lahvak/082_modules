@@ -30,7 +30,7 @@ $a = random(3,9,1);
 $b = random(1,5,2);
 $c = random(2,8,2);
 
-$lhs = Compute("$a/(x+1) - $b/2");
+$lhs = Compute("$a/(x+1) - ($b)/2");
 $rhs = Compute("$c/(3x+3)");
 
 Context("Numeric");
