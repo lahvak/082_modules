@@ -1,26 +1,20 @@
 ## DESCRIPTION
 ##   Solve an Equation
+##   (Original Rochester problem modified by Jan Hlavacek)
 ## ENDDESCRIPTION
 
-## Tagged by nhamblet
-
-## DBsubject(Algebra)
-## DBchapter(Rational equations and functions)
+## DBsubject(Introductory Algebra)
+## DBchapter(Rational expressions equations)
 ## DBsection(Rational equations)
 ## Date(6/3/2002)
-## Level(3)
-## TitleText1('College Algebra')
-## AuthorText1('Stewart, Redlin, Watson')
-## EditionText1('3')
-## Section1('3.5')
-## Problem1('35')
-## KEYWORDS('Solve', 'Equation','algebra', 'linear equations')
+## KEYWORDS('Solve', 'Equation','algebra', 'linear equations', 'rational equation')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
 loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
+  "PGML.pl",
   "PGcourse.pl"
 );
 
@@ -33,15 +27,16 @@ $b1 = random(6,10,1);
 $c1 = random(2,5,1);
 $d1 = random(1,11,1);
 
-TEXT(EV2(<<EOT));
-Solve the equation for \( t\) \[\frac{$b1 }{$a1 -t }+\frac{$c1 }{$a1 +t } +\frac{$d1 }{$a2 -t^2 } = 0\]
-$BR
-\( t = \) \{ans_rule(20) \}
-$BR
-EOT
-
 $ans = ($a1*$b1+$c1*$a1+$d1)/($c1-$b1);
-ANS(num_cmp( $ans ) );
+
+BEGIN_PGML
+Solve the equation for \( t\): [```\frac{[$b1]}{[$a1] - t}+\frac{[$c1]}{[$a1] + t} +\frac{[$d1]}{[$a2] -t^2} = 0```]
+
+Enter all of the solutions as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Solutions: [___________________]{$ans}
+END_PGML
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
 
