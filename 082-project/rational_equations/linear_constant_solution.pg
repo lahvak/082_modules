@@ -24,7 +24,7 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-Context("Fraction-NoDecimals");
+Context("Fraction");
 
 $a = random(3,9,1);
 $b = random(1,5,2);
