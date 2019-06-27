@@ -34,7 +34,7 @@ $d1 = random(1,11,1);
 $a2 = Compute("$a1^2");
 $lhs = Compute("$b1/($a1 - t) + $c1/($a1 + t) + $d1/($a2 - t^2)");
 
-$ans = Compute(#($a1*$b1+$c1*$a1+$d1)/($c1-$b1)");
+$ans = Compute("($a1*$b1+$c1*$a1+$d1)/($c1-$b1)");
 
 BEGIN_PGML
 Solve the equation for [`t`]: [``` [$lhs] = 0 ```]
