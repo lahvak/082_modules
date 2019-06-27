@@ -41,7 +41,6 @@ $ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
 
 BEGIN_PGML
 Solve the equation [``` [$lhs] = [$rhs] ```]
-[```\frac{[$a]}{x+1}-\frac{[$b]}{2} = \frac{[$c]}{3x+3}```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
