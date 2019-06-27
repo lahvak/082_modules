@@ -3,8 +3,6 @@
 ##   (Original Rochester problem modified by Jan Hlavacek)
 ##ENDDESCRIPTION
 
-##Tagged by up2p
-
 ## DBsubject(Introductory Algebra)
 ## DBchapter(Rational expressions equations)
 ## DBsection(Rational equations)
@@ -31,7 +29,7 @@ $b = random(1,9,1);
 $ans = List('None');
 
 BEGIN_PGML
-Solve the equation [```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```].
+Solve the equation [```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
