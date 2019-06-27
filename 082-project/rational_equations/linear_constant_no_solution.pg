@@ -36,7 +36,6 @@ $ans = List('None');
 
 BEGIN_PGML
 Solve the equation [``` [$lhs] = [$rhs] ```]
-[```\frac{x}{[$a] x-[$a2]}- [$b] = \frac{1}{x-[$a]}```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
