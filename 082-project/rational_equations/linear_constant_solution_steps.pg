@@ -89,14 +89,66 @@ END_PGML
 
 Section::End();
 ###########################################
-Scaffold::End();
+Section::Begin("Multiply both sides by the common denominator and simplify.");
 
+BEGIN_PGML
+Now you need to multiply both sides of the equation [``` [$lhs] = [$rhs] ```] by [`[$common_denom]`], and simplify.
 
-Enter all of the solutions as a comma separated list.  
+Enter the resulting simplified left hand side and right hand side below:
+
+>>[___________________]{$lhs_multiplied} = [_________________]{$rhs_multiplied}<<
+
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Solve the simplified equation.");
+
+BEGIN_PGML
+The simplified equation is [```[$lhs_multiplied] = [$rhs_multiplied]```]
+
+Find all the solutions of this equation, and enter them as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Solutions of the simplified equation: [___________________]{$ans}
+END_PGML
+
+Section::End();
+###########################################
+Section::Begin("Check for extraneous solutions.");
+
+BEGIN_PGML
+The two equations, [``` [$lhs] = [$rhs] ```] and [```[$lhs_multiplied] = [$rhs_multiplied]```]
+are not garanteed to be equivalent.  We obtained the second one from the first one by multiplying 
+both sides by [`[$common_denom]`], which is zero when [`x`] is [`[$denom_zeros]`].
+
+When we multiplied both sides of the equation by an expression that could be zero, we possibly
+introduced some extraneous solutions.  These extraneous solutions, however, only get introduced
+in the case we did multiply by 0, which in this case only happens when [`x`] is [`[$denom_zeros]`].
+
+So if any of the solutions of the simplified equation is [`[$denom_zeros]`], it may be an extraneous solution.
+
+Find all the possibly extraneous solutions of the equation, and enter them as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Possibly extraneous solutions: [___________________]{$extraneous}
+END_PGML
+Section::End();
+###########################################
+Section::Begin("List the solutions of the original equation.");
+
+BEGIN_PGML
+We saw that the solution of the simplified equation is [`[$ans]`], and none of them are extraneous solutions.
+Now we are almost done, we just have to state the final conclusion:
+
+Enter all of the solutions of the original equation as a comma separated list.  
 If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+Section::End();
+###########################################
+Scaffold::End();
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
 
