@@ -37,7 +37,7 @@ TEXT(beginproblem());
 
 Context("Numeric");
 
-$answer = 4;
+$answer = 3;
 
 
 $video = MODES(
