@@ -251,7 +251,7 @@ counts_parent_grade = 1
 att_to_open_children = 1 
 problem_end
 problem_start
-problem_id = 3.3.4
+problem_id = 2.3.4
 source_file = Library/CollegeOfIdaho/setAlgebra_05_02_MultiplyPolynomials/52IntAlg_15_MultPoly.pg
 value = 1
 max_attempts = -1
