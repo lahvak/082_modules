@@ -20,7 +20,6 @@ prPeriod = -1
 counts_parent_grade = 0
 att_to_open_children = 2 
 problem_end
-problemListV2 
 problem_start
 problem_id = 1.1
 source_file = Library/Mizzou/Algebra/polynomials_add_sub_mult/poly_add_sub_01.pg
