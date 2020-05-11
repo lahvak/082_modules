@@ -152,7 +152,7 @@ In other cases we may need to enter a number that is very small, like
 
 >>[`[$str2]`]<<
 
-Again, there is a better way if writing this, using *scientific notation*:
+Again, there is a better way of writing this, using *scientific notation*:
 
 >>[``[$a2]``]<<
 
