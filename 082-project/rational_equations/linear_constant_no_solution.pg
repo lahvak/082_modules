@@ -3,10 +3,11 @@
 ##   (Original Rochester problem modified by Jan Hlavacek)
 ##ENDDESCRIPTION
 
-## DBsubject(Introductory Algebra)
-## DBchapter(Rational expressions equations)
+## DBsubject(Algebra)
+## DBchapter(Rational equations and functions)
 ## DBsection(Rational equations)
 ## Institution(SVSU)
+## Level(1)
 ## KEYWORDS('algebra', 'linear equations', 'rational equations')
 
 DOCUMENT();        # This should be the first executable line in the problem.

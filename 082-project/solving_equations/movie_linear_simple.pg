@@ -2,19 +2,14 @@
 ## Iframe video embedding template
 ## ENDDESCRIPTION
 
-## KEYWORDS('iframe','embedding', 'template')
 
-## DBsubject()
-## DBchapter()
-## DBsection()
-## Date()
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear equations)
 ## Institution(SVSU)
 ## Author(Jan Hlavacek)
-## TitleText1('')
-## EditionText1('')
-## AuthorText1('')
-## Section1('')
-## Problem1('')
+## Level(1)
+## KEYWORDS('iframe','embedding', 'template')
 
 
 ###############

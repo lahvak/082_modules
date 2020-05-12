@@ -2,19 +2,15 @@
 ## MicroSlideShow for a linear equation
 ## ENDDESCRIPTION
 
-## KEYWORDS('slideshow', 'equation', 'linear', 'identity')
 
-## DBsubject('Intro Algebra')
-## DBchapter('Linear Equations')
-## DBsection('Infinitely many solutions')
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear equations)
 ## Date(06/04/2019)
-## Institution('SVSU')
-## Author('Jan Hlavacek')
-## TitleText1('')
-## EditionText1('')
-## AuthorText1('')
-## Section1('')
-## Problem1('')
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('slideshow', 'equation', 'linear', 'identity')
 
 
 ###############

@@ -1,20 +1,16 @@
 ##DESCRIPTION
 ##  Step by step solution of linear equation
 ##ENDDESCRIPTION
-## DBsubject('Intro Algebra')
-## DBchapter(Linear equations)
-## DBsection(Distributing)
+
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear equations)
 ## Date(06/13/2019)
-## Author('Jan Hlavacek')
-## Institution('SVSU')
-## TitleText1(' ')
-## EditionText1(' ')
-## AuthorText1(' ')
-## Section1(' ')
-## Problem1(' ')
-
-
-##KEYWORDS('algebra', 'equations', 'linear')
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra', 'equations', 'linear')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 

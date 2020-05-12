@@ -1,20 +1,16 @@
 ##DESCRIPTION
 ##  Evaluating formulas
 ##ENDDESCRIPTION
-## DBsubject('Intro Algebra')
-## DBchapter(Expressions)
-## DBsection(Evaluating Formulas)
-## Date('05/29/2018')
-## Author('Jan Hlavacek')
-## Institution('SVSU')
-## TitleText1(' ')
-## EditionText1(' ')
-## AuthorText1(' ')
-## Section1(' ')
-## Problem1(' ')
 
 
-##KEYWORDS('algebra, WeBWorK, Formulas, Geometry, Cone')
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Evaluating expressions)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK, Formulas, Geometry, Cone')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 

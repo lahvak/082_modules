@@ -2,21 +2,17 @@
 ##  Plot a line going through origin
 ##ENDDESCRIPTION
 
-##KEYWORDS('Algebra', 'Linear Equations', 'Lines', 'JSXGraph')
 
-## DBsubject('Algebra')
-## DBchapter('Linear Equations')
-## DBsection('Lines')
-## Date('06/20/2019')
-## Author('Jan Hlavacek')
-## Institution('SVSU')
 ## ProblemTester('')
-## TitleText1('')
 ## Publisher('')
-## EditionText1('')
-## AuthorText1('')
-## Section1('')
-## Problem1('')
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Graphs of lines)
+## Date(06/20/2019)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('Algebra', 'Linear Equations', 'Lines', 'JSXGraph')
 
 ################################################################################################
 # Setup and Macros

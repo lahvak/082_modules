@@ -7,9 +7,11 @@
 ## Publisher('')
 ## DBsubject(Algebra)
 ## DBchapter(Systems of equations and inequalities)
+## DBsection(Inequalities)
 ## Date(06/24/2019)
 ## Institution(SVSU)
 ## Author(Jan Hlavacek)
+## Level(1)
 ## KEYWORDS('Algebra', 'Linear Inequalities', 'Two variables', 'JSXGraph')
 
 ################################################################################################

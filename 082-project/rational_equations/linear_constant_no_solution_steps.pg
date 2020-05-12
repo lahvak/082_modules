@@ -6,13 +6,8 @@
 ## DBsubject(Algebra)
 ## DBchapter(Rational equations and functions)
 ## DBsection(Rational equations)
-## Date(6/3/2002)
+## Institution(SVSU)
 ## Level(1)
-## TitleText1('College Algebra')
-## AuthorText1('')
-## EditionText1('')
-## Section1('.')
-## Problem1('')
 ## KEYWORDS('algebra', 'linear equations', 'rational equations')
 
 DOCUMENT();        # This should be the first executable line in the problem.
@@ -22,27 +17,38 @@ loadMacros(
   "PGchoicemacros.pl",
   "MathObjects.pl",
   "PGML.pl",
+  "scaffold.pl",
   "PGcourse.pl"
 );
 
 TEXT(beginproblem());
-$showPartialCorrectAnswers = 1;
+$showPartialCorrectAnswers = 0;
 
 Context("Numeric");
 Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+
+$a = random(2,6,1);
+$b = random(1,9,1);
+
+$a2 = Compute("$a^2");
+$lhs = Compute("x/($a*x-$a2) - $b");
+$rhs = Compute("1/(x-$a)");
+
+$common_denom = Compute("$a*x - $a2");
+
+$denom_zeros = List("$a");
+
 Context()->flags->set(
-     reduceConstants => 0,
-     reduceConstantFunctions => 0,
+     reduceConstants => 1,
+     reduceConstantFunctions => 1,
   );
 
-$a = random(3,9,1);
-$b = random(1,5,2);
-$c = random(2,8,2);
+$lhs_multiplied = Compute("6*$a - $b*3*x - $b*3")->reduce;
+$rhs_multiplied = Compute("2*$c")->reduce;
 
-$lhs = Formula("$a/(x+1) - $b/2");
-$rhs = Compute("$c/(3x+3)");
+$extraneous = List("None");
 
-$ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
+$ans = List('None');
 
 BEGIN_PGML
 Solve the equation [``` [$lhs] = [$rhs] ```]
@@ -53,5 +59,5 @@ If there are no solutions, enter _None_.
 Solutions: [___________________]{$ans}
 END_PGML
 
-ENDDOCUMENT();        # This should be the last executable line in the problem.
+ENDDOCUMENT();
 

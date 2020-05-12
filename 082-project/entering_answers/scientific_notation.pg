@@ -1,20 +1,16 @@
 ##DESCRIPTION
 ##  How to enter scientific notation into WeBWorK
 ##ENDDESCRIPTION
-## DBsubject('Intro Algebra')
-## DBchapter('Entering numbers')
-## DBsection('Scientific notation')
-## Date('05/29/2018')
-## Author('Jan Hlavacek')
-## Institution('SVSU')
-## TitleText1(' ')
-## EditionText1(' ')
-## AuthorText1(' ')
-## Section1(' ')
-## Problem1(' ')
 
 
-##KEYWORDS('algebra, WeBWorK, scientific notation, engineering notation')
+## DBsubject(WeBWorK)
+## DBchapter(WeBWorK tutorial)
+## DBsection(WeBWorK tutorial)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK, scientific notation, engineering notation')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
