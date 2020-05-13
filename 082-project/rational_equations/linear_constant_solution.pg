@@ -44,6 +44,10 @@ $rhs = Compute("$c/(3x+3)");
 
 $ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
 
+$degzeroleft = Compute("6*$a - 3*$b");
+$degoneleft = Compute("-3*$b");
+$degzeroright = Compute("2*$c");
+
 BEGIN_PGML
 Solve the equation [``` [$lhs] = [$rhs] ```]
 
@@ -52,6 +56,29 @@ If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+The denominators of the terms in the equation are [:x+1:], [:2:] and [:3x+3:].  Their least common multiple is [:6(x+1):].
+
+If we multiply both sides of the equation by [:6(x+1):], we get the linear equation
+
+[```6\cdot[$a] - [$b]\cdot 3\cdot (x+1) = 2\cdot [$c] ```]
+
+which we can simplify as
+
+[:::[$degoneleft]*x + [$degzeroleft] = [$degzeroright] :::]
+
+Solving this for x will give us
+
+[::: x = [$ans] :::]
+
+**Check for multiplication by 0:**
+
+In the process, we multiplied both sides by [:6(x+1):]. We must make sure we did not accidentally multiplied by 0, because multiplying both sides of an equation by 0 will produce an equation that is not necessarily equivalent with the original one.
+
+In this case, though, we have only one solution candidate: [:x = [$ans]:], which does not make [:6(x+1):] zero, so there is no problem.
+
+END_PGML_SOLUTION
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
 
