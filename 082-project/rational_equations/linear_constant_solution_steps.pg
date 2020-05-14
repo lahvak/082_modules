@@ -81,6 +81,11 @@ That is not the case here.
 Then find the common denominator of all the fractions in the equation: [__________________]{$common_denom}.
 END_PGML
 
+BEGIN_PGML_SOLUTION
+The three denominators are [:x+1:], [:2:] and [:3x+3:].  The third one can be factored as [:3(x+1):].  The least common multiple
+of the three denominators is then [:2*3*(x+1) = 6(x+1):].
+END_PGML_SOLUTION
+
 Section::End();
 ###########################################
 Section::Begin("Find when the common denominator is 0.");
@@ -98,10 +103,13 @@ If there are no such values, enter _None_.
 Values of [`x`] such that [`[$common_denom] = 0`]: [___________________]{$denom_zeros}.
 END_PGML
 
+BEGIN_PGML_SOLUTION
+Solving the equation [:6(x+1) = 0:] gives us a unique solution, [:-1:].
+END_PGML_SOLUTION
+
 Section::End();
 ###########################################
 Section::Begin("Multiply both sides by the common denominator and simplify.");
-
 BEGIN_PGML
 Now you need to multiply both sides of the equation [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```] by [`[$common_denom]`], and simplify.
 
@@ -110,6 +118,20 @@ Enter the resulting simplified left hand side and right hand side below:
 >>[___________________]{$lhs_multiplied} = [_________________]{$rhs_multiplied}<<
 
 END_PGML
+
+BEGIN_PGML_SOLUTION
+Multiplying by the common denominator will give us
+
+[``` [$lhs_part1]\cdot\frac{6(x+1)}{1} - \frac{[$b]}{2}\cdot\frac{2\cdot 3\cdot (x+1)}{1} = [$rhs]\cdot\frac{2(3x+3)}{1} ```]
+
+Canceling common factors will get rid of all fractions:
+
+[``` [$a]\cdot 6 - [$b]\cdot 3 \cdot (x+1) = [$c]\cdot 2 ```]
+
+Finally, simplifying both sides:
+
+[``` [$lhs_multiplied] = [$rhs_multiplied] ```]
+END_PGML_SOLUTION
 
 Section::End();
 ###########################################
@@ -123,6 +145,10 @@ If there are no solutions, enter _None_.
 
 Solutions of the simplified equation: [___________________]{$ans}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+The simplified equation is linear, and can be easily solved by applying the addition and multiplication properties of equality.  The only solution is [`[$ans]`].
+END_PGML_SOLUTION
 
 Section::End();
 ###########################################
@@ -144,6 +170,11 @@ If there are no solutions, enter _None_.
 
 Possibly extraneous solutions: [___________________]{$extraneous}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+The only solution we have is [`[$ans]`], which is not equal to [:-1:].  There are no solutions that could be extraneous.
+END_PGML_SOLUTION
+
 Section::End();
 ###########################################
 Section::Begin("List the solutions of the original equation.");
@@ -157,6 +188,9 @@ If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+BEGIN_PGML_SOLUTION
+The equation has a single solution, [`[$ans]`].
+END_PGML_SOLUTION
 Section::End();
 ###########################################
 Scaffold::End();
