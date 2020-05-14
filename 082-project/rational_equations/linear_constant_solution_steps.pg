@@ -69,7 +69,7 @@ $ans = Formula("$ans_raw");
 #  The scaffold
 Scaffold::Begin();
 BEGIN_PGML
-Solve the equation [``` [$lhs] - \frac{[$b]}{2} = [$rhs] ```]
+Solve the equation [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```]
 END_PGML
 ###########################################
 Section::Begin("Find the common denominator.");
@@ -103,7 +103,7 @@ Section::End();
 Section::Begin("Multiply both sides by the common denominator and simplify.");
 
 BEGIN_PGML
-Now you need to multiply both sides of the equation [``` [$lhs] = [$rhs] ```] by [`[$common_denom]`], and simplify.
+Now you need to multiply both sides of the equation [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```] by [`[$common_denom]`], and simplify.
 
 Enter the resulting simplified left hand side and right hand side below:
 
@@ -129,7 +129,7 @@ Section::End();
 Section::Begin("Check for extraneous solutions.");
 
 BEGIN_PGML
-The two equations, [``` [$lhs] = [$rhs] ```] and [```[$lhs_multiplied] = [$rhs_multiplied]```]
+The two equations, [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```] and [```[$lhs_multiplied] = [$rhs_multiplied]```]
 are not guaranteed to be equivalent.  We obtained the second one from the first one by multiplying 
 both sides by [`[$common_denom]`], which is zero when [`x`] is [`[$denom_zeros]`].
 
