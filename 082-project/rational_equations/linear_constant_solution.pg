@@ -21,12 +21,28 @@ loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "PGML.pl",
   "PGcourse.pl"
 );
 
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
+
+Context("Fraction");
+
+$a = random(3,9,1);
+$b = random(1,5,2);
+$c = list_random(2,4,5,7,8);
+
+$lhs_part1 = Formula("$a/(x+1)");
+$rhs = Compute("$c/(3x+3)");
+
+$ans_raw = Compute("(6*$a-2*$c)/(3*$b) - 1");
+
+$degzeroleft = Compute("6*$a - 3*$b");
+$degoneleft = Compute("-3*$b");
+$degzeroright = Compute("2*$c");
 
 Context("Numeric");
 Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
@@ -35,21 +51,10 @@ Context()->flags->set(
      reduceConstantFunctions => 0,
   );
 
-$a = random(3,9,1);
-$b = random(1,5,2);
-$c = random(2,8,2);
-
-$lhs = Formula("$a/(x+1) - $b/2");
-$rhs = Compute("$c/(3x+3)");
-
-$ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
-
-$degzeroleft = Compute("6*$a - 3*$b");
-$degoneleft = Compute("-3*$b");
-$degzeroright = Compute("2*$c");
+$ans = Formula("$ans_raw");
 
 BEGIN_PGML
-Solve the equation [``` [$lhs] = [$rhs] ```]
+Solve the equation [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```]
 
 Enter all of the solutions as a comma separated list.  
 If there are no solutions, enter _None_.
