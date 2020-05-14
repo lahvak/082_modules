@@ -21,6 +21,7 @@ loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "PGML.pl",
   "scaffold.pl",
   "PGcourse.pl"
@@ -29,18 +30,13 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-Context("Numeric");
-Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
-Context()->flags->set(
-     reduceConstants => 0,
-     reduceConstantFunctions => 0,
-  );
+Context("Fraction");
 
 $a = random(3,9,1);
 $b = random(1,5,2);
-$c = random(2,8,2);
+$c = list_random(2, 4, 5, 7, 8);
 
-$lhs = Formula("$a/(x+1) - $b/2");
+$lhs_part1 = Formula("$a/(x+1)");
 $rhs = Compute("$c/(3x+3)");
 
 $common_denom = Compute("2*3*(x+1)");
@@ -58,13 +54,22 @@ $rhs_multiplied = Compute("2*$c")->reduce;
 
 $extraneous = List("None");
 
-$ans = Compute("(6*$a-2*$c)/(3*$b) - 1");
+$ans_raw = Compute("(6*$a-2*$c)/(3*$b) - 1");
+
+Context("Numeric");
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+  );
+
+$ans = Formula("$ans_raw");
 
 ###########################################
 #  The scaffold
 Scaffold::Begin();
 BEGIN_PGML
-Solve the equation [``` [$lhs] = [$rhs] ```]
+Solve the equation [``` [$lhs] - \frac{[$b]}{2} = [$rhs] ```]
 END_PGML
 ###########################################
 Section::Begin("Find the common denominator.");
