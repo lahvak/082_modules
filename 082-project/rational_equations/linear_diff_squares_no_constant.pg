@@ -16,6 +16,7 @@ loadMacros(
   "PGstandard.pl",
   "PGchoicemacros.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "PGML.pl",
   "PGcourse.pl"
 );
@@ -23,8 +24,7 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-Context("Numeric");
-Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+Context("Fraction");
 Context()->variables->add(t => "Real");
 
 $a1 = random(2,9,1);
@@ -35,7 +35,19 @@ $d1 = random(1,11,1);
 $a2 = Compute("$a1^2");
 $lhs = Compute("$b1/($a1 - t) + $c1/($a1 + t) + $d1/($a2 - t^2)");
 
-$ans = Compute("($a1*$b1+$c1*$a1+$d1)/($c1-$b1)");
+$ans_raw = Compute("($a1*$b1+$c1*$a1+$d1)/($c1-$b1)");
+
+$common_denom = Compute("$a2 - t^2");
+
+$lhs_mult = Compute("$b1*($a1 + t) + $c1*($a1 - t) + $d1");
+
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+  );
+
+$ans = Formula("$ans_raw");
 
 BEGIN_PGML
 Solve the equation for [`t`]: [``` [$lhs] = 0 ```]
@@ -45,6 +57,11 @@ If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+
+END_PGML_SOLUTION
+
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
 
