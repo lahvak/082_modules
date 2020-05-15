@@ -33,6 +33,11 @@ $a2 = Compute("$a^2");
 $lhs = Compute("x/($a*x-$a2) - $b");
 $rhs = Compute("1/(x-$a)");
 
+$commonden = Compute("$a*(x - $a)");
+
+$lhsmult = Compute("x - $a*$b*(x-$a)");
+$rhsmult = Compute("$a");
+
 $ans = List('None');
 
 BEGIN_PGML
@@ -43,6 +48,25 @@ If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+The equation has no parentheses that we would have to get rid of first. The common denominator of all the terms in the equation is [:[$commonden]:].  Multiplying both sides of the equation by the common denominator will give us
+
+[``` \frac{x}{[$commonden]}\cdot\frac{[$commonden]}{1} - [$b]\cdot [$commonden] = [$rhs]\cdot\frac{[$commonden]}{1} ```]
+
+and after simplifying,
+
+[``` [$lhsmult] = [$rhsmult] ```]
+
+Solving this equation gives us [: x = [$a] :].
+
+However, earlier in the process we multiplied both sides of the given equation by [: [$commonden] :].  When [: x = [$a] :], this is zero, so we multiplied both sides of the equation by zero. Multiplying both sides by zero does not guarantee that the new equation is equivalent to the old one.  While [: [$a] :] is a solution of the simplified equation *after* multiplying both sides by [: [$commonden] :], it is not guaranteed to be a solution of the original equation.  *We need to check by plugging it in*. 
+
+Trying to plug [:[$a]:] into the original equation will result in zero in a denominator. At least one of the sides of the equation is undefined when [: x = [$a] :], therefore [: [$a] :] cannot be a solution.
+
+Since [:[$a]:] was the only candidate for a solution we had, and it turned out not to be a solution, the equation has **no solution**.
+
+END_PGML_SOLUTION
 
 ENDDOCUMENT();
 
