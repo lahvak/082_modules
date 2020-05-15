@@ -43,21 +43,139 @@ Context()->flags->set(
      reduceConstantFunctions => 1,
   );
 
-$lhs_multiplied = Compute("6*$a - $b*3*x - $b*3")->reduce;
-$rhs_multiplied = Compute("2*$c")->reduce;
+$lhs_multiplied = Compute("x - $a*$b*(x-$a)")->reduce;
+$rhs_multiplied = Compute("$a")->reduce;
 
-$extraneous = List("None");
+$extraneous = Compute("$a");
 
 $ans = List('None');
 
+###########################################
+#  The scaffold
+Scaffold::Begin();
 BEGIN_PGML
 Solve the equation [``` [$lhs] = [$rhs] ```]
+END_PGML
+###########################################
+Section::Begin("Find the common denominator.");
 
-Enter all of the solutions as a comma separated list.  
+BEGIN_PGML
+First check whether any of the fractions in the equation are inside a set of parentheses or other grouping symbols.
+That is not the case here.
+
+Then find the common denominator of all the fractions in the equation: [__________________]{$common_denom}.
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The three denominators are [:[$common_denom]:], [:1:] and [:x-[$a]:].  The first one can be factored as [:[$a](x-[$a]):].  The least common multiple
+of the three denominators is then [:[$a](x-[$a]):].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Find when the common denominator is 0.");
+
+BEGIN_PGML
+That's correct, the common denominator is [`[$common_denom]`].
+
+Next we will want to multiply both sides of the equation by the common denominator.  However, the _multiplication property 
+of equality_ only allows to multiply both sides of an equation by a *non-zero* number.  You need to figure out whether the common 
+denominator could ever be 0, and if it can, for what values of [`x`] will that happen:
+
+Enter all of the values of [`x`] for which the common denominator is 0, as a comma separated list.  
+If there are no such values, enter _None_.
+
+Values of [`x`] such that [`[$common_denom] = 0`]: [___________________]{$denom_zeros}.
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Solving the equation [:[$common_denom] = 0:] gives us a unique solution, [:[$a]:].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Multiply both sides by the common denominator and simplify.");
+BEGIN_PGML
+Now you need to multiply both sides of the equation [``` [$lhs] = [$rhs] ```] by [`[$common_denom]`], and simplify.
+
+Enter the resulting simplified left hand side and right hand side below:
+
+>>[___________________]{$lhs_multiplied} = [_________________]{$rhs_multiplied}<<
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Multiplying by the common denominator will give us
+
+[``` \frac{x}{[$common_denom]}\cdot\frac{[$common_denom]}{1} - [$b]\cdot ([$common_denom]) = [$rhs]\cdot\frac{[$common_denom]}{1} ```]
+
+Simplifying both sides:
+
+[``` [$lhs_multiplied] = [$rhs_multiplied] ```]
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Solve the simplified equation.");
+
+BEGIN_PGML
+The simplified equation is [```[$lhs_multiplied] = [$rhs_multiplied]```]
+
+Find all the solutions of this equation, and enter them as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Solutions of the simplified equation: [___________________]{$extraneous}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The simplified equation is linear, and can be easily solved by applying the addition and multiplication properties of equality.  The only solution is [`[$a]`].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Check for extraneous solutions.");
+
+BEGIN_PGML
+The two equations, [``` [$lhs_part1] - \frac{[$b]}{2} = [$rhs] ```] and [```[$lhs_multiplied] = [$rhs_multiplied]```]
+are not guaranteed to be equivalent.  We obtained the second one from the first one by multiplying 
+both sides by [`[$common_denom]`], which is zero when [`x`] is [`[$denom_zeros]`].
+
+When we multiplied both sides of the equation by an expression that could be zero, we possibly
+introduced some extraneous solutions.  These extraneous solutions, however, only get introduced
+in the case we did multiply by 0, which in this case only happens when [`x`] is [`[$denom_zeros]`].
+
+So if any of the solutions of the simplified equation is [`[$denom_zeros]`], it may be an extraneous solution.
+
+Find all the possibly extraneous solutions of the equation, and enter them as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Possibly extraneous solutions: [___________________]{$extraneous}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The only solution we have is [`[$a]`]. Earlier we figured out that the common denominator is 0 when [:x = [$a]:], so if
+this is a solution, then we multiplied by 0.  This may be an extraneous solution.
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("List the solutions of the original equation.");
+
+BEGIN_PGML
+We saw that the solution of the simplified equation is [`[$ans]`], and it could be an extraneous solution.
+Now we are almost done, we just have to check whether it is an extraneous solution, and figure out the list of the actual solutions.
+
+Enter all of the solutions of the original equation as a comma separated list.  
 If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+BEGIN_PGML_SOLUTION
+By plugging in the original equation we will see that [:[$a]:] is not a solution. Since it was the only solution candidate we had, the original equation has no solutions.
+END_PGML_SOLUTION
+Section::End();
+###########################################
+Scaffold::End();
 
 ENDDOCUMENT();
 
