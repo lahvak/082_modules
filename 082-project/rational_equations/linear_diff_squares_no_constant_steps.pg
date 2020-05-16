@@ -1,0 +1,187 @@
+## DESCRIPTION
+##   Solve an Equation
+##   (Original Rochester problem modified by Jan Hlavacek)
+## ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Rational equations and functions)
+## DBsection(Rational equations)
+## Date(6/3/2002)
+## Level(1)
+## KEYWORDS('Solve', 'Equation','algebra', 'linear equations', 'rational equation')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGchoicemacros.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "PGML.pl",
+  "scaffold.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Fraction");
+Context()->variables->add(t => "Real");
+
+$a1 = random(2,9,1);
+$b1 = random(6,10,1);
+$c1 = random(2,5,1);
+$d1 = random(1,11,1);
+
+$a2 = Compute("$a1^2");
+$lhs = Compute("$b1/($a1 - t) + $c1/($a1 + t) + $d1/($a2 - t^2)");
+
+$ans_raw = Compute("($a1*$b1+$c1*$a1+$d1)/($c1-$b1)");
+
+$common_denom = Compute("$a2 - t^2");
+
+$denom_zeros = List("-$a1, $a1");
+
+$extraneous = List("None");
+
+$lhs_mult = Compute("$b1*($a1 + t) + $c1*($a1 - t) + $d1");
+
+Context()->strings->add(None=>{},EmptySet=>{alias=>"None",none=>{alias=>"None"}});
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+  );
+
+$ans = Formula("$ans_raw");
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+BEGIN_PGML
+Solve the equation for [`t`]: [``` [$lhs] = 0 ```]
+END_PGML
+###########################################
+Section::Begin("Find the common denominator.");
+
+BEGIN_PGML
+First check whether any of the fractions in the equation are inside a set of parentheses or other grouping symbols.
+That is not the case here.
+
+Then find the common denominator of all the fractions in the equation: [__________________]{$common_denom}.
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The denominators of the terms in the equation are [:[$a1] - t:], [: [$a1] + t :] and [: [$a2] - t^2 :].  
+The third one can be factored as [: ([$a1] - t)([$a1] + t):].  
+Their least common multiple is [: ([$a1] - t)([$a1] + t) = [$common_denom] :].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Find when the common denominator is 0.");
+
+BEGIN_PGML
+That's correct, the common denominator is [`[$common_denom]`].
+
+Next we will want to multiply both sides of the equation by the common denominator.  However, the _multiplication property 
+of equality_ only allows to multiply both sides of an equation by a *non-zero* number.  You need to figure out whether the common 
+denominator could ever be 0, and if it can, for what values of [`x`] will that happen:
+
+Enter all of the values of [`t`] for which the common denominator is 0, as a comma separated list.  
+If there are no such values, enter _None_.
+
+Values of [`t`] such that [`[$common_denom] = 0`]: [___________________]{$denom_zeros}.
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Solving the equation [: [$common_denom] = 0:] gives us a two solutions, [:-[$a1]:] and [: [$a1] :].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Multiply both sides by the common denominator and simplify.");
+BEGIN_PGML
+Now you need to multiply both sides of the equation [``` [$lhs] = 0 ```] by [`[$common_denom]`], and simplify.
+
+Enter the resulting simplified left hand side below:
+
+>>[___________________]{$lhs_mult} [: = 0 :]<<
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Multiplying by the common denominator will give us
+
+[``` \frac{[$b1]}{[$a1] - t}\cdot\frac{[$common_denom]}{1} + \frac{[$c1]}{[$a1] + t}\cdot\frac{[$common_denom]}{1}
++ \frac{[$d1]}{[$common_denom]}\cdot\frac{[$common_denom]}{1} = 0 ```]
+
+which we can simplify as
+
+[::: [$lhs_mult] = 0 :::]
+
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Solve the simplified equation.");
+
+BEGIN_PGML
+The simplified equation is [```[$lhs_mult] = 0 ```]
+
+Find all the solutions of this equation, and enter them as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Solutions of the simplified equation: [___________________]{$ans}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The simplified equation is linear, and can be easily solved by applying the addition and multiplication properties of equality.  The only solution is [`[$ans]`].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Check for extraneous solutions.");
+
+BEGIN_PGML
+The two equations, [``` [$lhs] = 0 ```] and [```[$lhs_mult] = 0 ```]
+are not guaranteed to be equivalent.  We obtained the second one from the first one by multiplying 
+both sides by [`[$common_denom]`], which is zero when [`t`] is  [`-[$a1]`] or [`[$a1]`].
+
+When we multiplied both sides of the equation by an expression that could be zero, we possibly
+introduced some extraneous solutions.  These extraneous solutions, however, only get introduced
+in the case we did multiply by 0, which in this case only happens when [`t`] is [`-[$a1]`] or [`[$a1]`].
+
+So if any of the solutions of the simplified equation is [`-[$a1]`] or [`[$a1]`], it may be an extraneous solution.
+
+Find all the possibly extraneous solutions of the equation, and enter them as a comma separated list.  
+If none of the solutions of the simplified equation can be extraneous, enter _None_.
+
+Possibly extraneous solutions: [___________________]{$extraneous}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The only solution we have is [`[$ans]`], which is equal to neither [:-[$a1]:] nor [:[$a1]:].  There are no solutions that could be extraneous.
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("List the solutions of the original equation.");
+
+BEGIN_PGML
+We saw that the solution of the simplified equation is [`[$ans]`], and it is not an extraneous solution.
+Now we are almost done, we just have to state the final conclusion:
+
+Enter all of the solutions of the original equation as a comma separated list.  
+If there are no solutions, enter _None_.
+
+Solutions: [___________________]{$ans}
+END_PGML
+BEGIN_PGML_SOLUTION
+The equation has a single solution, [`[$ans]`].
+END_PGML_SOLUTION
+Section::End();
+###########################################
+Scaffold::End();
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
+
