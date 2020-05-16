@@ -59,9 +59,29 @@ Solutions: [___________________]{$ans}
 END_PGML
 
 BEGIN_PGML_SOLUTION
+The denominators of the terms in the equation are [:[$a1] - t:], [: [$a1] + t :] and [: [$a2] - t^2 :].  
+Their least common multiple is [: ([$a1] - t)([$a1] + t) = [$common_denom] :].
+
+If we multiply both sides of the equation by [: [$common_denom] :], we get the linear equation
+
+[``` \frac{[$b1]}{[$a1] - t}\cdot\frac{[$common_denom]}{1} + \frac{[$c1]}{[$a1] + t}\cdot\frac{[$common_denom]}{1}
++ \frac{[$d1]}{[$common_denom]}\cdot\frac{[$common_denom]}{1} = 0 ```]
+
+which we can simplify as
+
+[::: [$lhs_mult] = 0 :::]
+
+Solving this for [:t:] will give us
+
+[::: t = [$ans] :::]
+
+**Check for multiplication by 0:**
+
+In the process, we multiplied both sides by [: [$common_denom] :]. We must make sure we did not accidentally multiplied by 0, because multiplying both sides of an equation by 0 will produce an equation that is not necessarily equivalent with the original one.
+
+In this case, though, we have only one solution candidate: [:t = [$ans]:], which does not make [:[$common_denom]:] zero, so there is no problem.
 
 END_PGML_SOLUTION
-
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
 
