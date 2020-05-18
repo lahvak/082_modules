@@ -40,7 +40,14 @@ $b = random(3,5,2);
 $a2 = Compute("$a^2");
 $lhs = Compute("x/($b*x-$a*$b)+4/(x^2 - $a2)");
 
+$denom1 = Compute("$b*x - $a*$b");
+
 $an1 = Compute("-$a-(4/$a)*$b");
+
+$common_denom = Compute("$b*(x^2 - $a2)");
+
+$lhs_mult = Compute("x^2 + $a*x + 4*$b");
+$rhs_mult = Compute("x^2 - $a2");
 
 $ans = List("$an1");
 
@@ -55,5 +62,26 @@ If there are no solutions, enter _None_.
 
 Solutions: [___________________]{$ans}
 END_PGML
+
+BEGIN_PGML_SOLUTION
+We start by finding the common denominator of all the terms in the equation.  The three denominators in the equation are
+[: [$denom1] = [$b]*(x - [$a]) :], [: x^2 - [$a2] = (x - [$a])(x + [$a]) :] and [: [$b] :], so the common denominator is [: [$common_denom] :].
+
+Multiplying both sides of the equation by the common denominator will give us
+
+[``` \frac{x}{[$denom1]}\cdot\frac{[$common_denom]}{1} + \frac{4}{x^2 - [$a2]}\cdot\frac{[$common_denom]}{1} = 
+\frac{1}{[$b]}\cdot\frac{[$common_denom]}{1} ```]
+
+which will simplify as
+
+[``` [$lhs_mult] = [$rhs_mult] ```]
+
+The solution of this simplified equation is [:[$an1]:].
+
+We need to make sure that this is not an _extraneous solution_.  Extraneous solutions could only be introduced when we multiplied by the common denominator, and only in the case the common denominator was zero.  When [: x = [$an1] :], the common denominator [: [$common_denom] :] is not zero, so it is not an extraneous solution.
+
+Therefore the solution of the original equation is [:[$an1]:].
+
+END_PGML_SOLUTION
 
 ENDDOCUMENT(); 
