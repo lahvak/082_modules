@@ -1,0 +1,120 @@
+##DESCRIPTION
+##  How to enter simple numbers into WeBWorK
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(Prime factorization)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "bizarroArithmetic.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+# Define our own parser for exponents, so that in bizarro arithmetic, 
+# 3*3 is equal to 3^2 but not to 9:
+
+package mybop::BOP::power;
+our @ISA = ('Parser::BOP::power');
+
+sub _check {
+    my $self = shift;
+    my $b = $self->{rop}->eval;
+    return if ($self->checkNumbers() && ($b =~ /^~~d+~~z/));
+    $self->Error("In this problem, exponents must be whole numbers.");
+}
+
+sub _eval {
+    my $self = shift;
+    my $context = $self->context;
+    my ($a, $b) = @_;
+    if ($context->flag("myPower")) {
+        if ($b == 0) {return 1;}
+        my $acc = $a;
+        for (my $i = 1; $i < $b; $i++) {
+            $acc = bizarro::f(bizarro::g($acc) * bizarro::g($a));
+        }
+        return $acc;
+    } else {
+        return $a ** $b;
+    }
+}
+
+package main;
+
+Context()->operators->undefine("+", "-", "/", " /", "/ ", "//", "fn", "!", "u-", "u+",);
+Context()->operators->set(
+'*' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+' *' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+'* ' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+'**' => {class => 'mybop::BOP::power', isCommand => 1, perl=>undef},
+'^' => {class => 'mybop::BOP::power', isCommand => 1, perl=>undef},
+);
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+     formatStudentAnswer=>'parsed'
+  );
+
+$a = list_random(2, 3, 5);
+$apow = 4; #random(2,4,1);
+do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
+$bpow = 3; #random(1,2,1);
+do {$c = list_random(3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+
+$prod = $a**$apow*$b**$bpow*$c;
+
+$str = join "*", (("$a") x $apow, ("$b") x $bpow, "$c");
+
+$ans = Formula($str);
+
+
+BEGIN_PGML
+
+Factor [$prod]: [________________________]
+
+END_PGML
+
+ANS($ans -> cmp(
+   checker=>sub{
+      my ( $correct, $student, $ansHash ) = @_;
+      return 0 if $ansHash->{isPreview} || $correct != $student;
+      Context()->flags->set(bizarroMul=>1, 
+         myPower=>1,
+         reduceConstants => 1,
+         reduceConstantFunctions => 1,
+      );
+      delete $correct->{test_values};
+      delete $student->{test_values};
+      my $OK = (Real($ansHash->{correct_value})->eval == Real($ansHash->{student_formula})->eval);
+      Context()->flags->set(bizarroMul=>0, 
+         myPower=>0,
+         reduceConstants => 0,
+         reduceConstantFunctions => 0,
+      );
+      Value::Error("Your answer is numerically equivalent to the correct answer, but not in the expected form.
+                    Perhaps it is not fully factored.") unless $OK;
+      return $OK;
+}));
+
+BEGIN_PGML_SOLUTION
+Blah
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
