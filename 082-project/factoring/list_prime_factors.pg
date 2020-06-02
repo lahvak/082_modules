@@ -1,0 +1,126 @@
+##DESCRIPTION
+##  List all prime factors of a number.
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(Prime factorization)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$a = list_random(2, 3, 5);
+$apow = random(2,4,1);
+do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
+$bpow = random(1,2,1);
+do {$c = list_random(3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+
+$prod = $a**$apow*$b**$bpow*$c;
+
+$ans = List("$a, $b, $c");
+$cmp = $ans->cmp(list_checker => sub {
+     my ($correct,$student,$ansHash,$value) = @_;
+     my %seen;  # remove duplicates from student answer:
+     my @student_no_dup = grep { not $seen{$_}++ } @$student;
+     my $n = scalar(@$student);  # number of student answers
+     my $n_uniq = scalar(@student_no_dup);  # number of unique student answers
+     my $n_cor = scalar(@$correct);  # number of correct answers
+     my $score = 0;              # number of correct student answers
+     my @errors = ();            # stores error messages
+     my $i, $j;                  # loop counters
+
+     #
+     #  Loop though the student answers
+     ##
+     for ($i = 0; $i < $n; $i++) {
+       my $ith = Value::List->NameForNumber($i+1);
+       my $p = $student->[$i];   # i-th student answer
+       #
+       #  Check that the student's answer is a number
+       #
+       if ($p->type ne "Number") {
+          push(@errors,"Your $ith entry is not a number");
+          next;
+       }
+       #
+       #  Check that the number hasn't been given before
+       #
+       for ($j = 0, $used = 0; $j < $i; $j++) {
+         if ($student->[$j]->type eq "Number" && $student->[$j] == $p) {
+           push(@errors,"Your $ith entry is a duplicate of a previous one") unless $ansHash->{isPreview};
+           $used = 1; last;
+         }
+       }
+       #
+       #  If not already used, check that it is a prime and that it divides the
+       #  given number, and increase the score if so.
+       #
+       if (!$used) {
+         my $a = $p->value;
+         if ( $prod % $a != 0 ) {
+           push(@errors,"Your $ith number ($a) is not a factor of $prod") unless $ansHash->{isPreview};
+         } elsif (!isPrime($a)) {
+           push(@errors,"Your $ith number ($a) is not a prime") unless $ansHash->{isPreview};
+         } else {$score++}
+       }
+     }
+     #
+     #  Check that there are the right number of answers
+     #
+     if (!$ansHash->{isPreview}) {
+       push(@errors,"You did not list all prime factors") if $n_uniq < $n_cor;
+       push(@errors,"Your list have too many numbers") if $score > $n_cor && $i != $score;  # should never happen
+     }
+     return ($score,@errors);
+   });
+
+
+# Solution stuff:
+
+@factors = (($a) x $apow, ($b) x $bpow, $c);
+
+$cumprod = 1;
+
+@strings = ();
+
+while ($factor = pop @factors) {
+    $cumprod *= $factor;
+    unshift @strings, (join "\cdot ", (@factors, "$cumprod"));
+}
+
+$fst = shift @strings;
+$sol = "$fst &= " . join " \\ &= ", @strings;
+
+BEGIN_PGML
+
+List all the **prime** factors of [$prod].  List each prime factor _only once_, even if it appears in the factorization of [$prod] several times. Separate your primes by commas. (For example, for prime factors of 12, you would put 2, 3).
+
+Prime factors of [$prod] are: [________________________]{$cmp}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+We can factor [`[$prod]`] for example this way:
+[```\begin{aligned}[$sol]\end{aligned}```]
+
+The prime factors of [$prod] are [$a], [$b] and [$c].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
