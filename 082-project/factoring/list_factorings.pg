@@ -1,0 +1,210 @@
+##DESCRIPTION
+##  List all ways to factor a given number as a product of two integers.
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(Prime factorization)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('arithmetics, factoring')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = list_random(2, 3, 5);
+do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
+do {$c = list_random(3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+
+$prod = $a*$b*$c;
+
+$p1 = $a;
+$p2 = $b;
+$p3 = $c;
+$p12 = $a*$b;
+$p13 = $a*$c;
+$p23 = $b*$c;
+
+Context("Point");
+Parser::Number::NoDecimals();
+Context()->{error}{msg}{"Can't use '-' in this context"} = "You can only use positive integers, and no subtraction.  Therefore, '-' is not allowed here.";
+Context()->{error}{msg}{"Can't use '/' in this context"} = "You cannot use fractions in this problem.";
+
+$ans = List("(1, $prod), ($p1, $p23), ($p2, $p13), ($p3, $p12)");
+
+package mybop::BOP::multiply;
+our @ISA = ('Parser::BOP::multiply');
+
+sub _check {
+    my $self = shift;
+    my $context = $self->context;
+    if ($context->flag("myProduct")) {
+        my $ltype = $self->{lop}->typeRef; 
+        my $rtype = $self->{rop}->typeRef;
+        if (($ltype->{name} eq 'Number') && ($rtype->{name} eq 'Number')){
+            $self->{type}->{name} = 'Point';
+            return;
+        }
+        if (($ltype->{name} eq 'Point') || ($rtype->{name} eq 'Point')){
+            $self->Error("You cannot use more than two factors");
+        }
+        $self->Error("The factors must be numbers");
+    } else {
+      return if $self->checkStrings();
+      return if $self->checkLists();
+      return if $self->checkNumbers();
+      my ($ltype,$rtype) = $self->promotePoints('Matrix');
+      if ($ltype->{name} eq 'Number' && $rtype->{name} =~ m/Vector|Matrix/) {
+        $self->{type} = {%{$rtype}};
+      } elsif ($ltype->{name} =~ m/Vector|Matrix/ && $rtype->{name} eq 'Number') {
+        $self->{type} = {%{$ltype}};
+      } elsif ($ltype->{name} eq 'Matrix' && $rtype->{name} eq 'Vector') {
+        $self->checkMatrixSize($ltype,transposeVectorType($rtype));
+      } elsif ($ltype->{name} eq 'Vector' && $rtype->{name} eq 'Matrix') {
+        $self->checkMatrixSize(Value::Type('Matrix',1,$ltype),$rtype);
+      } elsif ($ltype->{name} eq 'Matrix' && $rtype->{name} eq 'Matrix') {
+        $self->checkMatrixSize($ltype,$rtype);
+      } elsif ($self->context->flag("allowBadOperands")) {
+        $self->{type} = $Value::Type{number};
+      } else {$self->Error("Operands of '*' are not of compatible types")}
+    }
+}
+
+sub _eval {
+    my $self = shift;
+    my $context = $self->context;
+    my ($a, $b) = @_;
+    if ($context->flag("myProduct")) {
+        return main::Point($a, $b);
+    } else {
+        return $a * $b;
+    }
+}
+
+package main;
+
+$cmp = $ans->cmp(list_checker => sub {
+     my ($correct,$student,$ansHash,$value) = @_;
+     my $n = scalar(@$student);  # number of student answers
+     my $n_cor = scalar(@$correct);  # number of correct answers
+     my $score = 0;              # number of correct student answers
+     my @errors = ();            # stores error messages
+     my $i, $j;                  # loop counters
+   
+     #
+     #  Loop though the student answers
+     ##
+     for ($i = 0; $i < $n; $i++) {
+       my $ith = Value::List->NameForNumber($i+1);
+       my $p = $student->[$i];   # i-th student answer
+       #
+       #  Check that the student's answer is a point
+       #
+       if ($p->type ne "Point") {
+          push(@errors,"Your $ith entry is not a list or product of two factors");
+          next;
+       }
+       #
+       # Extract coordinates:
+       #
+       my @coords = $p->value;
+       #
+       # Check the point has exactly two coordinates
+       #
+       my $coordslen = scalar(@coords);
+       if ($coordslen != 2) {
+            push(@errors, "Each factorization must have exactly two factors.  Your $ith factorization has $coordslen factors.");
+            next;
+       }
+       #
+       # Get individual coordinates
+       #
+       my ($a, $b) = @coords;
+       #
+       #  Check that the point hasn't been given before
+       #
+       my $q = Point("($b, $a)");
+       for ($j = 0, $used = 0; $j < $i; $j++) {
+         if ($student->[$j]->type eq "Point" && $student->[$j] == $p) {
+           push(@errors,"Your $ith factorization is the same as a previous one") unless $ansHash->{isPreview};
+           $used = 1; last;
+         } elsif ($student->[$j]->type eq "Point" && $student->[$j] == $q) {
+           push(@errors,"Your $ith factorization is the equivalent to a previous one") unless $ansHash->{isPreview};
+           $used = 1; last;
+         }
+       }
+       #
+       #  If not already used, check that it satisfies the equation
+       #    and increase the score if so.
+       #
+       if (!$used) {
+         if ($a * $b == $prod) {$score++} else {
+           push(@errors,"Your $ith factorization is not correct") unless $ansHash->{isPreview}
+         }
+       }
+     }
+     #
+     #  Check that there are the right number of answers
+     #
+     if (!$ansHash->{isPreview}) {
+       push(@errors,"There are some factorizations that you missed.") if $i < $n_cor;
+       push(@errors,"You have given too many factorizations") if $score > 3 && $i != $score;
+     }
+     return ($score,@errors);
+   });
+
+
+Context()->operators->undefine("+", "-", "/", " /", "/ ", "//", "fn", "!", "u-", "u+",);
+Context()->operators->set(
+'*' => {class => 'mybop::BOP::multiply', isCommand => 1},
+' *' => {class => 'mybop::BOP::multiply', isCommand => 1},
+'* ' => {class => 'mybop::BOP::multiply', isCommand => 1},
+);
+Context()->flags->set(myProduct=>1);
+
+BEGIN_PGML
+
+List all the ways [`[$prod]`] can be written as a product of two _positive integers_. 
+
+_Write each factorization as a **product** of two numbers (for example [|1*6|]) or as a list of the two numbers enclosed in parentheses (for example [|(1,6)|]).  Separate the individual factorizations by commas._
+
+--------
+
+**Example:** The number [`6`] can be written as [`1\cdot 6`] or [`2\cdot 3`].  
+
+Note that because multiplication is _commutative_, [`6\cdot 1`] is equivalent to [`1\cdot 6`], so we did not include it on our list.  For the same reason, we did not include [`3\cdot 2`].
+
+So if the number was [`6`] you could enter for example [|1*6, 2*3|]* or [|(1,6), (2,3)|]*.
+
+-------
+
+Factorizations of [$prod] into two positive integers are: [_______________________________________________]{$cmp}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The prime factorization of [`[$prod]`] is [` [$a]\cdot [$b]\cdot [$c] `].  From this, we can find all the integer factors:
+
+[` 1 `], [`[$a]`], [`[$b]`], [`[$c]`], [`[$a]\cdot [$b] = [$a*$b]`], [`[$a]\cdot [$c] = [$a*$c]`], [`[$b]\cdot [$c] = [$b*$c]`], and [`[$a]\cdot [$b]\cdot [$c] = [$prod]`].
+
+Notice that each of the 8 factors have a corresponding factor such that when you multiply them together, you get [`[$prod]`].  For example, 
+[`[$a]\cdot [$b*$c] = [$b*$c]\cdot [$a] = [$prod]`].  Because of commutativity of multiplication, [`[$a]\cdot [$b*$c]`] and [`[$b*$c]\cdot [$a]`] are equivalent, and only one of them should be entered. 
+
+There are 4 such pairs: [`1\cdot [$prod]`], [`[$a]\cdot [$b*$c]`], [`[$b]\cdot [$a*$c]`] and [`[$c]\cdot [$a*$b]`].
+END_PGML_SOLUTION
+
+COMMENT("Three distinct non-repeated prime factors");
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
