@@ -1,5 +1,5 @@
 ##DESCRIPTION
-##  How to enter simple numbers into WeBWorK
+##  List all integer factors of a given number.
 ##ENDDESCRIPTION
 
 
@@ -10,7 +10,7 @@
 ## Institution(SVSU)
 ## Author(Jan Hlavacek)
 ## Level(1)
-## KEYWORDS('algebra, WeBWorK')
+## KEYWORDS('arithmetic', 'factoring')
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
