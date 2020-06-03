@@ -1,0 +1,66 @@
+##DESCRIPTION
+##  List all integer factors of a given number.
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(Prime factorization)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('arithmetic', 'factoring')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$a = list_random(2, 3, 5);
+do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
+do {$c = list_random(3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+
+$prod = $a^2*$b*$c;
+
+$ans = List("1, $a, $b, $c, $a^2, $a*$b, $a*$c, $b*$c, $a^2*$b, $a^2*$c, $a*$b*$c, $prod");
+
+BEGIN_PGML
+
+Find all the _integer factors_ of [`[$prod]`].  Write them as a comma separated list.
+
+Integer factors of [$prod] are: [________________________________]{$ans}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The prime factorization of [`[$prod]`] is [` [$a]\cdot [$a]\cdot [$b]\cdot [$c] `].  Notice that [`[$a]`] is repeated twice.  One way to 
+find all the integer factors is as follows:
+
+1.  First find all the integer factors that _do not use_ [`[$a]`]:
+
+    [` 1 `], [`[$b]`], [`[$c]`], and [`[$b]\cdot [$c] = [$b*$c]`].
+
+2.  Then find those that use [`[$a]`] _exactly once_:
+
+    [`[$a]`], [`[$a]\cdot [$b] = [$a*$b]`], [`[$a]\cdot [$c] = [$a*$c]`],  and [`[$a]\cdot [$b]\cdot [$c] = [$a*$b*$c]`].
+
+2.  Finally there are those that use [`[$a]`] _twice_:
+
+    [`[$a]\cdot [$a] = [$a*$a]`], [`[$a]\cdot [$a]\cdot [$b] = [$a*$a*$b]`], [`[$a]\cdot [$a]\cdot [$c] = [$a*$a*$c]`],  and [`[$a]\cdot [$a]\cdot [$b]\cdot [$c] = [$prod]`].
+
+All together there are the following 12 integer factors: [`[$ans]`].
+END_PGML_SOLUTION
+
+COMMENT("Three prime factors, one of them repeated twice");
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
