@@ -1,0 +1,207 @@
+##DESCRIPTION
+##  Find the greatest common factor of three numbers
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(GCDs and LCMs)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('arithmetics, gcf')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "bizarroArithmetic.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+# Define our own parser for exponents, so that in bizarro arithmetic, 
+# 3*3 is equal to 3^2 but not to 9:
+
+package mybop::BOP::power;
+our @ISA = ('Parser::BOP::power');
+
+sub _check {
+    my $self = shift;
+    my $b = $self->{rop}->eval;
+    return if ($self->checkNumbers() && ($b =~ /^~~d+~~z/));
+    $self->Error("In this problem, exponents must be whole numbers.");
+}
+
+sub _eval {
+    my $self = shift;
+    my $context = $self->context;
+    my ($a, $b) = @_;
+    if ($context->flag("myPower")) {
+        if ($b == 0) {return 1;}
+        my $acc = $a;
+        for (my $i = 1; $i < $b; $i++) {
+            $acc = bizarro::f(bizarro::g($acc) * bizarro::g($a));
+        }
+        return $acc;
+    } else {
+        return $a ** $b;
+    }
+}
+
+package main;
+
+# Disable all operators except multiplication and exponentiation
+
+Context()->operators->undefine("+", "-", "/", " /", "/ ", "//", "fn", "!", "u-", "u+",);
+Context()->operators->set(
+'*' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+' *' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+'* ' => {class => 'bizarro::BOP::multiply', isCommand => 1},
+'**' => {class => 'mybop::BOP::power', isCommand => 1, perl=>undef},
+'^' => {class => 'mybop::BOP::power', isCommand => 1, perl=>undef},
+);
+
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+     formatStudentAnswer=>'parsed'
+);
+
+
+sub factoring_checker {
+  my ( $correct, $student, $ansHash ) = @_;
+  return 0 if $ansHash->{isPreview} || $correct != $student;
+  Context()->flags->set(bizarroMul=>1, 
+     myPower=>1,
+     reduceConstants => 1,
+     reduceConstantFunctions => 1,
+  );
+  delete $correct->{test_values};
+  delete $student->{test_values};
+  my $OK = (Real($ansHash->{correct_value})->eval == Real($ansHash->{student_formula})->eval);
+  Context()->flags->set(bizarroMul=>0, 
+     myPower=>0,
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+  );
+  Value::Error("Your answer is numerically equivalent to the correct answer, but not in the expected form.
+                Perhaps it is not fully factored.") unless $OK;
+  return $OK;
+}
+
+# Generate three numbers in the form a^n1 * b^k * c, a^n2 * c^m1, a^n3 * b * c^m2
+# n1 < n2, m1 < n3, m1 > m2
+
+$a = list_random(2, 3, 5);
+$apow1 = random(1,2,1);
+$apow2 = $apow1 + random(1,2,1);
+$apow3 = $apow1 + random(0,1,1);
+do {$b = list_random(2, 3, 5);} while ($b == $a);
+$bpow = random(1,2,1);
+do {$c = list_random(2, 3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+$cpow2 = $c > 5 ? 1 : 2;
+$cpow1 = $cpow2 + random(0,1,1);
+
+$prod1 = $a**$apow1*$b**$bpow*$c;
+$prod2 = $a**$apow2*$c**$cpow1;
+$prod3 = $a**$apow3*$b*$c**$cpow2;
+
+$str1 = join "*", (("$a") x $apow1, ("$b") x $bpow, "$c");
+$str2 = join "*", (("$a") x $apow2, ("$c") x $cpow1);
+$str3 = join "*", (("$a") x $apow3, "$b", ("$c") x $cpow2);
+
+$ans1 = Formula($str1);
+$ans2 = Formula($str2);
+$ans3 = Formula($str3);
+
+$cmp1 = $ans1->cmp(checker=>~~&factoring_checker);
+$cmp2 = $ans2->cmp(checker=>~~&factoring_checker);
+$cmp3 = $ans3->cmp(checker=>~~&factoring_checker);
+
+@common_factors = (($a) x $apow1, ($c));
+
+$ans4 = List(@common_factors);
+
+$gcf = $a**$apow1*$c;
+
+# Solution stuff:
+#
+@factors1 = (($a) x $apow1, ($b) x $bpow, $c);
+@factors2 = (($a) x $apow2, ($c) x $cpow1);
+@factors3 = (($a) x $apow3, $b, ($c) x $cpow2);
+
+sub mksol {
+    @factors = @_;
+
+    my $cumprod = 1;
+
+    my @strings = ();
+
+    while ($factor = pop @factors) {
+        $cumprod *= $factor;
+        unshift @strings, (join "\cdot ", (@factors, "$cumprod"));
+    }
+
+    my $fst = shift @strings;
+    return "$fst &= " . join " \\ &= ", @strings;
+}
+
+$sol1 = mksol @factors1;
+$sol2 = mksol @factors2;
+$sol3 = mksol @factors3;
+
+$prodcom = join "\cdot ", @common_factors;
+
+BEGIN_PGML
+### In this problem you will find the _greatest common factor_ of [$prod1], [$prod2], and [$prod3] ###
+
+1.  Find the prime factorizaration of [$prod1].  Your answer should be written as a product of prime numbers.
+
+    [`[$prod1] = `][________________________]{$cmp1}
+
+2.  Find the prime factorizaration of [$prod2].  Your answer should be written as a product of prime numbers.
+
+    [`[$prod2] = `][________________________]{$cmp2}
+
+2.  Find the prime factorizaration of [$prod3].  Your answer should be written as a product of prime numbers.
+
+    [`[$prod3] = `][________________________]{$cmp3}
+
+3.  List all the (possibly repeated) prime factors that are common to all three factorizations.  Enter NONE if there are no common prime factors.
+
+    Common prime factors (including repetition): [______________________________]{$ans4}
+
+4.  Multiply the common prime factors to find the greatest common factor. If there are no common prime factors, the _greatest common factor_ is 1. 
+    The greatest common factor: [_______________]{$gcf}
+END_PGML
+
+
+BEGIN_PGML_SOLUTION
+1.  We can factor [`[$prod1]`] for example this way:
+
+    [```\begin{aligned}[$sol1]\end{aligned}```]
+
+2.  We can factor [`[$prod2]`] for example this way:
+
+    [```\begin{aligned}[$sol2]\end{aligned}```]
+
+3.  We can factor [`[$prod3]`] for example this way:
+
+    [```\begin{aligned}[$sol3]\end{aligned}```]
+
+3.  The common prime factors (inlcuding repetition) are [$ans4].
+
+4.  The product of the common prime factors is [`[$prodcom] = [$gcf]`].
+END_PGML_SOLUTION
+
+COMMENT("Two common prime factors, one possibly repeated.");
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
