@@ -1,0 +1,110 @@
+##DESCRIPTION
+## Find the greatest common factor of three monomials with variables (with exponents)
+##ENDDESCRIPTION
+
+
+## DBsubject(Algebra)
+## DBchapter(Factoring)
+## DBsection(Factoring: common factors)
+## Date(2020-06-12)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+# Generate three numbers in the form a^n1 * b^k * c, a^n2 * c^m1, a^n3 * b * c^m2
+# n1 < n2, m1 < n3, m1 > m2
+
+$a = list_random(2, 3, 5, 7);
+$apow1 = random(2,3,1);
+$apow2 = $apow1 + random(1,2,1);
+$apow3 = $apow1 + random(0,1,1);
+do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
+$bpow = random(2,3,1);
+do {$c = list_random(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31);} while ($c == $a or $c == $b);
+$cpow2 = $c > 5 ? 1 : 2;
+$cpow1 = $cpow2 + random(0,2,1);
+
+$xpow1 = random(4,7,1);
+$xpow2 = $xpow1 + list_random(-1,1)*random(1,$xpow1-1,1);
+$xpow3 = $xpow1 + list_random(-1,1)*random(1,$xpow1-1,1);
+$ypow1 = random(4,7,1);
+$ypow2 = $ypow1 + list_random(-1,1)*random(1,$ypow1-1,1);
+$ypow3 = $ypow1 + list_random(-1,1)*random(1,$ypow1-1,1);
+
+$xpow = min(($xpow1, $xpow2, $xpow3));
+$ypow = min(($ypow1, $ypow2, $ypow3));
+
+$prod1 = $a**$apow1*$b**$bpow*$c;
+$prod2 = $a**$apow2*$c**$cpow1;
+$prod3 = $a**$apow3*$b*$c**$cpow2;
+
+sub mkpow {
+    my ($base, $pow) = @_;
+    return ($pow == 1) ? "$base" : "$base^{$pow}";
+}
+
+sub repeats {
+    my $num = shift;
+    return $num == 1 ? "occurs once" : "repeats $num times";
+}
+
+$str1 = join "\cdot ", ((mkpow $a, $apow1), (mkpow $b, $bpow), "$c", (mkpow "x", $xpow1), (mkpow "y", $ypow1));
+$str2 = join "\cdot ", ((mkpow $a, $apow2), (mkpow $c, $cpow1), (mkpow "x", $xpow2), (mkpow "y", $ypow2));
+$str3 = join "\cdot ", ((mkpow $a, $apow3), "$b", (mkpow $c, $cpow2), (mkpow "x", $xpow3), (mkpow "y", $ypow3));
+
+Context("Numeric");
+Context()->variables->add(y => "Real");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+     formatStudentAnswer=>'parsed'
+);
+
+$gcf = Formula("$a**$apow1*$c*x**$xpow*y**$ypow")->reduce;
+
+$gcfstr = join "\cdot ", ((mkpow $a, $apow1), "$c", (mkpow "x", $xpow), (mkpow "y", $ypow));
+
+BEGIN_PGML
+Find the greatest common factor of the following three terms:
+
+*  [``[$str1]``]
+*  [``[$str2]``]
+*  [``[$str3]``]
+
+Answer: [___________________________________]{$gcf}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The individual "prime factors" in the three terms are [`[$a]`], [`[$b]`], [`[$c]`], [`x`] and [`y`].
+
+*  In the term [``[$str1]``], the factor [`[$a]`] [@ repeats $apow1 @], [`[$b]`] [@ repeats $bpow @], [`[$c]`] occurs once, [`x`] [@ repeats $xpow1 @] and [`y`] [@ repeats $ypow1 @].
+*  In the term [``[$str2]``], the factor [`[$a]`] [@ repeats $apow2 @], [`[$b]`] does not occur, [`[$c]`] [@ repeats $cpow1 @], [`x`] [@ repeats $xpow2 @] and [`y`] [@ repeats $ypow2 @].
+*  In the term [``[$str3]``], the factor [`[$a]`] [@ repeats $apow3 @], [`[$b]`] occurs once, [`[$c]`] [@ repeats $cpow2 @], [`x`] [@ repeats $xpow3 @] and [`y`] [@ repeats $ypow3 @].
+
+The smallest number of repetitions for each of the factors is:
+
+*  [$apow1] for [`[$a]`]
+*  0 for [`[$b]`] (it does not occur in the second term)
+*  1 for [`[$c]`] (it only occurs once in the first term)
+*  [$xpow] for [`x`]
+*  [$ypow] for [`y`]
+
+The greatest common factor is then [``[$gcfstr]``].
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
