@@ -106,7 +106,7 @@ $apow2 = $apow1 + random(1,2,1);
 $apow3 = $apow1 + random(0,1,1);
 do {$b = list_random(2, 3, 5);} while ($b == $a);
 $bpow = random(1,2,1);
-do {$c = list_random(2, 3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+do {$c = list_random(2, 3, 5, 7, 11, 11, 13, 13, 17, 17, 19);} while ($c == $a or $c == $b);
 $cpow2 = $c > 5 ? 1 : 2;
 $cpow1 = $cpow2 + random(0,1,1);
 

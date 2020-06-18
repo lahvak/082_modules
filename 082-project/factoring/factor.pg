@@ -103,7 +103,7 @@ $a = list_random(2, 3, 5);
 $apow = random(2,4,1);
 do {$b = list_random(2, 3, 5, 7, 11);} while ($b == $a);
 $bpow = random(1,2,1);
-do {$c = list_random(3, 5, 7, 11, 13, 17);} while ($c == $a or $c == $b);
+do {$c = list_random(3, 3, 5, 5, 7, 7, 11, 11, 13, 13, 17, 19, 23);} while ($c == $a or $c == $b);
 
 $prod = $a**$apow*$b**$bpow*$c;
 
