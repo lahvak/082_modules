@@ -1,0 +1,41 @@
+##DESCRIPTION
+##   Problem where student can enter fraction or decimal, but the correct
+## answer is a fraction
+##ENDDESCRIPTION
+
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "PGML.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+
+Context("Fraction");
+
+$a = random(3,9,1);
+$b = random(4,10,1);
+
+$ans_fraction = Compute("$a/$b");
+
+Context("Numeric");
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+  );
+
+$ans = Formula("$ans_fraction");
+
+BEGIN_PGML
+What is [$a] divided by [$b]?
+
+Solution: [___________________]{$ans}
+END_PGML
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
+
