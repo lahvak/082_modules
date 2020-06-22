@@ -1,0 +1,103 @@
+##DESCRIPTION
+## Find the greatest common factor of three monomials with variables (with exponents)
+##ENDDESCRIPTION
+
+
+## DBsubject(Algebra)
+## DBchapter(Factoring)
+## DBsection(Factoring: common factors)
+## Date(2020-06-12)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('algebra, WeBWorK')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$common = random(3,20,1);
+
+$a = list_random(3, 4, 5);
+do {$b = list_random(5, 7, 8);} until (gcd($a,$b) == 1);
+do {$c = random(11, 25, 2);} until (gcd($a, $c) == 1 && gcd($b, $c) == 1);
+
+$prod1 = $common*$a;
+$prod2 = $common*$b;
+$prod3 = $common*$c;
+
+$xpow1 = random(4,7,1);
+$xpow2 = $xpow1 + list_random(-1,1)*random(1,$xpow1-1,1);
+$xpow3 = $xpow1 + list_random(-1,1)*random(1,$xpow1-1,1);
+$ypow1 = random(4,7,1);
+$ypow2 = $ypow1 + list_random(-1,1)*random(1,$ypow1-1,1);
+$ypow3 = $ypow1 + list_random(-1,1)*random(1,$ypow1-1,1);
+
+$xpow = min(($xpow1, $xpow2, $xpow3));
+$ypow = min(($ypow1, $ypow2, $ypow3));
+
+sub mkpow {
+    my ($base, $pow) = @_;
+    return ($pow == 1) ? "$base" : "$base^{$pow}";
+}
+
+sub repeats {
+    my $num = shift;
+    return $num == 1 ? "occurs once" : "repeats $num times";
+}
+
+@factors1 = ("$prod1", (mkpow "x", $xpow1), (mkpow "y", $ypow1));
+@factors2 = ("$prod2", (mkpow "x", $xpow2), (mkpow "y", $ypow2));
+@factors3 = ("$prod3", (mkpow "x", $xpow3), (mkpow "y", $ypow3));
+
+Context("Numeric");
+Context()->variables->add(y => "Real");
+Context()->flags->set(
+     reduceConstants => 1,
+     reduceConstantFunctions => 1,
+     formatStudentAnswer=>'parsed'
+);
+
+$form1 = Formula(join "*", @factors1)->reduce;
+$form2 = Formula(join "*", @factors2)->reduce;
+$form3 = Formula(join "*", @factors3)->reduce;
+
+$gcf = Formula("$common*x**$xpow*y**$ypow")->reduce;
+
+BEGIN_PGML
+Find the greatest common factor of the following three terms:
+
+*  [``[$form1]``]
+*  [``[$form2]``]
+*  [``[$form3]``]
+
+Answer: [___________________________________]{$gcf}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+The greatest common factor of the three coefficients is [``[$common]``].  The coefficients can be factored as follows:
+
+* [``[$prod1] = [$a]\cdot [$common]``]
+* [``[$prod2] = [$b]\cdot [$common]``]
+* [``[$prod3] = [$c]\cdot [$common]``]
+
+The smallest number of repetitions for each of the variable factors is:
+
+*  [$xpow] for [`x`]
+*  [$ypow] for [`y`]
+
+The greatest common factor is then [``[$gcf]``].
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
