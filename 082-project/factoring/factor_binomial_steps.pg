@@ -1,0 +1,454 @@
+##DESCRIPTION
+##  List all ways to factor a given number as a product of two integers.
+##ENDDESCRIPTION
+
+
+## DBsubject(Number theory)
+## DBchapter(Divisibility)
+## DBsection(Prime factorization)
+## Date(05/29/2018)
+## Institution(SVSU)
+## Author(Jan Hlavacek)
+## Level(1)
+## KEYWORDS('arithmetics, factoring')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "scaffold.pl",
+  "parserOneOf.pl",
+  "contextPolynomialFactors.pl",
+  "contextLimitedPowers.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a1 = list_random(2, 3, 5, 7);
+do {$a2 = list_random(2, 3, 5, 7);} while ($a2 == $a1);
+$d1 = list_random(2, 3, 5, 7);
+do {$d2 = list_random(2, 3, 5, 7);} while ($d2 == $d1);
+
+$a = $a1*$a2;
+$d = $d1*$d2;
+
+do {$b = list_random(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);} until (gcf($a, $b) == 1 && gcf($d, $b) == 1);
+do {$c = list_random(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);} until (gcf($a, $c) == 1 && gcf($d, $c) == 1);
+
+$first = $a*$c;
+$last = $b*$d;
+$outer = $a*$d;
+$inner = $b*$c;
+$mixed = $inner + $outer;
+
+Context("Numeric");
+
+$expanded = Formula("$first*x^2 + $mixed*x + $last")->reduce;
+$factored = Formula("($a*x + $b)($c*x+$d)")->reduce;
+
+@pfacts1 = num_sort ($a1, $a2, $c);
+@pfacts2 = num_sort ($d1, $d2, $b);
+
+@commonpfacts = ();
+$tmp = $last;
+
+for my $i (@pfacts1) {
+    my $rem = $tmp % $i;
+    if ($rem == 0) {
+        push @commonpfacts, $i;
+        $tmp /= $i;
+    }
+}
+
+$commonnum = scalar(@commonpfacts);
+
+if ($commonnum == 0) {
+    $reason = "There are no common factors of the leading and the constant coefficient.";
+} elsif ($commonnum == 1) {
+    $reason = "The common prime factor of the leading and the constant coefficent is $commonpfacts[0], which is not a factor of $mixed."
+} else {
+    $reason = "The common prime factors of the leading and the constant coefficent are " .
+                (join ", ", map {"$_"} @commonpfacts) . ", none of which is a factor of $mixed."
+}
+
+$pfactlist1 = List(@pfacts1);
+$pfactlist2 = List(@pfacts2);
+
+$pfaction1 = join "\cdot ", map {"$_"} @pfacts1;
+$pfaction2 = join "\cdot ", map {"$_"} @pfacts2;
+
+@factors1 = num_sort (1, $a1, $a2, $c);  # factors of $first less than sqrt($first)
+@factors2 = num_sort (1, $d1, $d2, $b);  # factors of $last less than sqrt($last)
+
+@factors1_b = map {$first/$_} @factors1;
+@factors2_b = map {$last/$_} @factors2;
+
+$f1halflen = scalar(@factors1);
+$f2halflen = scalar(@factors2);
+$f1len = 2*$f1halflen;
+$f2len = 2*$f2halflen;
+
+push @factors1, reverse @factors1_b;
+push @factors2, reverse @factors2_b;
+
+$l1str = join ", ", map {"($factors1[$_], $factors1_b[$_])"} (0..($f1halflen - 1));
+$l2str = join ", ", map {"($factors2[$_], $factors2_b[$_])"} (0..($f2halflen - 1));
+
+Context("Point");
+Parser::Number::NoDecimals();
+Context()->{error}{msg}{"Can't use '-' in this context"} = "You can only use positive integers, and no subtraction.  Therefore, '-' is not allowed here.";
+Context()->{error}{msg}{"Can't use '/' in this context"} = "You cannot use fractions in this problem.";
+
+$list1 = List($l1str);
+$list2 = List($l2str);
+
+sub pointtoT {
+    my $point = $_;
+    my ($a, $b) = $point->value;
+    return "$a \cdot $b";
+}
+
+@l1 = @{$list1->data};
+@l2 = @{$list2->data};
+
+@s1 = map pointtoT, @l1;
+@s2 = map pointtoT, @l2;
+
+$list1TeX = join ", ", @s1;
+$list2TeX = join ", ", @s2;
+
+package mybop::BOP::multiply;
+our @ISA = ('Parser::BOP::multiply');
+
+sub _check {
+    my $self = shift;
+    my $context = $self->context;
+    if ($context->flag("myProduct")) {
+        my $ltype = $self->{lop}->typeRef; 
+        my $rtype = $self->{rop}->typeRef;
+        if (($ltype->{name} eq 'Number') && ($rtype->{name} eq 'Number')){
+            $self->{type}->{name} = 'Point';
+            return;
+        }
+        if (($ltype->{name} eq 'Point') || ($rtype->{name} eq 'Point')){
+            $self->Error("You cannot use more than two factors");
+        }
+        $self->Error("The factors must be numbers");
+    } else {
+      return if $self->checkStrings();
+      return if $self->checkLists();
+      return if $self->checkNumbers();
+      my ($ltype,$rtype) = $self->promotePoints('Matrix');
+      if ($ltype->{name} eq 'Number' && $rtype->{name} =~ m/Vector|Matrix/) {
+        $self->{type} = {%{$rtype}};
+      } elsif ($ltype->{name} =~ m/Vector|Matrix/ && $rtype->{name} eq 'Number') {
+        $self->{type} = {%{$ltype}};
+      } elsif ($ltype->{name} eq 'Matrix' && $rtype->{name} eq 'Vector') {
+        $self->checkMatrixSize($ltype,transposeVectorType($rtype));
+      } elsif ($ltype->{name} eq 'Vector' && $rtype->{name} eq 'Matrix') {
+        $self->checkMatrixSize(Value::Type('Matrix',1,$ltype),$rtype);
+      } elsif ($ltype->{name} eq 'Matrix' && $rtype->{name} eq 'Matrix') {
+        $self->checkMatrixSize($ltype,$rtype);
+      } elsif ($self->context->flag("allowBadOperands")) {
+        $self->{type} = $Value::Type{number};
+      } else {$self->Error("Operands of '*' are not of compatible types")}
+    }
+}
+
+sub _eval {
+    my $self = shift;
+    my $context = $self->context;
+    my ($a, $b) = @_;
+    if ($context->flag("myProduct")) {
+        return main::Point($a, $b);
+    } else {
+        return $a * $b;
+    }
+}
+
+package main;
+
+sub factorization_checker {
+     my ($correct,$student,$ansHash,$value) = @_;
+     my $n = scalar(@$student);  # number of student answers
+     my $n_cor = scalar(@$correct);  # number of correct answers
+     my $score = 0;              # number of correct student answers
+     my @errors = ();            # stores error messages
+     my $i, $j;                  # loop counters
+     my @cor0 = $correct->[0]->value;
+     my $prod = $cor0[0]*$cor0[1]; #get the product
+   
+     #
+     #  Loop though the student answers
+     ##
+     for ($i = 0; $i < $n; $i++) {
+       my $ith = Value::List->NameForNumber($i+1);
+       my $p = $student->[$i];   # i-th student answer
+       #
+       #  Check that the student's answer is a point
+       #
+       if ($p->type ne "Point") {
+          push(@errors,"Your $ith entry is not a list or product of two factors");
+          next;
+       }
+       #
+       # Extract coordinates:
+       #
+       my @coords = $p->value;
+       #
+       # Check the point has exactly two coordinates
+       #
+       my $coordslen = scalar(@coords);
+       if ($coordslen != 2) {
+            push(@errors, "Each factorization must have exactly two factors.  Your $ith factorization has $coordslen factors.");
+            next;
+       }
+       #
+       # Get individual coordinates
+       #
+       my ($a, $b) = @coords;
+       #
+       #  Check that the point hasn't been given before
+       #
+       my $q = Point("($b, $a)");
+       for ($j = 0, $used = 0; $j < $i; $j++) {
+         if ($student->[$j]->type eq "Point" && $student->[$j] == $p) {
+           push(@errors,"Your $ith factorization is the same as a previous one") unless $ansHash->{isPreview};
+           $used = 1; last;
+         } elsif ($student->[$j]->type eq "Point" && $student->[$j] == $q) {
+           push(@errors,"Your $ith factorization is the equivalent to a previous one") unless $ansHash->{isPreview};
+           $used = 1; last;
+         }
+       }
+       #
+       #  If not already used, check that it satisfies the equation
+       #    and increase the score if so.
+       #
+       if (!$used) {
+         if ($a * $b == $prod) {$score++} else {
+           push(@errors,"Your $ith factorization is not correct") unless $ansHash->{isPreview}
+         }
+       }
+     }
+     #
+     #  Check that there are the right number of answers
+     #
+     if (!$ansHash->{isPreview}) {
+       push(@errors,"There are some factorizations that you missed.") if $i < $n_cor;
+       push(@errors,"You have given too many factorizations") if $score > 3 && $i != $score;
+     }
+     return ($score,@errors);
+}
+
+$cmp_list1 = $list1->cmp(list_checker => ~~&factorization_checker);
+$cmp_list2 = $list2->cmp(list_checker => ~~&factorization_checker);
+
+Context()->operators->undefine("+", "-", "/", " /", "/ ", "//", "fn", "!", "u-", "u+",);
+Context()->operators->set(
+'*' => {class => 'mybop::BOP::multiply', isCommand => 1},
+' *' => {class => 'mybop::BOP::multiply', isCommand => 1},
+'* ' => {class => 'mybop::BOP::multiply', isCommand => 1},
+);
+Context()->flags->set(myProduct=>1);
+
+###########################################
+#  The scaffold
+Scaffold::Begin();
+
+BEGIN_PGML
+The goal of this problem is to factor the binomial [``[$expanded]``].
+END_PGML
+
+###########################################
+Section::Begin("Find the prime factorization of the leading coefficient and the constant coefficient.");
+
+BEGIN_PGML
+
+*  Enter the prime factorization of the leading coefficient [`[$first]`], as a _comma-separated list of primes_: 
+
+   [_____________________________________]{$pfactlist1}
+
+*  Enter the prime factorization of the constant coefficient [`[$last]`], as a _comma-separated list of primes_: 
+
+   [_____________________________________]{$pfactlist2}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The prime factorization of [`[$first]`] is [` [$pfaction1] `].
+
+The prime factorization of [`[$last]`] is [` [$pfaction2] `].
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Check for a common factor.");
+
+BEGIN_PGML
+Find the common factor.  If there the trinomial has no common factor, enter the number 1: [____________]{1}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The prime factorization of [`[$first]`] is [` [$pfaction1] `].
+
+The prime factorization of [`[$last]`] is [` [$pfaction2] `].
+
+[$reason]
+
+There is no common factor.
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Find all ways to factor the leading coefficient and the constant coefficient.");
+
+BEGIN_PGML
+
+List all the ways the leading coefficient [`[$first]`] can be written as a product of two _positive integers_. 
+
+_Write each factorization as a **product** of two numbers (for example [|1*6|]) or as a list of the two numbers enclosed in parentheses (for example [|(1,6)|]).  Separate the individual factorizations by commas._
+
+--------
+
+**Example:** The number [`6`] can be written as [`1\cdot 6`] or [`2\cdot 3`].  
+
+Note that because multiplication is _commutative_, [`6\cdot 1`] is equivalent to [`1\cdot 6`], so we did not include it on our list.  For the same reason, we did not include [`3\cdot 2`].
+
+So if the number was [`6`] you could enter for example [|1*6, 2*3|]* or [|(1,6), (2,3)|]*.
+
+-------
+
+Factorizations of [$first] into two positive integers are: [_______________________________________________]{$cmp_list1}
+
+-------
+
+Then do the same for the constant coefficient [`[$last]`]:
+
+Factorizations of [$last] into two positive integers are: [_______________________________________________]{$cmp_list2}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The prime factorization of [`[$first]`] is [` [$pfaction1] `].  From this, we can find all the integer factors:
+
+[@ join ", ", map {"[`$_`]"} @factors1 @]**.
+
+Notice that each of the [$f1len] factors has a corresponding factor such that when you multiply them together, you get [`[$first]`].  For example, 
+[`[$factors1[1]]\cdot [$factors1_b[1]] = [$factors1_b[1]]\cdot [$factors1[1]] = [$first]`].  Because of commutativity of multiplication, [`[$factors1[1]]\cdot [$factors1_b[1]]`] and [`[$factors1_b[1]]\cdot [$factors1[1]]`] are equivalent, and only one of them should be entered. 
+
+There are [$f1halflen] such pairs: [`[$list1TeX]`].
+
+--------
+
+The factorizations of [`[$last]`] can be found in the same way:
+
+The prime factorization of [`[$last]`] is [` [$pfaction2] `].  From this, we can find all the integer factors:
+
+[@ join ", ", map {"[`$_`]"} @factors2 @]**.
+
+Notice that each of the [$f2len] factors have a corresponding factor such that when you multiply them together, you get [`[$last]`].  For example, 
+[`[$factors2[1]]\cdot [$factors2_b[1]] = [$factors2_b[1]]\cdot [$factors2[1]] = [$last]`].  Because of commutativity of multiplication, [`[$factors2[1]]\cdot [$factors2_b[1]]`] and [`[$factors2_b[1]]\cdot [$factors2[1]]`] are equivalent, and only one of them should be entered. 
+
+There are [$f2halflen] such pairs: [`[$list2TeX]`].
+
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Section::Begin("Check all candidates for the factored form");
+
+sub mkbinoms {
+    my $p1 = shift;
+    my $p2 = shift;
+    my ($a, $c) = $p1->value;
+    my ($b, $d) = $p2->value;
+    my $cf1 = (gcd($a,$b) != 1 || gcd($c, $d) != 1);
+    my $cf2 = (gcd($a,$d) != 1 || gcd($c, $b) != 1);
+    Context("LimitedNumeric");
+    Context()->strings->add("common factor"=>{}, CF=>{alias=>"common factor"});
+    my $ans1 = $cf1 ? OneOf(Compute($a*$d+$b*$c), "common factor") : Compute($a*$d+$b*$c);
+    my $ans2 = $cf2 ? OneOf(Compute($a*$b+$d*$c), "common factor") : Compute($a*$b+$d*$c);
+    Context("Numeric");
+    return (
+        Formula("($a*x + $b)*($c*x + $d)")->reduce, $ans1, $cf1,
+        Formula("($a*x + $d)*($c*x + $b)")->reduce, $ans2, $cf2
+        );
+}
+
+@formulas = ();
+@answers = ();
+@commons = ();
+
+for my $i (@l1){
+    for my $j (@l2) {
+        my ($F1, $A1, $CF1, $F2, $A2, $CF2) = mkbinoms $i, $j;
+        push @formulas, ($F1, $F2);
+        push @answers, ($A1, $A2);
+        push @commons, ($CF1, $CF2);
+    }
+}
+
+$n = scalar(@formulas);
+
+@lines = map {"~~n*  [`[~~$formulas[$_]] = $first x^2 + `][____________________]{~~$answers[$_]}[` x + $last`]"} (0..($n-1));
+
+@sols = map {$commons[$_] ? "~~n*  [`[~~$formulas[$_]]`] has a common factor" : "~~n*  [`[~~$formulas[$_]] = $first x^2 + $answers[$_] x + $last`]"} (0..($n-1));
+
+BEGIN_PGML
+
+There are [@ scalar(@l1) @] ways to factor [`[$first]`] using positive integers: [``[$list1TeX]``].
+
+There are [@ scalar(@l2) @] ways to factor [`[$last]`] using positive integers: [``[$list2TeX]``].
+
+These factorizations will give us [$n] products of binomials with positive integer coefficients that will expand to [`[$first] x^2 + bx + [$last]`] for some positive integer [`b`].  If [``[$expanded]``] can be factored, one of these [$n] products must be the factorization, in which case the number [`b`] is [`[$mixed]`].
+
+The products are listed below.  For each of the products, calculate the coefficient of the first degree term [`x`]. 
+
+Note that in some cases, some of the products do not actually have to be checked, because one of the binomials (or even both of them) have a common factor.  Since the original trinomial does not have a common factor, a product with a common factor cannot be its factorization.
+
+For such products you can, instead of calculating and entering the coefficient of [`x`], enter the words *common factor*, which you can also abbreviate as *CF*.
+
+[@ join "", @lines @]**
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+[@ join "", @sols @]**
+
+END_PGML_SOLUTION
+
+Section::End();
+
+Section::Begin("Enter the factored form.");
+
+Context("PolynomialFactors-Strict");
+Context()->flags->set(singleFactors=>0);
+LimitedPowers::OnlyIntegers(
+minPower => 0, maxPower => 1,
+message => "either 0 or 1",
+);
+$factoredform = Compute("$factored");
+
+BEGIN_PGML
+
+Enter the factored version of [``[$expanded]``]: [_______________________________]{$factoredform}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+The factored form of [``[$expanded]``] is [``[$factored]``].
+
+END_PGML_SOLUTION
+
+Section::End();
+###########################################
+Scaffold::End();
+
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
