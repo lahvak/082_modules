@@ -1,5 +1,5 @@
 ##DESCRIPTION
-##  List all ways to factor a given number as a product of two integers.
+##  Complete step by step factoring of a trinomial, even simpler version
 ##ENDDESCRIPTION
 
 
@@ -29,11 +29,10 @@ TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
 $a1 = list_random(2, 3, 5, 7);
-do {$a2 = list_random(2, 3, 5, 7);} while ($a2 == $a1);
-$d1 = list_random(2, 3, 5, 7);
+$d1 = $a1;
 do {$d2 = list_random(2, 3, 5, 7);} while ($d2 == $d1);
 
-$a = $a1*$a2;
+$a = $a1;
 $d = $d1*$d2;
 
 do {$b = list_random(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);} until (gcf($a, $b) == 1 && gcf($d, $b) == 1);
@@ -50,7 +49,7 @@ Context("Numeric");
 $expanded = Formula("$first*x^2 + $mixed*x + $last")->reduce;
 $factored = Formula("($a*x + $b)($c*x+$d)")->reduce;
 
-@pfacts1 = num_sort ($a1, $a2, $c);
+@pfacts1 = num_sort ($a1, $c);
 @pfacts2 = num_sort ($d1, $d2, $b);
 
 @commonpfacts = ();
@@ -81,7 +80,7 @@ $pfactlist2 = List(@pfacts2);
 $pfaction1 = join "\cdot ", map {"$_"} @pfacts1;
 $pfaction2 = join "\cdot ", map {"$_"} @pfacts2;
 
-@factors1 = num_sort (1, $a1, $a2, $c);  # factors of $first less than sqrt($first)
+@factors1 = num_sort (1, $a1);  # factors of $first less than sqrt($first)
 @factors2 = num_sort (1, $d1, $d2, $b);  # factors of $last less than sqrt($last)
 
 @factors1_b = map {$first/$_} @factors1;
@@ -289,7 +288,7 @@ Section::End();
 Section::Begin("Check for a common factor.");
 
 BEGIN_PGML
-Find the common factor.  If there the trinomial has no common factor, enter the number 1: [____________]{1}
+Find the common factor.  If the trinomial has no common factor, enter the number 1: [____________]{1}
 END_PGML
 
 BEGIN_PGML_SOLUTION
@@ -450,6 +449,6 @@ Section::End();
 ###########################################
 Scaffold::End();
 
-COMMENT("Both leading and constant coefficient each have 3 distinct prime factors.  Common factors in candidate factorizations likely.");
+COMMENT("Leading coefficient has two prime factors, constant has three.  Common factros in candidate factorization guaranteed");
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.

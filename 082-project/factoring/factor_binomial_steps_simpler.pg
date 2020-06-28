@@ -449,5 +449,6 @@ Section::End();
 ###########################################
 Scaffold::End();
 
+COMMENT("Leading coefficient has 2 distinct prime factors, constant has 3. Common factors in candidate factorizations possible, but somewhat unlikely");
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
