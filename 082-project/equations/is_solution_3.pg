@@ -47,7 +47,7 @@ $rhs = Formula("$c*x + $d");
 # distractors:
 
 do {$distf = Fraction(random(1,15,2), $diff);} while ($distf == $solf);
-do {$distr = Real(random(-15,15,2)/$diff;} while ($distr == $sorl or $distr == $distf);
+do {$distr = Real(random(-15,15,2)/$diff);} while ($distr == $sorl or $distr == $distf);
 
 $ver = list_random(0,1,2,3);
 

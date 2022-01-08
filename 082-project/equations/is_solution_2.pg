@@ -35,7 +35,7 @@ $sol = $a*$b;
 
 Context("Numeric");
 
-$lhs = Formula("$1/a*x");
+$lhs = Formula("1/$a*x");
 $rhs = $b;
 
 # distractors:
