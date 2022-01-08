@@ -54,7 +54,7 @@ if ($ver == 0) {
    $ans1 = "is";
    $c2 = $dist1;
    $ans2 = "is not";
-} elif ($ver == 1) {
+} elsif ($ver == 1) {
    $c1 = $dist1;
    $ans1 = "is not";
    $c2 = $sol;
