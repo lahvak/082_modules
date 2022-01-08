@@ -1,0 +1,92 @@
+##DESCRIPTION
+##  Identify solutions of simple equations
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/07/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+$a = random(2,9,1);
+$b = random(3,11,1);
+$sol = random(1,6,1);
+
+Context("Numeric");
+
+$lhs = Formula("$a*x - $b");
+$rhs = $lhs->evaluate(x=>$sol);
+
+# distractors:
+
+do {$dist1 = random(0,12,1);} while ($dist1 == $sol);
+do {$dist2 = random(0,12,1);} while ($dist2 == $sol or $dist2 == $dist1);
+
+$ver = random(0,2,1);
+
+# 0: first one is solution
+# 1: second one is solution
+# 2: none is a solution
+
+if ($ver == 0) {
+   $c1 = $sol;
+   $ans1 = "is";
+   $c2 = $dist1;
+   $ans2 = "is not";
+} elif ($ver == 1) {
+   $c1 = $dist1;
+   $ans1 = "is not";
+   $c2 = $sol;
+   $ans2 = "is";
+} else {
+   $c1 = $dist1;
+   $ans1 = "is not";
+   $c2 = $dist2;
+   $ans2 = "is not";
+}
+
+$mc1 = PopUp([ "?", "is", "is not"], $ans1);
+$mc2 = PopUp([ "?", "is", "is not"], $ans2);
+
+$lhs1 = $lhs->evaluate(x=>$c1);
+$lhs2 = $lhs->evaluate(x=>$c2);
+
+BEGIN_PGML
+Are the folowing two numbers solutions of the equation [`[$lhs] = [$rhs]`]?
+
+*  The number [`[$c1]`] []{$mc1} a solution of the equation.
+
+*  The number [`[$c2]`] []{$mc2} a solution of the equation.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*  When we plug [`[$c1]`] in for [`x`] on the left hand side, we get [`[$lhs1]`], which [$ans1] equal to the right hand side.
+   Therefore [`[$c1]`] [$ans1] a solution.
+
+*  When we plug [`[$c2]`] in for [`x`] on the left hand side, we get [`[$lhs2]`], which [$ans2] equal to the right hand side.
+   Therefore [`[$c2]`] [$ans2] a solution.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
