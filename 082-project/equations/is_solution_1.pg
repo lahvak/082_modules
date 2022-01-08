@@ -43,7 +43,7 @@ $rhs = $lhs->eval(x=>$sol);
 do {$dist1 = random(0,12,1);} while ($dist1 == $sol);
 do {$dist2 = random(0,12,1);} while ($dist2 == $sol or $dist2 == $dist1);
 
-$ver = random(0,2,1);
+$ver = list_random(0,1,2);
 
 # 0: first one is solution
 # 1: second one is solution
