@@ -42,7 +42,7 @@ $solf = Fraction($d + $a*$b, $diff);
 $solr = Real($solf);
 
 $lhs = Formula("$a*(x - $b)");
-$rhs = Formula("$c*x + $d");
+$rhs = Formula("$c*x + $d")->reduce;
 
 # distractors:
 
