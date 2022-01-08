@@ -1,0 +1,92 @@
+##DESCRIPTION
+##  Identify solutions of simple equations
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/07/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+$a = random(2,9,1);
+$b = random(3,11,1);
+$sol = $a*$b;
+
+Context("Numeric");
+
+$lhs = Formula("$1/a*x");
+$rhs = $b;
+
+# distractors:
+
+do {$dist1 = random(0,12,1);} while ($dist1 == $sol);
+do {$dist2 = random(-50,50,1);} while ($dist2 == $sol or $dist2 == $dist1);
+
+$ver = list_random(0,1,2);
+
+# 0: first one is solution
+# 1: second one is solution
+# 2: none is a solution
+
+if ($ver == 0) {
+   $c1 = $sol;
+   $ans1 = "is";
+   $c2 = $dist1;
+   $ans2 = "is not";
+} elsif ($ver == 1) {
+   $c1 = $dist1;
+   $ans1 = "is not";
+   $c2 = $sol;
+   $ans2 = "is";
+} else {
+   $c1 = $dist1;
+   $ans1 = "is not";
+   $c2 = $dist2;
+   $ans2 = "is not";
+}
+
+$mc1 = PopUp([ "?", "is", "is not"], $ans1);
+$mc2 = PopUp([ "?", "is", "is not"], $ans2);
+
+$lhs1 = $lhs->eval(x=>$c1);
+$lhs2 = $lhs->eval(x=>$c2);
+
+BEGIN_PGML
+Are the folowing two numbers solutions of the equation [`[$lhs] = [$rhs]`]?
+
+*  The number [`[$c1]`] [_]{$mc1} a solution of the equation.
+
+*  The number [`[$c2]`] [_]{$mc2} a solution of the equation.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*  When we plug [`[$c1]`] in for [`x`] on the left hand side, we get [`[$lhs1]`], which [$ans1] equal to the right hand side.
+   Therefore [`[$c1]`] [$ans1] a solution.
+
+*  When we plug [`[$c2]`] in for [`x`] on the left hand side, we get [`[$lhs2]`], which [$ans2] equal to the right hand side.
+   Therefore [`[$c2]`] [$ans2] a solution.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
