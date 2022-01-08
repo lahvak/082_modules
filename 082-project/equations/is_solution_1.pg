@@ -75,9 +75,9 @@ $lhs2 = $lhs->eval(x=>$c2);
 BEGIN_PGML
 Are the folowing two numbers solutions of the equation [`[$lhs] = [$rhs]`]?
 
-*  The number [`[$c1]`] []{$mc1} a solution of the equation.
+*  The number [`[$c1]`] [_]{$mc1} a solution of the equation.
 
-*  The number [`[$c2]`] []{$mc2} a solution of the equation.
+*  The number [`[$c2]`] [_]{$mc2} a solution of the equation.
 
 END_PGML
 
