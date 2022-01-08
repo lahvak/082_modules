@@ -22,6 +22,7 @@ loadMacros(
   "PGstandard.pl",
   "PGML.pl",
   "MathObjects.pl",
+  "contextFraction.pl",
   "parserPopUp.pl",
   "PGcourse.pl"
 );
@@ -33,7 +34,7 @@ $a = random(2,9,1);
 $b = random(3,11,1);
 $sol = $a*$b;
 
-Context("Numeric");
+Context("Fraction");
 
 $lhs = Formula("1/$a*x");
 $rhs = $b;
