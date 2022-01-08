@@ -1,0 +1,106 @@
+##DESCRIPTION
+##  Identify solutions of simple equations
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/07/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+$a = random(5,9,1);
+$b = random(2,8,1);
+$diff = list_random(2,4);
+$c = $a - $diff;
+do {$d = random(1,10,1);} while (($d + $a*$b) % $diff == 0);
+
+Context("Fraction");
+
+$solf = Fraction($d + $a*$b, $diff);
+$solr = Real($solf);
+
+$lhs = Formula("$a*(x - $b)");
+$rhs = Formula("$c*x + $d");
+
+# distractors:
+
+do {$distf = Fraction(random(1,15,2), $diff);} while ($distf == $solf);
+do {$distr = Real(random(-15,15,2)/$diff;} while ($distr == $sorl or $distr == $distf);
+
+$ver = list_random(0,1,2,3);
+
+# 0: first one is solution
+# 1: second one is solution
+# 2: none is a solution
+# 3: both are solutions
+
+if ($ver == 0) {
+   $c1 = list_random($solf, $solr);
+   $ans1 = "is";
+   $c2 = list_random($distf, $distr);
+   $ans2 = "is not";
+} elsif ($ver == 1) {
+   $c1 = list_random($distf, $distr);
+   $ans1 = "is not";
+   $c2 = list_random($solf, $solr);
+   $ans2 = "is";
+} elsif ($ver == 2) {
+   $c1 = $distf;
+   $ans1 = "is not";
+   $c2 = $distr;
+   $ans2 = "is not";
+} else {
+   $c1 = $solf;
+   $ans1 = "is";
+   $c2 = $solr;
+   $ans2 = "is";
+}
+
+$mc1 = PopUp([ "?", "is", "is not"], $ans1);
+$mc2 = PopUp([ "?", "is", "is not"], $ans2);
+
+$lhs1 = $lhs->eval(x=>$c1);
+$lhs2 = $lhs->eval(x=>$c2);
+$rhs1 = $rhs->eval(x=>$c1);
+$rhs2 = $rhs->eval(x=>$c2);
+
+BEGIN_PGML
+Are the folowing two numbers solutions of the equation [`[$lhs] = [$rhs]`]?
+
+*  The number [`[$c1]`] [_]{$mc1} a solution of the equation.
+
+*  The number [`[$c2]`] [_]{$mc2} a solution of the equation.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*  When we plug [`[$c1]`] in for [`x`] on the left hand side, we get [`[$lhs1]`]. When we plug [`[$c1]`] in for [`x`] on the right hand side, we get [`[$rhs1]`], which [$ans1] equal to the left hand side.
+   Therefore [`[$c1]`] [$ans1] a solution.
+
+*  When we plug [`[$c2]`] in for [`x`] on the left hand side, we get [`[$lhs2]`]. When we plug [`[$c2]`] in for [`x`] on the right hand side, we get [`[$rhs2]`], which [$ans2] equal to the left hand side.
+   Therefore [`[$c2]`] [$ans2] a solution.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
