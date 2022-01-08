@@ -36,7 +36,7 @@ $sol = random(1,6,1);
 Context("Numeric");
 
 $lhs = Formula("$a*x - $b");
-$rhs = $lhs->evaluate(x=>$sol);
+$rhs = $lhs->eval(x=>$sol);
 
 # distractors:
 
@@ -69,8 +69,8 @@ if ($ver == 0) {
 $mc1 = PopUp([ "?", "is", "is not"], $ans1);
 $mc2 = PopUp([ "?", "is", "is not"], $ans2);
 
-$lhs1 = $lhs->evaluate(x=>$c1);
-$lhs2 = $lhs->evaluate(x=>$c2);
+$lhs1 = $lhs->eval(x=>$c1);
+$lhs2 = $lhs->eval(x=>$c2);
 
 BEGIN_PGML
 Are the folowing two numbers solutions of the equation [`[$lhs] = [$rhs]`]?
