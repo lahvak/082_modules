@@ -1,0 +1,100 @@
+##DESCRIPTION
+##  Justify steps in equation solving
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/09/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "contextFraction.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+$step_simp_left = "simplifying the left side";
+$step_simp_right = "simplifying the right side";
+$step_simp_both = "simplifying both sides";
+$step_add_property = "using the addition property of equality";
+$step_mult_property = "using the multiplication property of equality";
+$step_switch_sides = "interchanging the two sides";
+
+# an identity
+$a = random(2,9);
+$sol = non_zero_random(-9,9);
+$b = -$a*$sol;
+$c = non_zero_random(-9,9);
+$bpc = $b + $c;
+
+Context("Fraction")->noreduce('0+x','x+0', '0-x', 'x-0', 'x/1', '(-x)+y', '(-x)-y');
+Context()->flags->set(
+     reduceConstants => 0,
+     reduceConstantFunctions => 0,
+   );
+
+$lhs1 = Formula("$a*x + $bpc")->reduce;
+$rhs1 = Formula("$c");
+
+$step2 = $step_add_property;
+$just2 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step2);
+
+$lhs2 = Formula("$a*x + $bmc - $bmc")->reduce;
+$rhs2 = Formula("$c - $bmc");
+
+$step3 = $step_simp_both;
+$just3 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step3);
+
+$lhs3 = Formula("$a*x")->reduce;
+$rhs3 = Formula("-$b");
+
+$step4 = $step_mult_property;
+$just4 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step4);
+
+$lhs4 = Formula("($a*x)/$a")->reduce;
+$rhs4 = Formula("-$b/$a");
+
+$step5 = $step_simp_both;
+$just5 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step5);
+
+$lhs5 = Formula("x")->reduce;
+$rhs5 = Formula("$sol");
+
+BEGIN_PGML
+Justify each step of the solution:
+
+*  The original equation: [`[$lhs1] = [$rhs1]`]
+
+*  [`[$lhs2] = [$rhs2]`] obtained by [_]{$just2}.
+*  [`[$lhs3] = [$rhs3]`] obtained by [_]{$just3}.
+*  [`[$lhs4] = [$rhs4]`] obtained by [_]{$just4}.
+*  [`[$lhs5] = [$rhs5]`] obtained by [_]{$just5}.
+END_PGML
+
+BEGIN_PGML_SOLUTION
+From the original equation [`[$lhs1] = [$rhs1]`]
+
+*  we obtain [`[$lhs2] = [$rhs2]`] by [$step2], from which
+*  we obtain [`[$lhs3] = [$rhs3]`] by [$step3], from which
+*  we obtain [`[$lhs4] = [$rhs4]`] by [$step4], from which
+*  we obtain [`[$lhs5] = [$rhs5]`] by [$step5].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
