@@ -1,0 +1,116 @@
+##DESCRIPTION
+##  Identify solutions of simple equations
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/07/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+$type_ident = "an identity";
+$type_nosol = "an equation with no solution";
+$type_cond = "a conditional equation";
+
+# an identity
+$a1 = random(5,11,1);
+$b1 = random(2,6,1);
+$d1 = random(2,$a1-2,1);
+$c1 = $a1 - $d1;
+$e1 = $a1*$b1;
+
+$case1 = random(0,1);
+if ($case1 == 0) {
+    $lhs1 = Formula("$a1*(x + $b1)");
+    $rhs1 = Formula("$c1*x + $e1 + $d1*x");
+} else {
+    $lhs1 = Formula("$a1*(x + $b1) - $d1*x");
+    $rhs1 = Formula("$c1*x + $e1");
+}
+
+$ans1 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_ident);
+
+# an equation with no solution
+$a2 = random(5,11,1);
+$b2 = random(2,6,1);
+$d2 = random(2,$a2-2,1);
+$c2 = $a2 - $d2;
+do {$e2 = random(1,100,1);} while ($e2 == $a2*$b2);
+
+$case2 = random(0,1);
+if ($case2 == 0) {
+    $lhs2 = Formula("$a2*(x + $b2)");
+    $rhs2 = Formula("$c2*x + $e2 + $d2*x");
+    $simpcoef2 = $a2;
+} else {
+    $lhs2 = Formula("$a2*(x + $b2) - $d2*x");
+    $rhs2 = Formula("$c2*x + $e2");
+    $simpcoef2 = $c2;
+}
+
+$ans2 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_nosol);
+
+# a conditional equation
+$a3 = random(5,11,1);
+$b3 = random(2,6,1);
+$d3 = random(2,$a3-2,1);
+do {$c3 = random(2,50,1);} while ($c3 == $a3 - $d3);
+$e3 = random(1,100,1);
+
+$case3 = random(0,1);
+if ($case3 == 0) {
+    $lhs3 = Formula("$a3*(x + $b3)");
+    $rhs3 = Formula("$c3*x + $e3 + $d3*x");
+    $simpcoef3l = $a3;
+    $simpcoef3r = $c3 + $d3;
+} else {
+    $lhs3 = Formula("$a3*(x + $b3) - $d3*x");
+    $rhs3 = Formula("$c3*x + $e3");
+    $simpcoef3l = $a3 - $d3;
+    $simpcoef3r = $c3;
+}
+
+$ans3 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
+
+
+BEGIN_PGML
+Identify each equation as [$type_cond], [$type_ident], or [$type_nosol]:
+
+*  The equation [`[$lhs1] = [$rhs1]`] is a [_]{$ans1}.
+
+*  The equation [`[$lhs2] = [$rhs2]`] is a [_]{$ans2}.
+
+*  The equation [`[$lhs3] = [$rhs3]`] is a [_]{$ans3}.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*  When we plug [`[$c1]`] in for [`x`] on the left hand side, we get [`[$lhs1]`], which [$ans1] equal to the right hand side.
+   Therefore [`[$c1]`] [$ans1] a solution.
+
+*  When we plug [`[$c2]`] in for [`x`] on the left hand side, we get [`[$lhs2]`], which [$ans2] equal to the right hand side.
+   Therefore [`[$c2]`] [$ans2] a solution.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
