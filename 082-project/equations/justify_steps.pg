@@ -56,8 +56,8 @@ $rhs1 = Formula("$c");
 $step2 = $step_add_property;
 $just2 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step2);
 
-$lhs2 = Formula("$a*x + $bmc - $bmc")->reduce;
-$rhs2 = Formula("$c - $bmc");
+$lhs2 = Formula("$a*x + $bpc - $bpc")->reduce;
+$rhs2 = Formula("$c - $bpc");
 
 $step3 = $step_simp_both;
 $just3 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step3);
