@@ -58,24 +58,24 @@ $step2 = $step_add_property;
 $just2 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step2);
 
 $lhs2 = Formula("$a*x + $bpc - $bpc")->reduce;
-$rhs2 = Formula("$c - $bpc");
+$rhs2 = Formula("$c - $bpc")->reduce;
 
 $step3 = $step_simp_both;
 $just3 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step3);
 
 $lhs3 = Formula("$a*x")->reduce;
-$rhs3 = Formula("-$b");
+$rhs3 = Formula("-$b")->reduce;
 
 $step4 = $step_mult_property;
 $just4 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step4);
 
 $lhs4 = Formula("($a*x)/$a")->reduce;
-$rhs4 = Formula("-$b/$a");
+$rhs4 = Formula("-$b/$a")->reduce;
 
 $step5 = $step_simp_both;
 $just5 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step5);
 
-$lhs5 = Formula("x")->reduce;
+$lhs5 = Formula("x");
 $rhs5 = Formula("$sol");
 
 BEGIN_PGML
