@@ -41,8 +41,10 @@ $step_switch_sides = "interchanging the two sides";
 $a = random(2,9);
 $sol = non_zero_random(-9,9);
 $b = -$a*$sol;
+$mb = -$b;
 $c = non_zero_random(-9,9);
 $bpc = $b + $c;
+$mbpc = -$bpc;
 
 Context("Fraction")->noreduce('0+x','x+0', '0-x', 'x-0', 'x/1', '(-x)+y', '(-x)-y');
 Context()->flags->set(
@@ -58,19 +60,23 @@ $step2 = $step_add_property;
 $just2 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step2);
 
 $lhs2 = Formula("$a*x + $bpc - $bpc")->reduce;
-$rhs2 = Formula("$c - $bpc")->reduce;
+if ($bpc > 0) {  # Could not find a combination of reduction settings that would to this:
+   $rhs2 = Formula("$c - $bpc");
+} else {
+   $rhs2 = Formula("$c + $mbpc");
+}
 
 $step3 = $step_simp_both;
 $just3 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step3);
 
 $lhs3 = Formula("$a*x")->reduce;
-$rhs3 = Formula("-$b")->reduce;
+$rhs3 = Formula("$mb");
 
 $step4 = $step_mult_property;
 $just4 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step4);
 
 $lhs4 = Formula("($a*x)/$a")->reduce;
-$rhs4 = Formula("-$b/$a")->reduce;
+$rhs4 = Formula("$mb/$a");
 
 $step5 = $step_simp_both;
 $just5 = PopUp([ "?", $step_simp_left, $step_simp_right, $step_simp_both, $step_add_property, $step_mult_property, $step_switch_sides], $step5);
