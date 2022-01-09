@@ -113,7 +113,7 @@ $rhscdreducedmore = Formula("$e3 - $a3*$b3")->reduce;
 
 $anscd = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
 
-$solcd = 'After simplifying both sides, the equation becomes [`[$lhsnsreduced] = [$rhsnsreduced]`]. Subtracting [`[$simpcoefcdr]x + $a3b3`] from both sides will give us the equation [`[$lhscdreducedmore] = [$rhscdreducedmore]`] which can be easly solved for [`x`]. This is a conditional equation.';
+$solcd = 'After simplifying both sides, the equation becomes [`[$lhscdreduced] = [$rhscdreduced]`]. Subtracting [`[$simpcoefcdr]x + [$a3b3]`] from both sides will give us the equation [`[$lhscdreducedmore] = [$rhscdreducedmore]`] which can be easly solved for [`x`]. This is a conditional equation.';
 
 $order = random(0,5);
 
