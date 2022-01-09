@@ -45,11 +45,11 @@ if ($caseid == 0) {
     $lhsid = Formula("$a1*(x + $b1)");
     $rhsid = Formula("$c1*x + $e1 + $d1*x");
     $lhsidreduced = Formula("$a1*x + $a1*$b1")->reduce;
-    $rhsidreduced = Formula("$c1*x + $e1 + $d1*x")->reduce;
+    $rhsidreduced = Formula("($c1+$d1)*x + $e1")->reduce;
 } else {
     $lhsid = Formula("$a1*(x + $b1) - $d1*x");
     $rhsid = Formula("$c1*x + $e1");
-    $lhsidreduced = Formula("$a1*x + $a1*$b1 - $d1*x")->reduce;
+    $lhsidreduced = Formula("($a1 - $d1)*x + $a1*$b1")->reduce;
     $rhsidreduced = $rhsid;
 }
 
@@ -69,13 +69,13 @@ if ($casens == 0) {
     $lhsns = Formula("$a2*(x + $b2)");
     $rhsns = Formula("$c2*x + $e2 + $d2*x");
     $lhsnsreduced = Formula("$a2*x + $a2*$b2")->reduce;
-    $rhsnsreduced = Formula("$c2*x + $e2 + $d2*x")->reduce;
+    $rhsnsreduced = Formula("($c2+$d2)*x + $e2")->reduce;
     $simpcoefns = $a2;
 } else {
     $lhsns = Formula("$a2*(x + $b2) - $d2*x");
     $rhsns = Formula("$c2*x + $e2");
     $simpcoefns = $c2;
-    $lhsnsreduced = Formula("$a2*x + $a2*$b2 - $d2*x")->reduce;
+    $lhsnsreduced = Formula("($a2-$d2)*x + $a2*$b2")->reduce;
     $rhsnsreduced = $rhsns;
 }
 
@@ -96,16 +96,24 @@ if ($casecd == 0) {
     $rhscd = Formula("$c3*x + $e3 + $d3*x");
     $simpcoefcdl = $a3;
     $simpcoefcdr = $c3 + $d3;
+    $lhscdreduced = Formula("$a3*x + $a3*$b3")->reduce;
+    $rhscdreduced = Formula("($c3+$d3)*x + $e3")->reduce;
 } else {
     $lhscd = Formula("$a3*(x + $b3) - $d3*x");
     $rhscd = Formula("$c3*x + $e3");
     $simpcoefcdl = $a3 - $d3;
     $simpcoefcdr = $c3;
+    $lhscdreduced = Formula("($a3-$d3)*x + $a3*$b3")->reduce;
+    $rhscdreduced = $rhscd;
 }
+
+$a3b3 = $a3*$b3;
+$lhscdreducedmore = Formula("($simpcoefcdl - $simpcoefcdr)*x")->reduce;
+$rhscdreducedmore = Formula("$e3 - $a3*$b3")->reduce;
 
 $anscd = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
 
-$solcd = 'TBD';
+$solcd = 'After simplifying both sides, the equation becomes [`[$lhsnsreduced] = [$rhsnsreduced]`]. Subtracting [`[$simpcoefcdr]x + $a3b3`] from both sides will give us the equation [`[$lhscdreducedmore] = [$rhscdreducedmore]`] which can be easly solved for [`x`]. This is a conditional equation.';
 
 $order = random(0,5);
 
