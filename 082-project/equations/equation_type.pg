@@ -40,16 +40,16 @@ $d1 = random(2,$a1-2,1);
 $c1 = $a1 - $d1;
 $e1 = $a1*$b1;
 
-$case1 = random(0,1);
-if ($case1 == 0) {
-    $lhs1 = Formula("$a1*(x + $b1)");
-    $rhs1 = Formula("$c1*x + $e1 + $d1*x");
+$caseid = random(0,1);
+if ($caseid == 0) {
+    $lhsid = Formula("$a1*(x + $b1)");
+    $rhsid = Formula("$c1*x + $e1 + $d1*x");
 } else {
-    $lhs1 = Formula("$a1*(x + $b1) - $d1*x");
-    $rhs1 = Formula("$c1*x + $e1");
+    $lhsid = Formula("$a1*(x + $b1) - $d1*x");
+    $rhsid = Formula("$c1*x + $e1");
 }
 
-$ans1 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_ident);
+$ansid = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_ident);
 
 # an equation with no solution
 $a2 = random(5,11,1);
@@ -58,18 +58,18 @@ $d2 = random(2,$a2-2,1);
 $c2 = $a2 - $d2;
 do {$e2 = random(1,100,1);} while ($e2 == $a2*$b2);
 
-$case2 = random(0,1);
-if ($case2 == 0) {
-    $lhs2 = Formula("$a2*(x + $b2)");
-    $rhs2 = Formula("$c2*x + $e2 + $d2*x");
-    $simpcoef2 = $a2;
+$casens = random(0,1);
+if ($casens == 0) {
+    $lhsns = Formula("$a2*(x + $b2)");
+    $rhsns = Formula("$c2*x + $e2 + $d2*x");
+    $simpcoefns = $a2;
 } else {
-    $lhs2 = Formula("$a2*(x + $b2) - $d2*x");
-    $rhs2 = Formula("$c2*x + $e2");
-    $simpcoef2 = $c2;
+    $lhsns = Formula("$a2*(x + $b2) - $d2*x");
+    $rhsns = Formula("$c2*x + $e2");
+    $simpcoefns = $c2;
 }
 
-$ans2 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_nosol);
+$ansns = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_nosol);
 
 # a conditional equation
 $a3 = random(5,11,1);
@@ -78,20 +78,84 @@ $d3 = random(2,$a3-2,1);
 do {$c3 = random(2,50,1);} while ($c3 == $a3 - $d3);
 $e3 = random(1,100,1);
 
-$case3 = random(0,1);
-if ($case3 == 0) {
-    $lhs3 = Formula("$a3*(x + $b3)");
-    $rhs3 = Formula("$c3*x + $e3 + $d3*x");
-    $simpcoef3l = $a3;
-    $simpcoef3r = $c3 + $d3;
+$casecd = random(0,1);
+if ($casecd == 0) {
+    $lhscd = Formula("$a3*(x + $b3)");
+    $rhscd = Formula("$c3*x + $e3 + $d3*x");
+    $simpcoefcdl = $a3;
+    $simpcoefcdr = $c3 + $d3;
 } else {
-    $lhs3 = Formula("$a3*(x + $b3) - $d3*x");
-    $rhs3 = Formula("$c3*x + $e3");
-    $simpcoef3l = $a3 - $d3;
-    $simpcoef3r = $c3;
+    $lhscd = Formula("$a3*(x + $b3) - $d3*x");
+    $rhscd = Formula("$c3*x + $e3");
+    $simpcoefcdl = $a3 - $d3;
+    $simpcoefcdr = $c3;
 }
 
-$ans3 = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
+$anscd = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
+
+$order = random(0,5);
+
+if ($order == 0) {     # identity, conditional, no solution
+    $lhs1 = $lhsid;
+    $rhs1 = $rhsid;
+    $ans1 = $ansid;
+    $lhs2 = $lhscd;
+    $rhs2 = $rhscd;
+    $ans2 = $anscd;
+    $lhs3 = $lhsns;
+    $rhs3 = $rhsns;
+    $ans3 = $ansns;
+} elsif ($order == 1) { # identity, no solution, conditional
+    $lhs1 = $lhsid;
+    $rhs1 = $rhsid;
+    $ans1 = $ansid;
+    $lhs2 = $lhsns;
+    $rhs2 = $rhsns;
+    $ans2 = $ansns;
+    $lhs3 = $lhscd;
+    $rhs3 = $rhscd;
+    $ans3 = $anscd;
+} elsif ($order == 2) { # conditional, identity, no solution
+    $lhs1 = $lhscd;
+    $rhs1 = $rhscd;
+    $ans1 = $anscd;
+    $lhs2 = $lhsid;
+    $rhs2 = $rhsid;
+    $ans2 = $ansid;
+    $lhs3 = $lhsns;
+    $rhs3 = $rhsns;
+    $ans3 = $ansns;
+} elsif ($order == 3) { # conditional, no solution, identity
+    $lhs1 = $lhscd;
+    $rhs1 = $rhscd;
+    $ans1 = $anscd;
+    $lhs2 = $lhsns;
+    $rhs2 = $rhsns;
+    $ans2 = $ansns;
+    $lhs3 = $lhsid;
+    $rhs3 = $rhsid;
+    $ans3 = $ansid;
+} elsif ($order == 4) { # no solution, identity, conditional
+    $lhs1 = $lhsns;
+    $rhs1 = $rhsns;
+    $ans1 = $ansns;
+    $lhs2 = $lhsid;
+    $rhs2 = $rhsid;
+    $ans2 = $ansid;
+    $lhs3 = $lhscd;
+    $rhs3 = $rhscd;
+    $ans3 = $anscd;
+} else {                # no solution, conditional, identity
+    $lhs1 = $lhsns;
+    $rhs1 = $rhsns;
+    $ans1 = $ansns;
+    $lhs2 = $lhscd;
+    $rhs2 = $rhscd;
+    $ans2 = $anscd;
+    $lhs3 = $lhsid;
+    $rhs3 = $rhsid;
+    $ans3 = $ansid;
+}
 
 
 BEGIN_PGML
@@ -106,11 +170,6 @@ Identify each equation as [$type_cond], [$type_ident], or [$type_nosol]:
 END_PGML
 
 BEGIN_PGML_SOLUTION
-*  When we plug [`[$c1]`] in for [`x`] on the left hand side, we get [`[$lhs1]`], which [$ans1] equal to the right hand side.
-   Therefore [`[$c1]`] [$ans1] a solution.
-
-*  When we plug [`[$c2]`] in for [`x`] on the left hand side, we get [`[$lhs2]`], which [$ans2] equal to the right hand side.
-   Therefore [`[$c2]`] [$ans2] a solution.
 END_PGML_SOLUTION
 
 ENDDOCUMENT();        # This should be the last executable line in the problem.
