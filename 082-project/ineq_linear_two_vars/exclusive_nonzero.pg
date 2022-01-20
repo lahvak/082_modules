@@ -363,7 +363,7 @@ function pickPlane(e)
     }
 }
 
-var brd = JXG.JSXGraph.initBoard('box', {axis: true, boundingbox = [-11,11,11,-11],
+var brd = JXG.JSXGraph.initBoard('box', {axis: true, boundingbox: [-11,11,11,-11],
                                  showNavigation: false, pan: {enabled: false},
                                  zoom: {enabled: false}});
 brd.suspendUpdate();
