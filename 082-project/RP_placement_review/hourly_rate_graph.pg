@@ -65,6 +65,8 @@ BEGIN_PGML
 
 Given a graph
 
+[$plot]
+
 [!Plot of rental charges!]{$plot}{250}
 
 END_PGML
