@@ -61,9 +61,15 @@ $plot->BEGIN_TIKZ
 }
 \draw [thick] (1,$yvals[0]) -- (3.6, $endy);
 \node at (1.75, -.5) {Number of hours};
-\node[rotate=90] at (-.5, 1) {Canoe rental charge};
+\node[rotate=90] at (-.5, 1) {Canoe rental charge (in dollars)};
 END_TIKZ
 $plot->tikzOptions("scale=2");
+
+$alttext = < "ENDALT"
+Plot showing the canoe rental charge in dollars on the vertical axis,
+and the number of hours on the horizontal axis.
+The plot shows a line passing through the points (1,$charges[0]), (2,$charges[1]) and (3,$charges[2]).
+ENDALT
 
 $ans = Compute("$rate");
 
@@ -71,12 +77,16 @@ BEGIN_PGML
 
 Given a graph
 
-[!Plot of rental charges!]{$plot}{350}
+[![$alttext]!]{$plot}{350}
+
+What is the hourly rate? [____________]{$ans}
 
 END_PGML
 
 BEGIN_PGML_SOLUTION
 
+The plot shows a line passing through the points [`(1,[$charges[0]])'], [`(2,[$charges[1]])'] and [`(3,[$charges[2]])'].
+For each hour, the charge increases by [$rate] dollars, which is the hourly rate.
 
 END_PGML_SOLUTION
 
