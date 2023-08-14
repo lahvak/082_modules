@@ -44,11 +44,11 @@ $ans = Compute("$change");
 
 BEGIN_PGML
 
-At [$first_time] am, the temperature in Fairbanks was [`-[$before]^\deg`]F.
-By [$second_time] am the temperature was [`-[$after]^\deg`]F.  What was the change of temperature, in [`{}^\deg`]F, from
+At [$first_time] am, the temperature in Fairbanks was [`-[$before]^\circ`]F.
+By [$second_time] am the temperature was [`-[$after]^\circ`]F.  What was the change of temperature, in [`{}^\circ`]F, from
 [$first_time] am to [$second_time] am?
 
-[________________]{$ans}[`{}^\deg`]F.
+[________________]{$ans}[`{}^\circ`]F.
 
 END_PGML
 
