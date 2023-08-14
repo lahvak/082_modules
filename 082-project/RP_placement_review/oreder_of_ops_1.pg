@@ -37,7 +37,7 @@ Context("Numeric");
 
 $prod = Compute("$b*$c");
 $diff = Compute("$a - $prod");
-$sum = Compute("$diff + $d");
+$sum = Compute("$diff + $d")->reduce;
 
 $incorrect_subtract_first = Compute("($a - $b)*$c + $d");
 
