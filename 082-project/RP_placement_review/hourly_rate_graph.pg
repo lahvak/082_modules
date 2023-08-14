@@ -85,7 +85,7 @@ END_PGML
 
 BEGIN_PGML_SOLUTION
 
-The plot shows a line passing through the points [`(1,[$charges[0]])'], [`(2,[$charges[1]])'] and [`(3,[$charges[2]])'].
+The plot shows a line passing through the points [`(1,[$charges[0]])`], [`(2,[$charges[1]])`] and [`(3,[$charges[2]])`].
 For each hour, the charge increases by [$rate] dollars, which is the hourly rate.
 
 END_PGML_SOLUTION
