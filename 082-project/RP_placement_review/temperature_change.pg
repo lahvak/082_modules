@@ -1,0 +1,77 @@
+##DESCRIPTION
+##  Subtracting negative numbers
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('08/13/2023')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, order of operations')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl",
+  #  "answerHints.pl",
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$after = random(3,10);
+$change = random(12, 19);
+$before = Compute("$after + $change");
+
+$first_time = random(1,5);
+$second_time = random(8,11);
+
+Context("LimitedNumeric");
+
+$ans = Compute("$change");
+
+BEGIN_PGML
+
+At [$first_time] am, the temperature in Fairbanks was [`-[$before]^\deg`]F.
+By [$second_time] am the temperature was [`-[$after]^\deg`]F.  What was the change of temperature, in [`{}^\deg`]F, from
+[$first_time] am to [$second_time] am?
+
+[________________]{$ans}[`{}^\deg`]F.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+Change is a quantity is calculated as
+
+[``` \text{value after} - \text{value before} ```]
+
+In this case it is
+
+[``` (-[$after]) - (-[$before]) ```]
+
+which will simplify as
+
+[``` -[$after] + [$before] ```]
+
+or, from commutativity of addition:
+
+[``` [$before] - [$after] ```]
+
+Finally, subtracting will give us [$change].
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
