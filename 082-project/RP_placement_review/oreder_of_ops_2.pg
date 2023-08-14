@@ -1,0 +1,89 @@
+##DESCRIPTION
+##  Order of operations with some decimals
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('08/13/2023')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, order of operations')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl",
+  "answerHints.pl",
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+($divisor, $multiplier) = random_coprime([2..5],[2..5]);
+$wrong_order = Compute("$divisor*$multiplier");
+$a = $wrong_order * random(1,3);
+$fraction = Compute("$a/$divisor");
+$b = random(2,20,1);
+
+$prod = Compute("$fraction*$multiplier");
+$sum = Compute("-$prod + $b");
+
+$incorrect_minus_sign_first = Compute("$prod + $b");
+$incorrect_minus_sign_second = Compute("-$prod - $b");
+$incorrect_minus_sign_both = Compute("$prod - $b");
+
+$incorrect_multiplication_first = Compute("-$a/($wrong_order) + $b");
+
+Context("LimitedNumeric");
+
+$ans = Compute("$sum")->cmp->withPostFilter(AnswerHints(
+        Compute("$incorrect_multiplication_first") => "Multiplication and division have the same priority!",
+        [
+            Compute("$incorrect_minus_sign_first"),
+            Compute("$incorrect_minus_sign_second"),
+            Compute("$incorrect_minus_sign_both"),
+        ] => "Make sure your signs are correct!"
+    ));
+
+BEGIN_PGML
+
+Simplify the following _without using a calculator_:
+
+[` -[$a] \div [$divisor] \times [$multiplier] - (-[$b]) `][________________]{$ans}.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+Multiplication and division have the same priority, and both have higher priority than subtration.  From left to right, division comes first,
+so we start with division, getting
+
+[` -[$fraction] \times [$multiplier] - (-[$b]) `]
+
+Then we do the multiplication:
+
+[` -[$prod] - (-[$b]) `]
+
+Subtracting a negative number is the same as adding the absolute value:
+
+[` -[$prod] + [$b] `]
+
+Finally, doing the addition will give us
+
+[` [$ans] `]
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
