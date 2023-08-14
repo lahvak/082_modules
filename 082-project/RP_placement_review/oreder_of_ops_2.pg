@@ -46,6 +46,17 @@ $incorrect_minus_sign_both = Compute("$prod - $b");
 
 $incorrect_multiplication_first = Compute("-$a/($wrong_order) + $b");
 
+if ($incorrect_minus_sign_both == $incorrect_multiplication_first) {
+    $b -= 1;
+    $sum = Compute("-$prod + $b");
+
+    $incorrect_minus_sign_first = Compute("$prod + $b");
+    $incorrect_minus_sign_second = Compute("-$prod - $b");
+    $incorrect_minus_sign_both = Compute("$prod - $b");
+
+    $incorrect_multiplication_first = Compute("-$a/($wrong_order) + $b");
+}
+
 Context("LimitedNumeric");
 
 $ans = Compute("$sum")->cmp->withPostFilter(AnswerHints(
