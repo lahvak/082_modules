@@ -57,7 +57,7 @@ $plot->BEGIN_TIKZ
    {\draw (\x, .05) -- (\x, -.05) node[below]{\(\x\)};}
 \foreach \i/\c/\y in {$pairs_str} {
     \draw (.05, \y) -- (-.05, \y)node[left]{\(\c\)};
-    \draw circle[radius=0.05] (\i, \y);
+    \draw[fill=black] (\i, \y) circle[radius=0.02];
 }
 \draw [thick] (1,$yvals[0]) -- (3.6, $endy);
 END_TIKZ
@@ -69,9 +69,7 @@ BEGIN_PGML
 
 Given a graph
 
-[$plot->tex()]
-
-[!Plot of rental charges!]{$plot}{250}
+[!Plot of rental charges!]{$plot}{350}
 
 END_PGML
 
