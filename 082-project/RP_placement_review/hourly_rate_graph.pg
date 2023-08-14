@@ -32,7 +32,7 @@ $showPartialCorrectAnswers = 1;
 
 Context("Numeric");
 
-$initial = random(5,25,5);
+$initial = random(5,15,5);
 do {$rate = random(5,25,5);} while ($rate == $initial);
 
 $height = ($initial + $rate*3)/5;
@@ -60,6 +60,8 @@ $plot->BEGIN_TIKZ
     \draw[fill=black] (\i, \y) circle[radius=0.02];
 }
 \draw [thick] (1,$yvals[0]) -- (3.6, $endy);
+\node at (1.75, -.5) {Number of hours};
+\node[transform shape, rotate=90] at (-.5, 1) {Canoe rental charge};
 END_TIKZ
 $plot->tikzOptions("scale=2");
 
