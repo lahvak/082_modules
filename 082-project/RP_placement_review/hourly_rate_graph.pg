@@ -65,7 +65,7 @@ $plot->BEGIN_TIKZ
 END_TIKZ
 $plot->tikzOptions("scale=2");
 
-$alttext = < "ENDALT"
+$alttext = < "ENDALT";
 Plot showing the canoe rental charge in dollars on the vertical axis,
 and the number of hours on the horizontal axis.
 The plot shows a line passing through the points (1,$charges[0]), (2,$charges[1]) and (3,$charges[2]).
