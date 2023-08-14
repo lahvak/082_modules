@@ -65,7 +65,7 @@ BEGIN_PGML
 
 Given a graph
 
-[$plot]
+[$plot->tex()]
 
 [!Plot of rental charges!]{$plot}{250}
 
