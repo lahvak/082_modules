@@ -61,7 +61,7 @@ $plot->BEGIN_TIKZ
 }
 \draw [thick] (1,$yvals[0]) -- (3.6, $endy);
 END_TIKZ
-$plot->tikzOptions("scale=2")
+$plot->tikzOptions("scale=2");
 
 $ans = Compute("$rate");
 
