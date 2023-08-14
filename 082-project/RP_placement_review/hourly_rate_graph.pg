@@ -43,6 +43,8 @@ $unit = 2/$height;
 
 @yvals = map {$_ * $unit / 5} @charges;
 
+$endy = ($initial + $rate * 3.6) * $unit/5;
+
 @pairs = map {"$_/$charges[$_-1]/$yvals[$_-1]"} (1,2,3);
 
 $pairs_str = join ", ", @pairs;
@@ -55,9 +57,11 @@ $plot->BEGIN_TIKZ
    {\draw (\x, .05) -- (\x, -.05) node[below]{\(\x\)};}
 \foreach \i/\c/\y in {$pairs_str} {
     \draw (.05, \y) -- (-.05, \y)node[left]{\(\c\)};
-    \draw circle[radius=0.01] (\i, \y);
+    \draw circle[radius=0.05] (\i, \y);
 }
+\draw [thick] (1,$yvals[0]) -- (3.6, $endy);
 END_TIKZ
+$plot->tikzOptions("scale=2")
 
 $ans = Compute("$rate");
 
