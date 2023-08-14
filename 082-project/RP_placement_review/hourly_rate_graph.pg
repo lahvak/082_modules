@@ -61,7 +61,7 @@ $plot->BEGIN_TIKZ
 }
 \draw [thick] (1,$yvals[0]) -- (3.6, $endy);
 \node at (1.75, -.5) {Number of hours};
-\node[transform shape, rotate=90] at (-.5, 1) {Canoe rental charge};
+\node[rotate=90] at (-.5, 1) {Canoe rental charge};
 END_TIKZ
 $plot->tikzOptions("scale=2");
 
