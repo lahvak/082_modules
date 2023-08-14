@@ -1,0 +1,66 @@
+##DESCRIPTION
+##  Order of operations with some decimals
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('08/13/2023')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, order of operations')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+$a = -random(2,14,2);
+$b = random(8,20,2);
+$c = list_random(0.25, 0.5);
+$d = random(15,95)/100;
+
+Context("Numeric");
+
+$prod = Compute("$b*$c");
+$diff = Compute("$a - $prod");
+$sum = Compute("$diff + $d");
+
+$incorrect_subtract_first = Compute("($a - $b)*$c + $d");
+
+BEGIN_PGML
+
+Simplify the following _without using a calculator_:
+
+[` [$a] - [$b]\times[$c] + [$d] = `][________________]{$sum}.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+Multiplication must be done first, before the subtraction and addition.  Start with [` -[$b]\times[$c] = -[$prod] `].
+
+The number becomes
+
+[`` [$a] - [$prod] + [$d] ``].
+
+Subtraction and addition have the same priority, we proceed from left to right:
+
+[`` [$diff] + [$d] = [$sum] ``].
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
