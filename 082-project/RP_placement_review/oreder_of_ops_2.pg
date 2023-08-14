@@ -61,7 +61,7 @@ BEGIN_PGML
 
 Simplify the following _without using a calculator_:
 
-[` -[$a] \div [$divisor] \times [$multiplier] - (-[$b]) `][________________]{$ans}.
+[` -[$a] \div [$divisor] \times [$multiplier] - (-[$b]) = `][________________]{$ans}.
 
 END_PGML
 
@@ -82,7 +82,7 @@ Subtracting a negative number is the same as adding the absolute value:
 
 Finally, doing the addition will give us
 
-[` [$ans] `]
+[` [$sum] `]
 
 END_PGML_SOLUTION
 
