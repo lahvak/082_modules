@@ -53,7 +53,7 @@ $plot->BEGIN_TIKZ
 \draw[thin] (0,-.1) -- (0,2.5);
 \foreach \x in {.5, 1, ..., 3.5}
    {\draw (\x, .05) -- (\x, -.05) node[below]{\(\x\)};}
-\foreach \i/\c/\y in {[$pairs_str]} {
+\foreach \i/\c/\y in {$pairs_str} {
     \draw (.05, \y) -- (-.05, \y)node[left]{\(\c\)};
     \draw circle[radius=0.01] (\i, \y);
 }
