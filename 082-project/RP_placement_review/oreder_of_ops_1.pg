@@ -22,7 +22,8 @@ loadMacros(
   "PGstandard.pl",
   "PGML.pl",
   "MathObjects.pl",
-  "PGcourse.pl"
+  "PGcourse.pl",
+  "answerHints.pl",
 );
 
 TEXT(beginproblem());
@@ -37,15 +38,19 @@ Context("Numeric");
 
 $prod = Compute("$b*$c");
 $diff = Compute("$a - $prod");
-$sum = Compute("$diff + $d")->reduce;
+$sum = Compute("$diff + $d");
 
 $incorrect_subtract_first = Compute("($a - $b)*$c + $d");
+
+$ans = Compute("$sum")->cmp->withPostFilter(AnswerHints(
+        Compute("$incorrect_subtract_first") => "Make sure you do multiplication first!"
+    ));
 
 BEGIN_PGML
 
 Simplify the following _without using a calculator_:
 
-[` [$a] - [$b]\times[$c] + [$d] = `][________________]{$sum}.
+[` [$a] - [$b]\times[$c] + [$d] = `][________________]{$ans}.
 
 END_PGML
 
