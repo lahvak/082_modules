@@ -50,7 +50,7 @@ $pairs_str = join ", ", @pairs;
 $plot = createTikZImage();
 $plot->BEGIN_TIKZ
 \draw[thin] (-.1,0) -- (3.6,0);
-\draw[thin] (0,-.1) -- (0.2.5);
+\draw[thin] (0,-.1) -- (0,2.5);
 \foreach \x in {.5, 1, ..., 3.5}
    {\draw (\x, .05) -- (\x, -.05) node[below]{\(\x\)};}
 \foreach \i/\c/\y in {[$pairs_str]} {
