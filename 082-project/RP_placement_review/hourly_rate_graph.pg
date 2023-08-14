@@ -39,11 +39,11 @@ $height = ($initial + $rate*3)/5;
 
 $unit = 2/$height;
 
-@charges = map {$initial + $rate*_} (1,2,3);
+@charges = map {$initial + $rate * $_} (1,2,3);
 
-@yvals = map {_ * $unit / 5} @charges;
+@yvals = map {$_ * $unit / 5} @charges;
 
-@pairs = map {"_/$charges[_-1]/$yvals[_-1]"} (1,2,3);
+@pairs = map {"$_/$charges[$_-1]/$yvals[$_-1]"} (1,2,3);
 
 $pairs_str = join ", ", @pairs;
 
