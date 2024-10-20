@@ -1,0 +1,215 @@
+##DESCRIPTION
+##  Identify pairs of equivalent equations
+##ENDDESCRIPTION
+## DBsubject('Intro Algebra')
+## DBchapter()
+## DBsection()
+## Date('01/09/2022')
+## Author('Jan Hlavacek')
+## Institution('SVSU')
+## TitleText1(' ')
+## EditionText1(' ')
+## AuthorText1(' ')
+## Section1(' ')
+## Problem1(' ')
+
+
+##KEYWORDS('algebra, equations, solutions')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  "PGML.pl",
+  "MathObjects.pl",
+  "parserPopUp.pl",
+  "PGcourse.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 0;
+
+# simplifying
+$a1 = random(5,11,1);
+$b1 = random(2,6,1);
+$c1 = random(2,9,1);
+$d1 = random(
+
+$caseid = random(0,1);
+if ($caseid == 0) {
+    $lhsid = Formula("$a1*(x + $b1)");
+    $rhsid = Formula("$c1*x + $e1 + $d1*x");
+    $lhsidreduced = Formula("$a1*x + $a1*$b1")->reduce;
+    $rhsidreduced = Formula("($c1+$d1)*x + $e1")->reduce;
+} else {
+    $lhsid = Formula("$a1*(x + $b1) - $d1*x");
+    $rhsid = Formula("$c1*x + $e1");
+    $lhsidreduced = Formula("($a1 - $d1)*x + $a1*$b1")->reduce;
+    $rhsidreduced = $rhsid;
+}
+
+$ansid = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_ident);
+
+$solid = 'After simplifying both sides, the equation becomes [`[$lhsidreduced] = [$rhsidreduced]`]. Both sides of the equation are the same, so it is an identity.';
+
+# an equation with no solution
+$a2 = random(5,11,1);
+$b2 = random(2,6,1);
+$d2 = random(2,$a2-2,1);
+$c2 = $a2 - $d2;
+do {$e2 = random(1,100,1);} while ($e2 == $a2*$b2);
+
+$casens = random(0,1);
+if ($casens == 0) {
+    $lhsns = Formula("$a2*(x + $b2)");
+    $rhsns = Formula("$c2*x + $e2 + $d2*x");
+    $lhsnsreduced = Formula("$a2*x + $a2*$b2")->reduce;
+    $rhsnsreduced = Formula("($c2+$d2)*x + $e2")->reduce;
+    $simpcoefns = $a2;
+} else {
+    $lhsns = Formula("$a2*(x + $b2) - $d2*x");
+    $rhsns = Formula("$c2*x + $e2");
+    $simpcoefns = $c2;
+    $lhsnsreduced = Formula("($a2-$d2)*x + $a2*$b2")->reduce;
+    $rhsnsreduced = $rhsns;
+}
+
+$ansns = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_nosol);
+
+$solns = 'After simplifying both sides, the equation becomes [`[$lhsnsreduced] = [$rhsnsreduced]`]. Subtracting [`[$simpcoefns]x`] from both sides will give us an equation that is never true. This equation has no solution.';
+
+# a conditional equation
+$a3 = random(5,11,1);
+$b3 = random(2,6,1);
+$d3 = random(2,$a3-2,1);
+do {$c3 = random(2,50,1);} while ($c3 == $a3 - $d3);
+$e3 = random(1,100,1);
+
+$casecd = random(0,1);
+if ($casecd == 0) {
+    $lhscd = Formula("$a3*(x + $b3)");
+    $rhscd = Formula("$c3*x + $e3 + $d3*x");
+    $simpcoefcdl = $a3;
+    $simpcoefcdr = $c3 + $d3;
+    $lhscdreduced = Formula("$a3*x + $a3*$b3")->reduce;
+    $rhscdreduced = Formula("($c3+$d3)*x + $e3")->reduce;
+} else {
+    $lhscd = Formula("$a3*(x + $b3) - $d3*x");
+    $rhscd = Formula("$c3*x + $e3");
+    $simpcoefcdl = $a3 - $d3;
+    $simpcoefcdr = $c3;
+    $lhscdreduced = Formula("($a3-$d3)*x + $a3*$b3")->reduce;
+    $rhscdreduced = $rhscd;
+}
+
+$a3b3 = $a3*$b3;
+$lhscdreducedmore = Formula("($simpcoefcdl - $simpcoefcdr)*x")->reduce;
+$rhscdreducedmore = Formula("$e3 - $a3*$b3")->reduce;
+
+$anscd = PopUp([ "?", $type_ident, $type_nosol, $type_cond], $type_cond);
+
+$solcd = 'After simplifying both sides, the equation becomes [`[$lhscdreduced] = [$rhscdreduced]`]. Subtracting [`[$simpcoefcdr]x + [$a3b3]`] from both sides will give us the equation [`[$lhscdreducedmore] = [$rhscdreducedmore]`] which can be easily solved for [`x`]. This is a conditional equation.';
+
+$order = random(0,5);
+
+if ($order == 0) {     # identity, conditional, no solution
+    $lhs1 = $lhsid;
+    $rhs1 = $rhsid;
+    $ans1 = $ansid;
+    $sol1 = $solid;
+    $lhs2 = $lhscd;
+    $rhs2 = $rhscd;
+    $ans2 = $anscd;
+    $sol2 = $solcd;
+    $lhs3 = $lhsns;
+    $rhs3 = $rhsns;
+    $ans3 = $ansns;
+    $sol3 = $solns;
+} elsif ($order == 1) { # identity, no solution, conditional
+    $lhs1 = $lhsid;
+    $rhs1 = $rhsid;
+    $ans1 = $ansid;
+    $sol1 = $solid;
+    $lhs2 = $lhsns;
+    $rhs2 = $rhsns;
+    $ans2 = $ansns;
+    $sol2 = $solns;
+    $lhs3 = $lhscd;
+    $rhs3 = $rhscd;
+    $ans3 = $anscd;
+    $sol3 = $solcd;
+} elsif ($order == 2) { # conditional, identity, no solution
+    $lhs1 = $lhscd;
+    $rhs1 = $rhscd;
+    $ans1 = $anscd;
+    $sol1 = $solcd;
+    $lhs2 = $lhsid;
+    $rhs2 = $rhsid;
+    $ans2 = $ansid;
+    $sol2 = $solid;
+    $lhs3 = $lhsns;
+    $rhs3 = $rhsns;
+    $ans3 = $ansns;
+    $sol3 = $solns;
+} elsif ($order == 3) { # conditional, no solution, identity
+    $lhs1 = $lhscd;
+    $rhs1 = $rhscd;
+    $ans1 = $anscd;
+    $sol1 = $solcd;
+    $lhs2 = $lhsns;
+    $rhs2 = $rhsns;
+    $ans2 = $ansns;
+    $sol2 = $solns;
+    $lhs3 = $lhsid;
+    $rhs3 = $rhsid;
+    $ans3 = $ansid;
+    $sol3 = $solid;
+} elsif ($order == 4) { # no solution, identity, conditional
+    $lhs1 = $lhsns;
+    $rhs1 = $rhsns;
+    $ans1 = $ansns;
+    $sol1 = $solns;
+    $lhs2 = $lhsid;
+    $rhs2 = $rhsid;
+    $ans2 = $ansid;
+    $sol2 = $solid;
+    $lhs3 = $lhscd;
+    $rhs3 = $rhscd;
+    $ans3 = $anscd;
+    $sol3 = $solcd;
+} else {                # no solution, conditional, identity
+    $lhs1 = $lhsns;
+    $rhs1 = $rhsns;
+    $ans1 = $ansns;
+    $sol1 = $solns;
+    $lhs2 = $lhscd;
+    $rhs2 = $rhscd;
+    $ans2 = $anscd;
+    $sol2 = $solcd;
+    $lhs3 = $lhsid;
+    $rhs3 = $rhsid;
+    $ans3 = $ansid;
+    $sol3 = $solid;
+}
+
+
+BEGIN_PGML
+Identify each equation as [$type_cond], [$type_ident], or [$type_nosol]:
+
+*  The equation [`[$lhs1] = [$rhs1]`] is a [_]{$ans1}.
+
+*  The equation [`[$lhs2] = [$rhs2]`] is a [_]{$ans2}.
+
+*  The equation [`[$lhs3] = [$rhs3]`] is a [_]{$ans3}.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*  [$sol1]**
+
+*  [$sol2]**
+
+*  [$sol3]**
+END_PGML_SOLUTION
+
+ENDDOCUMENT();        # This should be the last executable line in the problem.
